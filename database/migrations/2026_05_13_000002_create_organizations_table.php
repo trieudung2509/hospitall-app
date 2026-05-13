@@ -12,7 +12,7 @@ class CreateOrganizationsTable extends Migration
             $table->id();
             $table->string('org_name');
             $table->string('org_type')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->boolean('status')->default(1);
             $table->string('contact_person')->nullable();
             $table->string('contact_phone', 30)->nullable();
             $table->string('contact_email');
