@@ -13,9 +13,6 @@
                 </a>
             </div>
             <div class="card-body">
-                @php
-                    $linkedUser = $organization->linkedUser();
-                @endphp
                 @if($linkedUser)
                     <p class="text-muted small">{{ translate('Linked user') }}: #{{ $linkedUser->id }} ({{ $linkedUser->email }}). {{ translate('Editing name/email/phone will sync to this user.') }}</p>
                 @else
@@ -64,6 +61,7 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">{{ translate('Status') }}</label>
                         <div class="col-md-9">
+                            <input type="hidden" name="status" value="0">
                             <label class="aiz-switch aiz-switch-success mb-0">
                                 <input type="checkbox" name="status" value="1" @if ($organization->status == 1) checked @endif>
                                 <span></span>

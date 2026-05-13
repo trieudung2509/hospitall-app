@@ -67,7 +67,7 @@ class OrganizationController extends Controller
                 'contact_person' => $validated['contact_person'] ?? null,
                 'contact_phone'  => $validated['contact_phone'] ?? null,
                 'contact_email'  => $validated['contact_email'],
-                'status'         => $validated['status'] ?? 1,
+                'status'         => $validated['status'],
             ]);
 
             $user = User::create([
@@ -99,7 +99,8 @@ class OrganizationController extends Controller
     public function edit($id)
     {
         $organization = Organization::findOrFail($id);
-        return view('backend.organizations.edit', compact('organization'));
+        $linkedUser   = $organization->linkedUser();
+        return view('backend.organizations.edit', compact('organization', 'linkedUser'));
     }
 
     public function update(Request $request, $id)
@@ -130,7 +131,7 @@ class OrganizationController extends Controller
                 'contact_person' => $validated['contact_person'] ?? null,
                 'contact_phone'  => $validated['contact_phone'] ?? null,
                 'contact_email'  => $validated['contact_email'],
-                'status'         => $validated['status'] ?? $organization->status,
+                'status'         => $validated['status'],
             ]);
 
             if ($pivot && $pivot->user) {

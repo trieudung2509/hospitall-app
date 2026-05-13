@@ -76,7 +76,7 @@
                             <span></span>
                         </label>
                     </td>
-                    <td>{{ $org->created_at }}</td>
+                    <td>{{ utcToLocalTime($org->created_at) }}</td>
                     <td class="text-right">
                         <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{ route('organizations.edit', $org->id) }}" title="{{ translate('Edit') }}">
                             <i class="las la-pen"></i>
