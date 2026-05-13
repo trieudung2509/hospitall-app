@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Cart;
@@ -11,7 +12,7 @@ use App\Notifications\EmailVerificationNotification;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, HasApiTokens;
+    use Notifiable, HasApiTokens, SoftDeletes;
 
     public function sendEmailVerificationNotification()
     {
