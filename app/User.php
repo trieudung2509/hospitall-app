@@ -135,4 +135,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function product_bids() {
         return $this->hasMany(AuctionProductBid::class);
     }
+
+    public function organizationUsers()
+    {
+        return $this->hasMany(OrganizationUser::class);
+    }
+
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class, 'organization_users', 'user_id', 'org_id');
+    }
 }
