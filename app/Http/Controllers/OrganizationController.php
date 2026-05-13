@@ -8,11 +8,11 @@ use App\OrganizationUser;
 use App\Program;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class OrganizationController extends Controller
 {
@@ -56,7 +56,7 @@ class OrganizationController extends Controller
             'org_type'       => 'nullable|string|max:255',
             'contact_person' => 'nullable|string|max:255',
             'contact_phone'  => 'nullable|string|max:30',
-            'contact_email'  => 'required|email|unique:users,email',
+            'contact_email'  => ['required', 'email', Rule::unique('users', 'email')->whereNull('deleted_at')],
             'status'         => 'nullable|boolean',
         ]);
 
@@ -113,7 +113,13 @@ class OrganizationController extends Controller
             'org_type'       => 'nullable|string|max:255',
             'contact_person' => 'nullable|string|max:255',
             'contact_phone'  => 'nullable|string|max:30',
-            'contact_email'  => 'required|email|unique:users,email,'.($linkedUserId ?: 'NULL'),
+            'contact_email'  => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')
+                    ->ignore($linkedUserId)
+                    ->whereNull('deleted_at'),
+            ],
             'status'         => 'nullable|boolean',
         ]);
 
@@ -129,9 +135,9 @@ class OrganizationController extends Controller
 
             if ($pivot && $pivot->user) {
                 $pivot->user->update([
-                    'name'  => $organization->org_name,
-                    'email' => $organization->contact_email,
-                    'phone' => $organization->contact_phone,
+                    'name'  => $validated['org_name'],
+                    'email' => $validated['contact_email'],
+                    'phone' => $validated['contact_phone'] ?? null,
                 ]);
             } else {
                 Log::warning('Organization '.$organization->id.' has no linked user during update; skipping user sync.');
