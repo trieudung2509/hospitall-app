@@ -83,51 +83,50 @@ Relationships:
 | `start_time` | dateTime | required |
 | `end_time` | dateTime | required, must be after `start_time` |
 | `max_participants` | integer nullable | |
-| `reg_open_time` | dateTime nullable | |
-| `reg_close_time` | dateTime nullable | must be after `reg_open_time` when both present |
+| `short_description` | string nullable | |
 | `status` | string(20) | enum-in-code: `'activated'` or `'inActived'`, default `'activated'` |
 | `note` | text nullable | |
 | `created_at`, `updated_at` | timestamps | |
 | `deleted_at` | softDeletes | |
-
+ 
 Model uses `HasFactory, SoftDeletes`. Relationships:
-
+ 
 - `organization()` — `belongsTo(Organization::class, 'org_id')`
 - `author()` — `belongsTo(User::class, 'user_id')`
 - `approver()` — `belongsTo(User::class, 'approved_by')`
-
+ 
 ### `users` table changes
-
+ 
 - Add `SoftDeletes` trait to `App\User` and add a `deleted_at` column via a new migration. This makes the cascade semantically correct (linked organization users are soft-deleted alongside their org).
 - `user_type` is already a string column; the new value written is `'organization'`. No schema change needed for `user_type`.
-
+ 
 The new `User` relationships added (non-breaking):
-
+ 
 - `organizationUsers()` — `hasMany(OrganizationUser::class)`
 - `organizations()` — `belongsToMany(Organization::class, 'organization_users', 'user_id', 'org_id')`
-
+ 
 ## Routes
-
+ 
 All inside the existing `['prefix' => 'admin', 'middleware' => ['auth','admin']]` group in `routes/admin.php`. No `web.php` or `api.php` changes.
-
+ 
 ```php
 // Organizations
 Route::resource('organizations', 'OrganizationController');
 Route::get('/organizations/destroy/{id}', 'OrganizationController@destroy')->name('organizations.destroy');
 Route::post('/organizations/change-status', 'OrganizationController@change_status')->name('organizations.change-status');
-
+ 
 // Programs
 Route::resource('programs', 'ProgramController');
 Route::get('/programs/destroy/{id}', 'ProgramController@destroy')->name('programs.destroy');
 Route::post('/programs/change-status', 'ProgramController@change_status')->name('programs.change-status');
 ```
-
+ 
 The duplicated `destroy` GET route is the project's existing convention (blog, brands, categories all do it).
-
+ 
 ## Controllers
-
+ 
 ### `app/Http/Controllers/OrganizationController.php`
-
+ 
 - `index(Request $request)` — list with search by `org_name`, filter by `org_type`, filter by `status`. Paginate 15. View: `backend.organizations.index`.
 - `create()` — view: `backend.organizations.create`.
 - `store(Request $request)` — validates, then `DB::transaction` performs:
@@ -148,9 +147,9 @@ The duplicated `destroy` GET route is the project's existing convention (blog, b
   4. `OrganizationUser::where('org_id', $id)->delete()` (hard delete; no SoftDeletes on pivot)
   5. `$org->delete()` (soft-deletes)
 - `change_status(Request $request)` — toggle `status` (0/1), return `1`. Mirrors `BlogController@change_status`.
-
+ 
 ### `app/Http/Controllers/ProgramController.php`
-
+ 
 - `index(Request $request)` — sort by `created_at` DESC. Filters: `search` (name), `org_id`, `status`. Paginate 15. View: `backend.programs.index`.
 - `create()` — passes `$organizations = Organization::where('status', 1)->get()` to the form. View: `backend.programs.create`.
 - `store(Request $request)` — validates, then:
@@ -167,13 +166,13 @@ The duplicated `destroy` GET route is the project's existing convention (blog, b
 - `update(Request $request, $id)` — validates, saves.
 - `destroy($id)` — `$program->delete()` (soft delete only this program; no further cascade).
 - `change_status(Request $request)` — flip `status` between `'activated'` and `'inActived'`, return `1`.
-
+ 
 ## Validation rules
-
+ 
 Inline `$request->validate(...)` in controllers; no Form Request classes (matches blog).
-
+ 
 ### Organization store
-
+ 
 ```
 org_name        required|string|max:255
 org_type        nullable|string|max:255
@@ -182,19 +181,19 @@ contact_phone   nullable|string|max:30
 contact_email   required|email|unique:users,email
 status          nullable|boolean
 ```
-
+ 
 ### Organization update
-
+ 
 Same as store, except:
-
+ 
 ```
 contact_email   required|email|unique:users,email,{$linkedUserId}
 ```
-
+ 
 (`{$linkedUserId}` resolved from the pivot inside `update()`.)
-
+ 
 ### Program store / update
-
+ 
 ```
 org_id            required|integer|exists:organizations,id
 name              required|string|max:255
@@ -204,8 +203,7 @@ location          nullable|string|max:255
 start_time        required|date
 end_time          required|date|after:start_time
 max_participants  nullable|integer|min:0
-reg_open_time     nullable|date
-reg_close_time    nullable|date|after:reg_open_time
+short_description nullable|string|max:255
 note              nullable|string
 ```
 

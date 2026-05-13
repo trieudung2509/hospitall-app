@@ -56,8 +56,7 @@ class ProgramController extends Controller
             'start_time'       => 'required|date',
             'end_time'         => 'required|date|after:start_time',
             'max_participants' => 'nullable|integer|min:0',
-            'reg_open_time'    => 'nullable|date',
-            'reg_close_time'   => 'nullable|date|after:reg_open_time',
+            'short_description' => 'nullable|string|max:255',
             'note'             => 'nullable|string',
         ]);
 
@@ -107,8 +106,7 @@ class ProgramController extends Controller
             'start_time'       => 'required|date',
             'end_time'         => 'required|date|after:start_time',
             'max_participants' => 'nullable|integer|min:0',
-            'reg_open_time'    => 'nullable|date',
-            'reg_close_time'   => 'nullable|date|after:reg_open_time',
+            'short_description' => 'nullable|string|max:255',
             'note'             => 'nullable|string',
         ]);
 

@@ -67,7 +67,7 @@ class OrganizationController extends Controller
                 'contact_person' => $validated['contact_person'] ?? null,
                 'contact_phone'  => $validated['contact_phone'] ?? null,
                 'contact_email'  => $validated['contact_email'],
-                'status'         => $validated['status'],
+                'status'         => $validated['status'] ?? 1,
             ]);
 
             $user = User::create([
@@ -131,7 +131,7 @@ class OrganizationController extends Controller
                 'contact_person' => $validated['contact_person'] ?? null,
                 'contact_phone'  => $validated['contact_phone'] ?? null,
                 'contact_email'  => $validated['contact_email'],
-                'status'         => $validated['status'],
+                'status'         => $validated['status'] ?? 1,
             ]);
 
             if ($pivot && $pivot->user) {

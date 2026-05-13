@@ -53,6 +53,13 @@
                     </div>
 
                     <div class="form-group row">
+                        <label class="col-md-2 col-form-label">{{ translate('Short description') }}</label>
+                        <div class="col-md-10">
+                            <textarea class="tiny-text" name="short_description" rows={3}  data-format="true">{!! $program->short_description ?? '' !!}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label class="col-md-2 col-form-label">{{ translate('Description') }}</label>
                         <div class="col-md-10">
                             <textarea class="tiny-text" name="description" data-format="true">{!! $program->description ?? '' !!}</textarea>
@@ -77,20 +84,6 @@
                         <label class="col-md-2 col-form-label">{{ translate('End time') }} <span class="text-danger">*</span></label>
                         <div class="col-md-10">
                             <input type="datetime-local" name="end_time" class="form-control" value="{{ $program->end_time ? utcToLocalTime($program->end_time)->format('Y-m-d\TH:i') : '' }}" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Registration opens') }}</label>
-                        <div class="col-md-10">
-                            <input type="datetime-local" name="reg_open_time" class="form-control" value="{{ $program->reg_open_time ? utcToLocalTime($program->reg_open_time)->format('Y-m-d\TH:i') : '' }}">
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Registration closes') }}</label>
-                        <div class="col-md-10">
-                            <input type="datetime-local" name="reg_close_time" class="form-control" value="{{ $program->reg_close_time ? utcToLocalTime($program->reg_close_time)->format('Y-m-d\TH:i') : '' }}">
                         </div>
                     </div>
 

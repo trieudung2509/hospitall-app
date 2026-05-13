@@ -376,8 +376,7 @@ class CreateProgramsTable extends Migration
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->integer('max_participants')->nullable();
-            $table->dateTime('reg_open_time')->nullable();
-            $table->dateTime('reg_close_time')->nullable();
+            $table->string('short_description')->nullable();
             $table->string('status', 20)->default('activated');
             $table->text('note')->nullable();
             $table->timestamps();
@@ -414,16 +413,14 @@ class Program extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'org_id', 'approved_by', 'user_id', 'name', 'description', 'banner',
+        'org_id', 'approved_by', 'user_id', 'name', 'description', 'short_description', 'banner',
         'location', 'start_time', 'end_time', 'max_participants',
-        'reg_open_time', 'reg_close_time', 'status', 'note',
+        'status', 'note',
     ];
 
     protected $casts = [
         'start_time'      => 'datetime',
         'end_time'        => 'datetime',
-        'reg_open_time'   => 'datetime',
-        'reg_close_time'  => 'datetime',
     ];
 
     public function organization()
@@ -771,8 +768,7 @@ class ProgramController extends Controller
             'start_time'       => 'required|date',
             'end_time'         => 'required|date|after:start_time',
             'max_participants' => 'nullable|integer|min:0',
-            'reg_open_time'    => 'nullable|date',
-            'reg_close_time'   => 'nullable|date|after:reg_open_time',
+            'short_description' => 'nullable|string|max:255',
             'note'             => 'nullable|string',
         ]);
 
@@ -822,8 +818,7 @@ class ProgramController extends Controller
             'start_time'       => 'required|date',
             'end_time'         => 'required|date|after:start_time',
             'max_participants' => 'nullable|integer|min:0',
-            'reg_open_time'    => 'nullable|date',
-            'reg_close_time'   => 'nullable|date|after:reg_open_time',
+            'short_description' => 'nullable|string|max:255',
             'note'             => 'nullable|string',
         ]);
 

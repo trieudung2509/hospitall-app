@@ -20,8 +20,7 @@ class CreateProgramsTable extends Migration
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->integer('max_participants')->nullable();
-            $table->dateTime('reg_open_time')->nullable();
-            $table->dateTime('reg_close_time')->nullable();
+            $table->string('short_description')->nullable();
             $table->string('status', 20)->default('activated');
             $table->text('note')->nullable();
             $table->timestamps();

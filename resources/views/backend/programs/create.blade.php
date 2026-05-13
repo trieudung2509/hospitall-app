@@ -50,6 +50,13 @@
                     </div>
 
                     <div class="form-group row">
+                        <label class="col-md-2 col-form-label">{{ translate('Short description') }}</label>
+                        <div class="col-md-10">
+                            <textarea class="tiny-text" name="short_description" data-format="true"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label class="col-md-2 col-form-label">{{ translate('Description') }}</label>
                         <div class="col-md-10">
                             <textarea class="tiny-text" name="description" data-format="true"></textarea>
@@ -74,20 +81,6 @@
                         <label class="col-md-2 col-form-label">{{ translate('End time') }} <span class="text-danger">*</span></label>
                         <div class="col-md-10">
                             <input type="datetime-local" name="end_time" class="form-control" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Registration opens') }}</label>
-                        <div class="col-md-10">
-                            <input type="datetime-local" name="reg_open_time" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Registration closes') }}</label>
-                        <div class="col-md-10">
-                            <input type="datetime-local" name="reg_close_time" class="form-control">
                         </div>
                     </div>
 

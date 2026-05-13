@@ -11,16 +11,14 @@ class Program extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'org_id', 'approved_by', 'user_id', 'name', 'description', 'banner',
+        'org_id', 'approved_by', 'user_id', 'name', 'description', 'short_description', 'banner',
         'location', 'start_time', 'end_time', 'max_participants',
-        'reg_open_time', 'reg_close_time', 'status', 'note',
+        'status', 'note',
     ];
 
     protected $casts = [
         'start_time'      => 'datetime',
         'end_time'        => 'datetime',
-        'reg_open_time'   => 'datetime',
-        'reg_close_time'  => 'datetime',
     ];
 
     public function organization()
