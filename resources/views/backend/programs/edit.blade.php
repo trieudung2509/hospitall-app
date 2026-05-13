@@ -41,7 +41,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">{{ translate('Banner') }}</label>
                         <div class="col-md-10">
-                            <div class="input-group" data-toggle="aizuploader" data-type="image" data-selected="{{ $program->banner }}">
+                            <div class="input-group" data-toggle="aizuploader" data-type="image">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
                                 </div>
@@ -55,7 +55,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">{{ translate('Description') }}</label>
                         <div class="col-md-10">
-                            <textarea class="tiny-text" name="description" data-format="true">{{ $program->description }}</textarea>
+                            <textarea class="tiny-text" name="description" data-format="true">{!! $program->description ?? '' !!}</textarea>
                         </div>
                     </div>
 
@@ -69,28 +69,28 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">{{ translate('Start time') }} <span class="text-danger">*</span></label>
                         <div class="col-md-10">
-                            <input type="datetime-local" name="start_time" class="form-control" value="{{ $program->start_time ? $program->start_time->format('Y-m-d\TH:i') : '' }}" required>
+                            <input type="datetime-local" name="start_time" class="form-control" value="{{ $program->start_time ? utcToLocalTime($program->start_time)->format('Y-m-d\TH:i') : '' }}" required>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">{{ translate('End time') }} <span class="text-danger">*</span></label>
                         <div class="col-md-10">
-                            <input type="datetime-local" name="end_time" class="form-control" value="{{ $program->end_time ? $program->end_time->format('Y-m-d\TH:i') : '' }}" required>
+                            <input type="datetime-local" name="end_time" class="form-control" value="{{ $program->end_time ? utcToLocalTime($program->end_time)->format('Y-m-d\TH:i') : '' }}" required>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">{{ translate('Registration opens') }}</label>
                         <div class="col-md-10">
-                            <input type="datetime-local" name="reg_open_time" class="form-control" value="{{ $program->reg_open_time ? $program->reg_open_time->format('Y-m-d\TH:i') : '' }}">
+                            <input type="datetime-local" name="reg_open_time" class="form-control" value="{{ $program->reg_open_time ? utcToLocalTime($program->reg_open_time)->format('Y-m-d\TH:i') : '' }}">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">{{ translate('Registration closes') }}</label>
                         <div class="col-md-10">
-                            <input type="datetime-local" name="reg_close_time" class="form-control" value="{{ $program->reg_close_time ? $program->reg_close_time->format('Y-m-d\TH:i') : '' }}">
+                            <input type="datetime-local" name="reg_close_time" class="form-control" value="{{ $program->reg_close_time ? utcToLocalTime($program->reg_close_time)->format('Y-m-d\TH:i') : '' }}">
                         </div>
                     </div>
 
