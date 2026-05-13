@@ -58,6 +58,29 @@
             </li>
             @endif
 
+            @if(Auth::user()->user_type == 'admin')
+            <!-- Organizations & Programs -->
+            <li class="aiz-side-nav-item">
+                <a href="#" class="aiz-side-nav-link">
+                    <i class="las la-hospital aiz-side-nav-icon"></i>
+                    <span class="aiz-side-nav-text">{{ translate('Organizations') }}</span>
+                    <span class="aiz-side-nav-arrow"></span>
+                </a>
+                <ul class="aiz-side-nav-list level-2">
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('organizations.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['organizations.index', 'organizations.create', 'organizations.edit']) }}">
+                            <span class="aiz-side-nav-text">{{ translate('All Organizations') }}</span>
+                        </a>
+                    </li>
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('programs.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['programs.index', 'programs.create', 'programs.edit']) }}">
+                            <span class="aiz-side-nav-text">{{ translate('Programs') }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @endif
+
             @if(Auth::user()->user_type == 'admin' || in_array('9', json_decode(Auth::user()->staff->role->permissions)))
             <li class="aiz-side-nav-item">
                 <a href="{{ route('aboutus.edit') }}" class="aiz-side-nav-link {{ areActiveRoutes(['aboutus.edit'])}}">
