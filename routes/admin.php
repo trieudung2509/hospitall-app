@@ -84,7 +84,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::post('/blog/change-status', 'BlogController@change_status')->name('blog.change-status');
     Route::post('/blog-category/change-home-page-status', 'BlogCategoryController@change_home_page_status')->name('blog-category.change-home-page-status');
     Route::post('/blog-category/change_show_menu_status', 'BlogCategoryController@change_show_menu_status')->name('blog-category.change-show-menu-status');
-    
+
+    // Organizations
+    Route::resource('organizations', 'OrganizationController');
+    Route::get('/organizations/destroy/{id}', 'OrganizationController@destroy')->name('organizations.destroy');
+    Route::post('/organizations/change-status', 'OrganizationController@change_status')->name('organizations.change-status');
+
+    // Programs
+    Route::resource('programs', 'ProgramController');
+    Route::get('/programs/destroy/{id}', 'ProgramController@destroy')->name('programs.destroy');
+    Route::post('/programs/change-status', 'ProgramController@change_status')->name('programs.change-status');
 
     // Route::resource('pages', 'PageController');
     // Route::get('/pages/destroy/{id}', 'PageController@destroy')->name('pages.destroy');
