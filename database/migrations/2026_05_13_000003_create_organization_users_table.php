@@ -12,7 +12,7 @@ class CreateOrganizationUsersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('org_id');
-            $table->tinyInteger('status')->default(1);
+            $table->boolean('status')->default(1);
             $table->string('note')->nullable();
             $table->timestamps();
 
