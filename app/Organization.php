@@ -11,7 +11,7 @@ class Organization extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'org_name', 'org_type', 'status', 'contact_person', 'contact_phone', 'contact_email',
+        'org_name', 'org_type', 'status', 'contact_person', 'contact_phone', 'contact_email', 'start_time'
     ];
 
     public function programs()

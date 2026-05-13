@@ -58,7 +58,7 @@
             </li>
             @endif
 
-            @if(Auth::user()->user_type == 'admin')
+            @if(Auth::user()->user_type == 'admin' || in_array('24', json_decode(Auth::user()->staff->role->permissions)))
             <!-- Organizations & Programs -->
             <li class="aiz-side-nav-item">
                 <a href="#" class="aiz-side-nav-link">
@@ -75,6 +75,11 @@
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('programs.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['programs.index', 'programs.create', 'programs.edit']) }}">
                             <span class="aiz-side-nav-text">{{ translate('Programs') }}</span>
+                        </a>
+                    </li>
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('donation-records.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['donation-records.index', 'donation-records.create', 'donation-records.edit']) }}">
+                            <span class="aiz-side-nav-text">{{ translate('Donation Records') }}</span>
                         </a>
                     </li>
                 </ul>

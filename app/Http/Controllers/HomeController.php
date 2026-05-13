@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\BlogCategory;
 use App\Blog;
 use App\SliderBanner;
+use App\AboutUs;
+use App\Program;
 
 class HomeController extends Controller
 {
@@ -17,7 +19,9 @@ class HomeController extends Controller
     {
         $list_categories = BlogCategory::Where(['status' => 1, 'is_home_page' => 1])->select('id', 'category_name', 'slug')->get();
         $slider_banner = SliderBanner::first();
+        $about_us = AboutUs::first();
+        $programs = Program::where('status', 1)->latest()->take(6)->get();
 
-        return view('frontend.home_page', compact('list_categories', 'slider_banner'));
+        return view('frontend.home_page', compact('list_categories', 'slider_banner', 'about_us', 'programs'));
     }
 }

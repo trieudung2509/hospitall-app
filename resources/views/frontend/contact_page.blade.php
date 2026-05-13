@@ -1,95 +1,154 @@
 @extends('frontend.layouts.app')
 
-@section('meta_title')
-    {{ get_setting('meta_title').' | '.get_setting('site_motto') }}
-@endsection
-
-@section('canonical') {{ url('') }} @endsection
-
 @section('content')
-    <main class="l-main">
-          <div class="l-header__container-wrapper">
-            <div class="l-header__container">
-              <h1 class="headline-2 letters js-wordsplit text-center">{{ $title ?: '' }}</h1>
+
+        <!--  PAGE HEADING -->
+
+        <section class="page-header" data-stellar-background-ratio="1.2">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-sm-12 text-center">
+
+
+                        <h3>
+                            Liên hệ với chúng tôi
+                        </h3>
+
+                        <p class="page-breadcrumb">
+                            <a href="{{ route('home') }}">Trang chủ</a> / Liên hệ
+                        </p>
+
+
+                    </div>
+
+                </div> <!-- end .row  -->
+
+            </div> <!-- end .container  -->
+
+        </section> <!-- end .page-header  -->
+
+        <!--  MAIN CONTENT  -->
+
+        <section class="section-content-block">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class ="col-md-12">
+                        <h2 class="contact-title">Liên hệ</h2>                           
+                    </div>               
+
+                    <div class="col-md-3">
+
+                        <ul class="contact-info">
+                            <li>
+                                <span class="icon-container"><i class="fa fa-home"></i></span>
+                                <address>3100 C/A Mouchak,Sylhet,UK</address>
+                            </li>
+                        </ul>                        
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <ul class="contact-info">
+
+                            <li>
+                                <span class="icon-container"><i class="fa fa-phone"></i></span>
+                                <address><a href="tel:+0931205259162">+093-120-525-9162</a></address>
+                            </li>
+
+                        </ul>                        
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <ul class="contact-info">
+                            <li>
+                                <span class="icon-container"><i class="fa fa-envelope"></i></span>
+                                <address><a href="mailto:info@yourdomain.com">info@yourdomain.com</a></address>
+                            </li>
+                        </ul>                        
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <ul class="contact-info">
+                            <li>
+                                <span class="icon-container"><i class="fa fa-globe"></i></span>
+                                <address><a href="#">www.yourdomain.com</a></address>
+                            </li>
+                        </ul>                        
+
+                    </div>                    
+
+                </div> 
+
             </div>
-          </div>
-          
-        <section class=" section section--p-none-top section--p-none-bottom">
-        <div class="container  ">
-            <div class="row">
-            <div class="col-lg-6">
-                <div class="content mb-20em"></div>
-                <form id="form_builder_2a4582f4e13ab499fa90a0348a27ff91" name="Contact form" class=" form form--two-column" onsubmit="return App.submitForm({form: this, url: '{{ route('contact.save') }}'});">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                <div class="form__group mb-20em ">
-                    <input data-form-id="form_builder_2a4582f4e13ab499fa90a0348a27ff91" type="text" class="js-form-builder-field form__input" name="first_name" id="bp51320d78e8be5a11a8a2cafcec492aae" required>
-                    <label class="form__label" for="bp51320d78e8be5a11a8a2cafcec492aae"> First Name </label>
-                </div>
-                <div class="form__group mb-20em ">
-                    <input data-form-id="form_builder_2a4582f4e13ab499fa90a0348a27ff91" type="text" class="js-form-builder-field form__input" name="last_name" id="bp6728c0f6ed50c1f4559285c3b91e3a5a" required>
-                    <label class="form__label" for="bp6728c0f6ed50c1f4559285c3b91e3a5a"> Last Name </label>
-                </div>
-                <div class="form__group mb-20em ">
-                    <input data-form-id="form_builder_2a4582f4e13ab499fa90a0348a27ff91" type="text" class="js-form-builder-field form__input" name="phone_number" id="bp53463950ddeb97d4a23f3134eccd1ffc" required>
-                    <label class="form__label" for="bp53463950ddeb97d4a23f3134eccd1ffc"> Contact number </label>
-                </div>
-                <div class="form__group mb-20em ">
-                    <input data-form-id="form_builder_2a4582f4e13ab499fa90a0348a27ff91" type="email" class="js-form-builder-field form__input" name="email" id="bpfc99e52247f95c7490355f9351c5d4e5" required>
-                    <label class="form__label" for="bpfc99e52247f95c7490355f9351c5d4e5"> Email Address </label>
-                </div>
-                <div class="form__group mb-20em form__group--full-width">
-                    <textarea data-form-id="form_builder_2a4582f4e13ab499fa90a0348a27ff91" class="js-form-builder-field form__textarea" name="message" id="bpec53508f6423d39f4a7e6aa7a2c89570"></textarea>
-                    <label class="form__label" for="bpec53508f6423d39f4a7e6aa7a2c89570"> Message </label>
-                </div>
-                <div class="form__group form__group--full-width">
-                    <div class="checkbox__container">
-                    <input class="checkbox" type="checkbox" name="consent" id="consent-c2">
-                    <label class="checkbox__label" for="consent-c2">
-                        <span class="half-opacity">By checking this box, you agree to be contacted via phone and email regarding your interest in our products and services. We will treat your data in accordance with our <a href="">privacy policy</a>. </span>
-                    </label>
-                    </div>
-                </div>
-                <div class="form__row">
-                    <div class="form__row__left">
-                    <div class="form__group">
-                        <input type="file" name="file" id="file" class="inputfile">
-                        <label class="btn btn--file" for="file">
-                        <span class="btn__inner"> Choose a file </span>
-                        </label>
-                    </div>
-                    </div>
-                    <div class="form__row__right">
-                    <div class="form__group">
-                        <button class="btn btn--bordered btn--bordered-gold btn--full-width" type="submit"> Submit </button>
-                    </div>
-                    </div>
-                </div>
-                <div class="loading"></div>
-                </form>
-            </div>
-            <div class="col-xl-4 offset-xl-2 col-lg-5 offset-lg-1">
-                <div class="box box--padded box--bordered text-center">
-                <p class="headline-6 mb-5em"> Địa chỉ </p>
-                <div class="content mb-20em">
-                    <p>{{ get_setting('contact_address',null,'en') }}</p>
-                </div>
-                <p class="headline-6 mt-20em mb-5em">Điện thoại</p>
-                <a href="tel:{{ get_setting('contact_phone') }}" title="Call us" class="link">{{ get_setting('contact_phone') }}</a>
-                <p class="headline-6 mt-20em mb-5em">Email</p>
-                <a href="mailto:{{ get_setting('contact_email') }}" title="Email us" class="link">{{ get_setting('contact_email') }}</a>
-                <p class="headline-6 mt-20em mb-5em">Social</p>
-                <ul class="social social--font-lg">
-                    <li class="social__item">
-                    <a class="social__link" href="{{ get_setting('facebook_link') }}" title="Our Facebook" target="_blank" rel="noopener noreferrer">Facebook</a>
-                    </li>
-                    <!-- <li class="social__item">
-                    <a class="social__link" href="https://www.linkedin.com/company/xavio-design" title="Our Linkedin" target="_blank" rel="noopener noreferrer">Linkedin</a>
-                    </li> -->
-                </ul>
-                </div>
-            </div>
-            </div>
-        </div>
+
         </section>
-    </main>
+
+        <section class="section-content-block section-secondary-bg">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-sm-6 wow fadeInLeft">
+
+                        <div class="contact-form-block">
+
+                            <h2 class="contact-title">Gửi lời chào đến chúng tôi</h2>
+
+                            <form role="form" action="#" method="post" id="contact-form">
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Tên" data-msg="Vui lòng viết tên của bạn" />
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="email" class="form-control" id="user_email" name="user_email" placeholder="Email" data-msg="Vui lòng viết email hợp lệ của bạn" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="email_subject" name="email_subject" placeholder="Tiêu đề" data-msg="Vui lòng viết tiêu đề tin nhắn của bạn" />
+                                </div>
+
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="5" name="email_message" id="email_message" placeholder="Tin nhắn" data-msg="Vui lòng viết tin nhắn của bạn" ></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-theme">Gửi ngay</button>
+                                </div>
+
+                            </form>
+
+                        </div> <!-- end .contact-form-block  -->
+
+                    </div> <!--  end col-sm-6  -->
+
+                    <div class="col-sm-6 wow fadeInRight">
+
+                        <h2 class="contact-title">Vị trí của chúng tôi</h2>
+
+
+                        <div class="section-google-map-block wow fadeInUp">
+
+                            <div id="map_canvas"></div>
+
+                        </div> <!-- end .section-content-block  -->                            
+
+                    </div> <!--  end col-sm-6  -->                    
+
+                </div> <!-- end row  -->
+
+            </div> <!--  end .container -->
+
+        </section> <!-- end .section-content-block  -->
+
 @endsection

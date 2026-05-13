@@ -1,178 +1,555 @@
 @extends('frontend.layouts.app')
 
-@section('meta_title')
-    {{ get_setting('meta_title').' | '.get_setting('site_motto') }}
-@endsection
-
-@section('canonical') {{ url('') }} @endsection
-
 @section('content')
-    <main>
-        <section class="banner__slider">
-            <div class="slider stick-dots">
-                @php
-                    $slider_bannerIds = $slider_banner != null ? explode(",", $slider_banner->image_thumb_ids) : [];
-                @endphp
-                @if (count($slider_bannerIds) > 0)
-                    @foreach($slider_bannerIds as $bannerId)
-                    <div class="slide">
-                        <div class="slide__img">
-                            <img src="{{ uploaded_asset($bannerId) }}" alt="" data-lazy="{{ uploaded_asset($bannerId) }}" class="full-image animated" data-animation-in="zoomInImage"/>
+        <!--  HOME SLIDER BLOCK  -->
+        
+        <div class="slider-wrap">
+            <div id="slider_1" class="owl-carousel" data-nav="true" data-dots="false" data-autoplay="true" data-autoplaytimeout="17000">
+
+                <div class="slider_item_container" data-bg_img="{{ static_asset('assets/frontend/images/home_1_slider_1.jpg') }}" data-bg_color="#555555" data-bg_opacity="0.0">
+                    <div class="item">
+                        <div class="slider-content">
+                            <div class="container text-left">
+                                <div class="row">
+                                    <div class="slider-bg">                                    
+                                        <div class="col-sm-12 wow zoomInUp" data-wow-duration="1s">  
+                                            
+                                                <h3>Hiến máu cứu người!</h3>
+                                                <h2>
+                                                    MÁU CỦA BẠN  
+                                                    <br>
+                                                    CÓ THỂ MANG LẠI NỤ CƯỜI  
+                                                    <br />
+                                                    TRÊN KHUÔN MẶT NGƯỜI KHÁC
+                                                </h2>
+                                                <a href="#" class="btn btn-theme margin-top-24">Hiến máu ngay</a>
+                                                <a href="#" class="btn btn-theme btn-theme-invert margin-top-24">GỌI: 411-009-872-333</a>
+                                            </div>                                      
+                                    </div> <!-- end .col-sm-12  -->
+                                </div> <!-- end .row  -->
+                            </div><!-- end .container -->
+                        </div> <!--  end .slider-content -->
+                    </div> <!-- end .item  -->
+                </div> <!-- end .slider_item_container  -->
+
+                <div class="slider_item_container" data-bg_img="{{ static_asset('assets/frontend/images/home_1_slider_2.jpg') }}" data-bg_color="#555555" data-bg_opacity="0.0" >
+                    <div class="item">
+                        <div class="slider-content">
+                            <div class="container text-left">
+                                <div class="row">
+                                    <div class="slider-bg" data-animation-in="zoomInUp" data-animation-out="zoomInDown">                                    
+                                        <div class="col-sm-12 wow fadeInDown" data-wow-duration="1s">
+                                            
+                                            <h3>Hiến máu cứu người!</h3>
+                                                <h2>
+                                                    HIẾN MÁU
+                                                    <br>
+                                                    VÀ TRUYỀN CẢM HỨNG CHO NGƯỜI KHÁC.
+                                                </h2>
+                                                <a href="#" class="btn btn-theme margin-top-24">Hiến máu ngay</a>
+                                        </div>                                            
+                                    </div> <!-- end .col-sm-12  -->
+                                </div> <!-- end .row  -->
+                            </div><!-- end .container -->
+                        </div> <!--  end .slider-content -->
+                    </div> <!-- end .item  -->
+                </div> <!-- end .slider_item_container  -->
+
+            </div> <!-- end .slider_1  -->
+        </div> <!-- end .slider-wrap.  -->
+        
+        <!--  FEATURED ABOUT US SECTION-->
+
+        <section class="section-content-block">
+ 
+            <div class="container">
+                
+                <div class="row">
+
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        
+                        <div class="about-us-container theme-custom-box-shadow">
+
+                            <div class="row section-heading-wrapper margin-bottom-11">
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 text-left no-img-separator">
+                                    <h2><strong>{!! $about_us->title ?? 'Chúng tôi là ai?' !!}</strong></h2>
+                                    <span class="heading-separator heading-separator-horizontal"></span>
+                                </div> <!-- end .col-sm-10  --> 
+
+                            </div>
+
+                            <div class="about-details"> 
+
+                                {!! $about_us->description ?? '' !!}
+                                {!! $about_us->content ?? '' !!}
+
+                            </div> <!--  end .about-details -->  
+
                         </div>
+
+                    </div> <!--  end .col-lg-6 col-md-6 col-sm-12 col-xs-12 -->  
+
+
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+
+                        <figure class="about-img theme-custom-box-shadow">
+                            <a class="venobox wow bounceIn" data-vbtype="video" data-autoplay="true" href="https://www.youtube.com/watch?v=nrJtHemSPW4"><i class="fa fa-play"></i></a>                                
+                            <img src="{{ static_asset('assets/frontend/images/about_feat_bg.jpg') }}" alt="about" />
+                        </figure> <!-- end .cause-img  -->
+
+                    </div> <!--  end .col-lg-6 col-md-6 col-sm-12 col-xs-12  -->                    
+
+                </div> <!--  end .row  -->
+            </div>
+
+        </section> <!--  end .section-about-us -->
+        
+        <!-- SECTION TESTIMONIAL   -->
+
+        <section class="section-content-block section-custom-bg" data-bg_img='{{ static_asset('assets/frontend/images/testimony_feat_bg.jpg') }}' data-bg_size='cover' data-bg_position='top center' data-bg_opacity="0">
+            
+            <div class="container margin-top-80">
+                <div class="row section-heading-wrapper-alt">
+
+                    <div class="col-md-12 col-sm-12 text-center no-img-separator">
+                        <h4>Những lời chúc tuyệt vời từ các thành viên</h4>
+                        <span class="heading-separator heading-separator-horizontal"></span>
+                        <h2 class="extra-large">THAM GIA CÙNG CHÚNG TÔI VÀ CỨU SỐNG NGƯỜI KHÁC</h2>
+
+                    </div> <!-- end .col-sm-10  --> 
+
+                </div>
+            </div>
+
+            <div class="container theme-custom-box-shadow  section-pure-white-bg margin-top-48 margin-bottom-48 wow fadeInUp">
+                
+                <div class="row">
+
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        
+                        <div class="testimonial-container owl-carousel text-left" data-items  ="1">
+
+                            <div class="col-md-12 col-sm-12">
+
+                                <div class="testimony-layout-1">
+                                    <h3 class="people-quote">Ý kiến người hiến máu</h3>
+                                    <p class="testimony-text">
+                                        Tôi tự hào hiến máu thường xuyên vì nó cung cấp cho người khác thứ họ thực sự cần để tồn tại. Biết rằng tôi có thể tạo ra sự khác biệt trong cuộc sống của ai đó khiến tôi cảm thấy tuyệt vời!      
+                                    </p>
+                                    
+                                    <img src="{{ static_asset('assets/frontend/images/user_1.jpg') }}" alt="" />
+                                    <h6>Brandon Munson</h6>
+                                    <span>CTO, Fulcrum Design, USA</span>
+
+                                </div> <!-- end .testimony-layout-1  -->
+
+                            </div> <!--  end col-md-10  -->
+
+                            <div class="col-md-12 col-sm-12">
+
+                                <div class="testimony-layout-1">
+                                    <h3 class="people-quote">Ý kiến người hiến máu</h3>
+                                    <p class="testimony-text">
+                                        Tôi đã là người hiến máu từ thời trung học. Mặc dù không hiến máu hàng năm, tôi luôn muốn cống hiến cho nhân loại. Tôi thích giúp đỡ người khác! Hơn nữa, nó mang lại sự bình yên thực sự trong tâm hồn tôi.   
+                                    </p>
+
+                                    <img src="{{ static_asset('assets/frontend/images/user_2.jpg') }}" alt="" />
+                                    <h6>Munson Brandon</h6>
+                                    <span>CTO, Fulcrum Design, USA</span>
+
+                                </div> <!-- end .testimony-layout-1  -->
+
+                            </div> <!--  end col-md-10  -->
+
+                            <div class="col-md-12 col-sm-12">
+
+                                <div class="testimony-layout-1">
+                                    <h3 class="people-quote">Ý kiến người nhận máu</h3>
+                                    <p class="testimony-text">
+                                        Tôi ước mình có thể nói với người hiến máu rằng tôi biết ơn hành động quên mình của bạn như thế nào. Bạn đã cho tôi cuộc sống mới. Chúng ta có thể là đồng nghiệp, bạn học hoặc chỉ là hai người trong cùng một cộng đồng. Tôi rất biết ơn bạn.  
+                                    </p>
+
+                                    <img src="{{ static_asset('assets/frontend/images/user_3.jpg') }}" alt="" />
+                                    <h6>Logan Munson</h6>
+                                    <span>CTO, Fulcrum Design, USA</span>
+
+                                </div> <!-- end .testimony-layout-1  -->
+
+                            </div> <!--  end col-md-10  --> 
+
+                        </div>  <!--  end .row  -->   
+                    </div>
+                
+                    <div class="col-lg-6 hidden-md hidden-xs hidden-sm no-padding">
+                        <figure>
+                            <img src="{{ static_asset('assets/frontend/images/testimony_feat_img.jpg') }}" alt="" class="db"/>
+                        </figure>
+                    </div>
+                    
+                </div>
+
+                
+
+            </div> <!-- end .container  -->
+
+        </section>
+        
+        <!--  SECTION CAMPAIGNS   -->
+
+        <section class="section-content-block section-pure-white-bg" >
+
+            <div class="container">
+                
+                
+                <div class="row">
+                    
+                    <div class="col-sm-12 col-md-5">
+
+                        <div class="row section-heading-wrapper">
+
+                            <div class="col-md-12 col-sm-12 text-left no-img-separator">
+                                <h2>CÁC CHIẾN DỊCH CỦA CHÚNG TÔI</h2>
+                                <span class="heading-separator heading-separator-horizontal"></span>
+                                <h4 class="margin-top-24">
+                                    
+                                    <small>Trên khắp thế giới, chúng tôi đã tổ chức tổng cộng sáu mươi nghìn chiến dịch hiến máu 
+                                        và ghé thăm hàng nghìn địa điểm khác vào các dịp khác nhau. </small>
+                                </h4>
+                                <a class="btn btn-theme margin-top-32" href="{{ route('campaign') }}">Xem tất cả chiến dịch</a>
+                            </div> <!-- end .col-sm-12  -->  
+
+                        </div> <!-- end .row  -->
+
+                    </div>
+
+                    <div class="col-sm-12 col-md-7">
+                        
+                        <div class="row wow fadeInRight">
+
+                            <div class="event-carousel owl-carousel"  data-nav="false" data-dots="true" data-items="1">
+                                @foreach ($programs as $program)
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="event-layout-1 theme-custom-box-shadow clearfix"> 
+                                        <figure class="event-img">
+                                            <a href="{{ route('detail_campaign', ['slug' => $program->slug ?? $program->id]) }}">
+                                                <img src="{{ uploaded_asset($program->banner) }}" alt="{{ $program->name }}">
+                                            </a>
+                                        </figure>
+                                        <div class="event-info"> 
+                                            <a class="event-date" href="#"><i class="fa fa-calendar-o"></i> {{ $program->start_time->format('d M, Y') }}</a>
+                                            <h4>
+                                                <a href="{{ route('detail_campaign', ['slug' => $program->slug ?? $program->id]) }}">{{ $program->name }}</a>
+                                            </h4>
+                                            <div class="event-exceprt">{!! $program->short_description !!}</div>
+                                            <div class="event-time">
+                                                <a href="#"><i class="fa fa-clock-o"></i> {{ $program->start_time->format('H:i') }} - {{ $program->end_time->format('H:i') }}</a>
+                                                <a href="#"> <i class="fa fa-map-marker"></i> {{ $program->location }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>     
+                        </div> 
                         
                     </div>
-                    @endforeach
-                @endif
-            </div>
-            <div class="slide__content ">
-                <div class="slide__content--headings text-center">
-                    <h2 class="animated title" data-animation-in="fadeInUp">{{ $slider_banner->short_description ?? '' }}</h2>
-                    <a class=" btn btn--bordered btn-introduct" href="{{ route('about_page') }}" title="Xem Thêm"><span class="btn__inner"> Xem Thêm </span></a>
+                    
                 </div>
+
+            </div> <!--  end .container  --> 
+
+        </section> 
+        
+        
+        <!--  SECTION APPOINTMENT BOX -->
+        
+        <section class="section-content-block section-custom-bg section-custom-bg-extra-padding" data-bg_img='{{ static_asset('assets/frontend/images/appointment_female_bg.jpg') }}' data-bg_color='#000000' data-bg_opacity='0.1'>
+
+            <div class="container">
+                <div class="custom-empty-space" data-height="160px" data-class="col-sm-hidden"></div>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44px" height="44px" id="circle" fill="none" stroke="currentColor">
-                    <circle r="20" cy="22" cx="22" id="test">
-                </symbol>
-            </svg>
+
         </section>
-        <div class="vc_row wpb_row vc_row-fluid">
-            <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-has-fill">
-                <div class="vc_column-inner vc_custom_1673165125400">
-                <div class="wpb_wrapper">
-                    <div class="vc_separator wpb_content_element vc_separator_align_center vc_sep_width_100 vc_sep_pos_align_center vc_separator_no_text vc_sep_color_black vc_custom_1673165090760  vc_custom_1673165090760">
-                    <span class="vc_sep_holder vc_sep_holder_l">
-                        <span class="vc_sep_line"></span>
-                    </span>
-                    <span class="vc_sep_holder vc_sep_holder_r">
-                        <span class="vc_sep_line"></span>
-                    </span>
+
+        <!--  SECTION APPOINTMENT   -->
+
+        <section class="section-content-block section-secondary-bg">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-lg-6 col-md-6"> 
+                        
+                        <div class="row section-heading-wrapper">
+
+                            <div class="col-md-12 col-sm-12 text-left no-img-separator">
+                                <h4>Điều nên biết</h4>
+                                <span class="heading-separator heading-separator-horizontal"></span>
+                                <h2>Thông tin hữu ích
+                                </h2>
+
+                            </div> <!-- end .col-sm-10  --> 
+
+                        </div>
+
+                        <div class="about-details"> 
+
+                            <ul class="custom-bullet-list">
+                                <li>Duy trì mức sắt khỏe mạnh bằng cách ăn các thực phẩm giàu sắt.</li>
+                                <li>Uống thêm 16 oz. nước trước khi hiến máu.</li>
+                                <li>Tránh uống rượu trước khi hiến máu.</li>
+                                <li>Nhớ mang theo thẻ người hiến máu hoặc CMND/Hộ chiếu.</li>
+                                <li>Cuối cùng, cố gắng có một giấc ngủ ngon sau khi hiến máu.</li>
+                            </ul>
+
+                        </div> <!--  end .about-details -->  
+               
+                    </div> <!--  end col-lg-6  -->
+
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 margin-top-appointment-reverse"> 
+
+                        <div class="appointment-form-wrapper theme-custom-box-shadow text-center clearfix wow zoomIn">
+                            <h3 class="join-heading join-heading-alt">Yêu cầu đặt hẹn</h3>
+                            <form class="appoinment-form"> 
+                                <div class="form-group col-md-6">
+                                    <input id="your_name" class="form-control" placeholder="Name" type="text">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input id="your_email" class="form-control" placeholder="Email" type="email">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input id="your_phone" class="form-control" placeholder="Phone" type="text">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="select-style">                                    
+                                        <select class="form-control" name="your_center">
+                                            <option>Donation Center</option>
+                                            <option>Los Angles</option>
+                                            <option>California</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <input id="your_date" class="form-control" placeholder="Date" type="text">
+                                </div>
+
+
+                                <div class="form-group col-md-6">
+                                    <input id="your_time" class="form-control" placeholder="Time" type="text">
+                                </div>
+
+                                <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                    <textarea id="textarea_message" class="form-control" rows="4" placeholder="Your Message..."></textarea>
+                                </div>         
+
+                                <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                    <button id="btn_submit" class="btn btn-theme" type="submit">Đặt hẹn ngay</button>
+                                </div>
+
+                            </form>
+
+                        </div> <!-- end .appointment-form-wrapper  -->
+
+                    </div> <!--  end .col-lg-6 -->
+
+                </div> <!--  end .row  -->
+                
+                <div class="row wow fadeIn">
+
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+
+                        <div class="counter-block-1 text-center">
+
+                            <i class="fa fa-heartbeat icon"></i>
+                            <span class="counter">2578</span>                            
+                            <h4 class="text-capitalize">Nụ cười thành công</h4>
+
+                        </div>
+
+                    </div> <!--  end .col-lg-3  -->
+
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+
+                        <div class="counter-block-1 text-center">
+
+                            <i class="fa fa-stethoscope icon"></i>
+                            <span class="counter">3235</span>                            
+                            <h4 class="text-capitalize">Người hiến máu hạnh phúc</h4>
+
+                        </div>
+
+                    </div> <!--  end .col-lg-3  -->
+
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+
+                        <div class="counter-block-1 text-center">
+
+                            <i class="fa fa-users icon"></i>
+                            <span class="counter">3568</span>                             
+                            <h4 class="text-capitalize">Happy Recipient</h4>
+
+                        </div>
+
+                    </div> <!--  end .col-lg-3  -->
+
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+
+                        <div class="counter-block-1 text-center">
+
+                            <i class="fa fa-building icon"></i>
+                            <span class="counter">1364</span>                            
+                            <h4 class="text-capitalize">Tổng giải thưởng</h4>
+
+                        </div>
+
+                    </div> <!--  end .col-lg-3  -->
+
+
+                </div> <!-- end row  -->
+
+            </div> <!--  end .container -->
+
+        </section>  <!--  end .appointment-section  -->
+        
+        <!-- SECTION TEAM   -->
+        <!--  SECTION GALLERY  -->
+
+        <section class="section-content-block section-pure-white-bg">
+
+            <div class="container">
+
+                <div class="row section-heading-wrapper">
+
+                    <div class="col-md-12 col-sm-12 text-center no-img-separator">
+                        <h2>BỘ SƯU TẬP CHIẾN DỊCH</h2>
+                        <span class="heading-separator"></span>
+                        <h4>công việc tình nguyện danh giá của đội ngũ trong các chiến dịch</h4>
+                    </div> <!-- end .col-sm-10  -->                      
+
+
+                </div> <!-- end .row  -->
+
+            </div> <!--  end .container -->
+
+            <div class="container wow fadeInUp">
+
+                <div class="row no-padding-gallery">
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 gallery-container">
+
+                        <a class="gallery-light-box"  data-gall="myGallery" href="{{ static_asset('assets/frontend/images/gallery_1.jpg') }}">
+
+                            <figure class="gallery-img">
+
+                                <img src="{{ static_asset('assets/frontend/images/gallery_1.jpg') }}" alt="gallery image" />
+
+                            </figure> <!-- end .gallery-img  -->
+
+                        </a>
+
+                    </div><!-- end .col-sm-3  -->
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 gallery-container">
+
+                        <a class="gallery-light-box" data-gall="myGallery" href="{{ static_asset('assets/frontend/images/gallery_2.jpg') }}">
+
+                            <figure class="gallery-img">
+
+                                <img src="{{ static_asset('assets/frontend/images/gallery_2.jpg') }}" alt="gallery image" />
+
+                            </figure> <!-- end .gallery-img  -->
+
+                        </a> <!-- end .gallery-light-box  -->
+
+                    </div><!-- end .col-sm-3  -->
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 gallery-container">
+
+                        <a class="gallery-light-box"  data-gall="myGallery" href="{{ static_asset('assets/frontend/images/gallery_3.jpg') }}">
+
+                            <figure class="gallery-img">
+
+                                <img src="{{ static_asset('assets/frontend/images/gallery_3.jpg') }}" alt="gallery image" />
+
+                            </figure> <!-- end .gallery-img  -->
+
+                        </a>
+
+                    </div><!-- end .col-sm-3  -->
+
+                </div> <!-- end .row  -->
+
+                <div class="row no-padding-gallery">
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 gallery-container">
+
+                        <a class="gallery-light-box" data-gall="myGallery" href="{{ static_asset('assets/frontend/images/gallery_4.jpg') }}">
+
+                            <figure class="gallery-img">
+
+                                <img src="{{ static_asset('assets/frontend/images/gallery_4.jpg') }}" alt="gallery image" />
+
+                            </figure> <!-- end .gallery-img  -->
+
+                        </a> <!-- end .gallery-light-box  -->
+
+                    </div><!-- end .col-sm-3  -->
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 gallery-container">
+
+                        <a class="gallery-light-box"  data-gall="myGallery" href="{{ static_asset('assets/frontend/images/gallery_5.jpg') }}">
+
+                            <figure class="gallery-img">
+
+                                <img src="{{ static_asset('assets/frontend/images/gallery_5.jpg') }}" alt="gallery image" />
+
+                            </figure> <!-- end .gallery-img  -->
+
+                        </a>
+
+                    </div><!-- end .col-sm-3  -->
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 gallery-container">
+
+                        <a class="gallery-light-box" data-gall="myGallery" href="{{ static_asset('assets/frontend/images/gallery_6.jpg') }}">
+
+                            <figure class="gallery-img">
+
+                                <img src="{{ static_asset('assets/frontend/images/gallery_6.jpg') }}" alt="gallery image" />
+
+                            </figure> <!-- end .gallery-img  -->
+
+                        </a> <!-- end .gallery-light-box  -->
+
+                    </div><!-- end .col-sm-3  -->
+
+                </div> <!-- end .row  -->
+
+            </div><!-- end .container-fluid  -->
+
+        </section> <!-- end .section-content-block  -->
+
+        <!-- HIGHLIGHT CTA  -->  
+        
+        <section class="padding-bottom-100 padding-top-0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="cta-section-1 section-secondary-bg text-center theme-custom-box-shadow">
+                            <h2 class="text-capitalize">Trở thành một phần của công việc tuyệt vời ngay hôm nay</h2>
+                            <p>
+                                Bạn có thể hiến máu tại bất kỳ địa điểm hiến máu nào của chúng tôi trên khắp thế giới. 
+                                <br />
+                                Chúng tôi có tổng cộng sáu mươi nghìn trung tâm hiến máu và ghé thăm hàng nghìn địa điểm khác vào các dịp khác nhau.                            
+                            </p>
+                            <a class="btn btn-theme margin-top-24 wow bounceIn" href="#">THAM GIA VỚI CHÚNG TÔI</a>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
-        </div>
-        <div class="vc_row wpb_row vc_row-fluid vc_custom_1673165220170">
-            <div class="wpb_column vc_column_container vc_col-sm-12">
-                <div class="vc_column-inner">
-                <div class="wpb_wrapper">
-                    <div class="edgtf-elements-holder   edgtf-one-column  edgtf-responsive-mode-768 ">
-                    <div class="edgtf-eh-item   edgtf-horizontal-alignment-center " data-item-class="edgtf-eh-custom-8937" data-1024-1280="0 0 0 0" data-768-1024="0 0 0 0" data-680-768="0 4% 0 4%" data-680="0 0 0 0">
-                        <div class="edgtf-eh-item-inner">
-                        <div class="edgtf-eh-item-content edgtf-eh-custom-8937" style="padding: 0 17% 0 17%">
-                            <div class="edgtf-section-title-holder  edgtf-st-standard  edgtf-st-position-left edgtf-appear-fx" style="text-align: center">
-                            <div class="edgtf-st-inner">
-                                <div class="edgtf-st-title-holder">
-                                <h1 class="edgtf-st-title" style="color: #fff"> 150+ Dự <br> Án </h1>
-                                </div>
-                                <div class="edgtf-st-text-holder">
-                                <h6 class="edgtf-st-text" style="color: #fff"> Trong hơn 08 năm, trên hơn 150 khách hàng từ cá nhân cho đến các tổ chức, đội ngũ của chúng tôi đã hoàn thiện quá trình thúc đẩy kinh doanh thông qua thiết kế. Các công trình mục đích thương mại hay nhà ở, chúng tôi đều đã có những sản phẩm hoàn thiện và được khách hàng đánh giá cao. <br> Chúng tôi tự hào về tính minh bạch tinh thần xây dựng, và hợp tác. Luôn học hỏi, tìm hiểu những điều mới để thúc đẩy công việc thiết kế. Chúng tôi tin rằng thiết kế mang lại những giá trị thiết thực và giá trị thiết thực đó phục vụ cho sự phát triển của xã hội. <br> Chúng tôi mong muốn hợp tác để tìm kiếm cơ hội với những dự án mới, những thử thách mới, cung cấp những dịch vụ tốt nhất tới khách hàng. Và đó là cơ sở để chúng tôi xây dựng, phát triển doanh nghiệp bền vững. </h6>
-                                </div>
-                            </div>
-                            </div>
-                            <div class="vc_separator wpb_content_element vc_separator_align_center vc_sep_width_50 vc_sep_pos_align_center vc_separator_no_text vc_sep_color_black vc_custom_1673230930921  vc_custom_1673230930921">
-                            <span class="vc_sep_holder vc_sep_holder_l">
-                                <span class="vc_sep_line"></span>
-                            </span>
-                            <span class="vc_sep_holder vc_sep_holder_r">
-                                <span class="vc_sep_line"></span>
-                            </span>
-                            </div>
-                            <div class="edgtf-section-title-holder  edgtf-st-standard  edgtf-st-position-left edgtf-appear-fx" style="text-align: center">
-                            <div class="edgtf-st-inner">
-                                <div class="edgtf-st-text-holder">
-                                <h5 class="edgtf-st-text" style="font-weight: 300; text-transform: uppercase;"> - Giá trị cốt lõi của chúng tôi chính là sự hài lòng của khách hàng - </h5>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="vc_row wpb_row vc_row-fluid">
-            <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-has-fill">
-                <div class="vc_column-inner vc_custom_1673165125400">
-                <div class="wpb_wrapper">
-                    <div class="vc_separator wpb_content_element vc_separator_align_center vc_sep_width_100 vc_sep_pos_align_center vc_separator_no_text vc_sep_color_black vc_custom_1673165090760  vc_custom_1673165090760">
-                    <span class="vc_sep_holder vc_sep_holder_l">
-                        <span class="vc_sep_line"></span>
-                    </span>
-                    <span class="vc_sep_holder vc_sep_holder_r">
-                        <span class="vc_sep_line"></span>
-                    </span>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-        <div class="vc_row wpb_row vc_row-fluid section--post">
-            <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-has-fill">
-                <div class="vc_column-inner vc_custom_1673232448314">
-                <div class="wpb_wrapper">
-                    <div class="edgtf-link-section-holder edgtf-appear-fx edgtf-appear">
-                        <div class="edgtf-link-section-title-holder">
-                            <h2 class="edgtf-link-section-title"> DỰ ÁN </h2>
-                        </div>
-                        <?php 
-                            $categories_menu = \App\BlogCategory::where(['status' => 1, 'is_home_page' =>  1])->orderBy('display_order','ASC')->get();
-                        ?>
-                        @foreach( $categories_menu as $cate)
-                            <div class="edgtf-single-link-section-holder">
-                                <a href="{{ route('news_page', ['slug' => $cate->slug]) }}" class="edgtf-link-section">
-                                <div class="edgtf-single-link-title-holder">
-                                    <h5 class="edgtf-single-link-title"> {{ $cate->category_name }} </h5>
-                                </div>
-                                </a>
-                            </div>
-                            <?php 
-                                $item_posts = \App\Blog::where(['status' => 1, 'category_id' => $cate->id])->orderBy('published_date', 'DESC')
-                                    ->take(3)->select('id','slug', 'banner', 'title', 'published_date', 'short_description', 'description')->get();
-                            ?>
-                            <div class="row" style="margin: 15px 0px 0px;">
-                                @foreach($item_posts as $post)
-                                    <article class="col-lg-4 col-md-6">
-                                        <a href="{{ route('detail_page', ['slug' => $post->slug]) }}" class="tile tile--full-height">
-                                        <div class="tile__img">
-                                            <div class="tile__img-box tile__img-box--height-sm animation-imageScale lazy" id="news_{{ $post->id }}" data-name="news_{{ $post->id }}" data-style="    @media screen and (max-width:500px) {  #news_{{ $post->id }} {  background-position: 100% 100%; background-image: url('{{ uploaded_asset($post->banner);  }}?w=600&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges')  } }    @media screen and (min-width:501px) and (max-width:768px) {  #news_{{ $post->id }} { background-position: 100% 100%; background-image: url('{{ uploaded_asset($post->banner) }}?w=700&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges')  } }    @media screen and (min-width:769px) and (max-width:991px) {  #news_{{ $post->id }} { background-position: 100% 100%; background-image: url('{{ uploaded_asset($post->banner) }}?w=500&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges')  } }    @media screen and (min-width:992px) and (max-width:1199px) {  #news_{{ $post->id }} { background-position: 100% 100%; background-image: url('{{ uploaded_asset($post->banner) }}?w=500&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges')  } }    @media screen and (min-width:1200px) and (max-width:1400px) {  #news_{{ $post->id }} { background-position: 100% 100%; background-image: url('{{ uploaded_asset($post->banner) }}?w=600&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges')  } }    @media screen and (min-width:1401px) {  #news_{{ $post->id }} { background-position: 100% 100%; background-image: url('{{ uploaded_asset($post->banner) }}?w=600&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges')  } }   ">
-                                                <picture>
-                                                <source data-srcset="{{ uploaded_asset($post->banner) }}?w=499&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges" media="(max-width: 499px)">
-                                                <source data-srcset="{{ uploaded_asset($post->banner) }}?w=500&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges" media="(max-width: 500px)">
-                                                <source data-srcset="{{ uploaded_asset($post->banner) }}?w=641&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges" media="(max-width: 641px)">
-                                                <source data-srcset="{{ uploaded_asset($post->banner) }}?w=769&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges" media="(max-width: 769px)">
-                                                <source data-srcset="{{ uploaded_asset($post->banner) }}?w=902&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges" media="(max-width: 902px)">
-                                                <source data-srcset="{{ uploaded_asset($post->banner) }}?w=1025&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges" media="(max-width: 1025px)">
-                                                <source data-srcset="{{ uploaded_asset($post->banner) }}?w=1200&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges" media="(max-width: 1200px)">
-                                                <source data-srcset="{{ uploaded_asset($post->banner) }}?w=1582&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges" media="(max-width: 1582px)">
-                                                <source data-srcset="{{ uploaded_asset($post->banner) }}?w=1920&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges" media="(max-width: 1920px)">
-                                                <img class=" lazy" data-src="{{ uploaded_asset($post->banner) }}?w=3860&h=&fit=crop&q=80&auto=format&fm=png&crop=faces,edges" alt="{{ $post->title }}">
-                                                </picture>
-                                            </div>
-                                            <span class="tile__img-curtain slideInUp"></span>
-                                        </div>
-                                        <div class="tile__content content">
-                                            <h2 class="headline-5">{{ $post->title }}</h2>
-                                            <p class="content__small-text"><?php 
-                                                    $description = $post->description;
-                                                    preg_match_all("/<img/",$description,$m);
-                                                    echo count($m[0]);
-                                                     ?> pics</p>
-                                            <svg version="1.1" id="btn-arrow-1949404842" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="18px" height="4px" viewBox="0 0 18 4" enable-background="new 0 0 18 4" xml:space="preserve">
-                                            <polyline fill="none" stroke="#fff" stroke-miterlimit="10" points="0,3.508 16.809,3.508 13.686,0.342 "></polyline>
-                                            </svg>
-                                        </div>
-                                        </a>
-                                    </article>
-                                @endforeach
-                            </div>
-                        @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+        </section>
 @endsection

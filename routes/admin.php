@@ -95,6 +95,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::get('/programs/destroy/{id}', 'ProgramController@destroy')->name('programs.destroy');
     Route::post('/programs/change-status', 'ProgramController@change_status')->name('programs.change-status');
 
+    // Donation Records
+    Route::resource('donation-records', 'DonationRecordController');
+    Route::get('/donation-records/destroy/{id}', 'DonationRecordController@destroy')->name('donation-records.destroy');
+
     // Route::resource('pages', 'PageController');
     // Route::get('/pages/destroy/{id}', 'PageController@destroy')->name('pages.destroy');
 

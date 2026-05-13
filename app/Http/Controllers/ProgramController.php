@@ -16,7 +16,7 @@ class ProgramController extends Controller
         $sort_org    = null;
         $sort_status = null;
 
-        $programs = Program::orderBy('created_at', 'desc');
+        $programs = Program::orderBy('start_time', 'desc');
 
         if ($request->search != null) {
             $programs = $programs->where('name', 'like', '%'.$request->search.'%');
@@ -29,6 +29,7 @@ class ProgramController extends Controller
         }
 
         if ($request->status != null && $request->status !== '') {
+            $request->status = $request->status == 'activated' ? 1 : 0;
             $programs = $programs->where('status', $request->status);
             $sort_status = $request->status;
         }
@@ -53,18 +54,22 @@ class ProgramController extends Controller
             'description'      => 'nullable|string|max:3000',
             'banner'           => 'nullable|integer',
             'location'         => 'nullable|string|max:255',
+            'google_map'       => 'nullable|string',
             'start_time'       => 'required|date',
             'end_time'         => 'required|date|after:start_time',
             'max_participants' => 'nullable|integer|min:0',
             'short_description' => 'nullable|string|max:255',
             'note'             => 'nullable|string',
+            'slug'             => 'nullable|string|max:255',
+            'meta_title'       => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:1000',
         ]);
 
         $program = new Program;
         $program->fill($validated);
         $program->user_id     = Auth::id();
         $program->approved_by = Auth::id();
-        $program->status      = 'activated';
+        $program->status      = 1;
         $program->save();
 
         flash(translate('Program has been created successfully'))->success();
@@ -103,11 +108,15 @@ class ProgramController extends Controller
             'description'      => 'nullable|string|max:3000',
             'banner'           => 'nullable|integer',
             'location'         => 'nullable|string|max:255',
+            'google_map'       => 'nullable|string',
             'start_time'       => 'required|date',
             'end_time'         => 'required|date|after:start_time',
             'max_participants' => 'nullable|integer|min:0',
             'short_description' => 'nullable|string|max:255',
             'note'             => 'nullable|string',
+            'slug'             => 'nullable|string|max:255',
+            'meta_title'       => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:1000',
         ]);
 
         $program->fill($validated);
@@ -128,7 +137,7 @@ class ProgramController extends Controller
     {
         $program = Program::findOrFail($request->id);
         // The toggle posts 0/1; map to the string enum stored in the column.
-        $program->status = ((int) $request->status === 1) ? 'activated' : 'inActived';
+        $program->status = $request->status === 1;
         $program->save();
         return 1;
     }

@@ -24,9 +24,11 @@ Route::post('/currency', 'CurrencyController@changeCurrency')->name('currency.ch
 
 // home page
 Route::get('/', 'HomeController@home_page')->name('home');
+Route::get('/home', 'HomeController@home_page')->name('homepage');
 
 // contact 
 Route::get('/contact', 'ContactController@contact_page')->name('contact_page');
+Route::get('/contact-us', 'ContactController@contact_page')->name('contact_us');
 Route::post('/save-contact', 'ContactController@save_subscriber')->name('contact.save');
 
 
@@ -34,9 +36,14 @@ Route::post('/save-contact', 'ContactController@save_subscriber')->name('contact
 Route::get('/about-us', 'AboutUsController@about_page')->name('about_page');
 
 // news
+Route::get('/news', 'NewController@news_page')->name('news_page_list'); // Added a general news list if needed, or keeping it as category based
 Route::get('/category/{slug}', 'NewController@news_page')->name('news_page');
 Route::get('/ajax_category/{slug}', 'NewController@ajax_new_post')->name('ajax_new_page');
-Route::get('/news/{slug}`', 'NewController@detail_page')->name('detail_page');
+Route::get('/news/{slug}', 'NewController@detail_page')->name('detail_page');
+
+// Campaign
+Route::get('/campaigns', 'CampaignController@index')->name('campaign');
+Route::get('/campaign/{slug}', 'CampaignController@details')->name('detail_campaign');
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 //Blog Section

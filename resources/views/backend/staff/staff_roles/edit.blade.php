@@ -139,6 +139,17 @@
                                 </label>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <label class="col-from-label">{{ translate('Organizations & Programs') }}</label>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="aiz-switch aiz-switch-success mb-0">
+                                    <input type="checkbox" name="permissions[]" class="form-control demo-sw" value="24" @php if(in_array(24, $permissions)) echo "checked"; @endphp>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group mb-0 text-right">

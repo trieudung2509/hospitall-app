@@ -44,6 +44,10 @@ class AboutUsController extends Controller
 
     // FE
     public function about_page() {
+        $title = null;
+        $description = null;
+        $content = null;
+
         $about_us = AboutUs::first();
         if ($about_us) {
             $title = $about_us->title;

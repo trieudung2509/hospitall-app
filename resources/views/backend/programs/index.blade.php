@@ -85,7 +85,7 @@
                     <td>
                         <label class="aiz-switch aiz-switch-success mb-0">
                             <input type="checkbox" onchange="change_status(this)"
-                                value="{{ $program->id }}" <?php if ($program->status === 'activated') echo "checked"; ?>>
+                                value="{{ $program->id }}" <?php if ($program->status == 1) echo "checked"; ?>>
                             <span></span>
                         </label>
                     </td>
