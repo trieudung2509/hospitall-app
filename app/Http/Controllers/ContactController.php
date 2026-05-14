@@ -10,6 +10,10 @@ use App\Upload;
 
 class ContactController extends Controller
 {
+    public function admin_index() {
+        $contacts = Contact::orderBy('created_at', 'desc')->paginate(15);
+        return view('backend.contact.admin_index', compact('contacts'));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -43,46 +47,39 @@ class ContactController extends Controller
 
     // FE
     public function contact_page() {
-        $contact = Contact::first();
-        $title = $contact->title;
-        $description = $contact->description;
-        return view("frontend.contact_page", compact('title', 'description'));
+        return view("frontend.contact_page");
+    }
+
+    public function store(Request $request) {
+        $contact = new Contact();
+        $contact->name = $request->user_name;
+        $contact->email = $request->user_email;
+        $contact->subject = $request->email_subject;
+        $contact->message = $request->email_message;
+        $contact->save();
+        
+        if ($request->ajax()) {
+            return response()->json([
+                "status" => 1,
+                "msg" => translate("Your message has been sent successfully."),
+            ], 200);
+        }
+
+        flash(translate('Your message has been sent successfully'))->success();
+        return redirect()->back();
     }
 
     public function save_subscriber(Request $request) {
+        // Keeping existing for backward compatibility if needed elsewhere
         $sub = new Subscriber();
-        $sub->first_name = $request->first_name;
-        $sub->last_name = $request->last_name;
-        $sub->phone_number = $request->phone_number;
-        $sub->email = $request->email;
-        $sub->message = $request->message;
-        if ($request->hasFile("file")) {
-            $upload = new Upload;
-
-            $extension = strtolower($request->file('file')->getClientOriginalExtension());
-            $file_original_name = explode('.', $request->file('file')->getClientOriginalName())[0];
-            $path = $request->file('file')->store('uploads/all', 'local');
-            $size = $request->file('file')->getSize();
-
-            $upload->file_original_name = $file_original_name;
-            $upload->extension = $extension;
-            $upload->file_name = $path;
-            $upload->user_id = null;
-            $upload->type = $request->file('file')->extension();
-            $upload->file_size = $size;
-            $upload->save();
-            $sub->file_id = $upload->id;
-        }
+        $sub->first_name = $request->user_name;
+        $sub->email = $request->user_email;
+        $sub->message = $request->email_message;
         $sub->save(); 
         
         return response()->json([
             "error" => false,
             "message" => "Your submission has been sent successfully.",
-            "response_html" =>  `<div>
-                <div class="response response--success">
-                <p>Your submission has been sent successfully.</p>
-                </div>
-            </div>`
         ], 200);
     }
 }

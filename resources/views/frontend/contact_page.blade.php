@@ -47,7 +47,7 @@
                         <ul class="contact-info">
                             <li>
                                 <span class="icon-container"><i class="fa fa-home"></i></span>
-                                <address>3100 C/A Mouchak,Sylhet,UK</address>
+                                <address>{{ get_setting('contact_address') }}</address>
                             </li>
                         </ul>                        
 
@@ -59,7 +59,7 @@
 
                             <li>
                                 <span class="icon-container"><i class="fa fa-phone"></i></span>
-                                <address><a href="tel:+0931205259162">+093-120-525-9162</a></address>
+                                <address><a href="tel:{{ get_setting('contact_phone') }}">{{ get_setting('contact_phone') }}</a></address>
                             </li>
 
                         </ul>                        
@@ -70,7 +70,7 @@
                         <ul class="contact-info">
                             <li>
                                 <span class="icon-container"><i class="fa fa-envelope"></i></span>
-                                <address><a href="mailto:info@yourdomain.com">info@yourdomain.com</a></address>
+                                <address><a href="mailto:{{ get_setting('contact_email') }}">{{ get_setting('contact_email') }}</a></address>
                             </li>
                         </ul>                        
 
@@ -81,7 +81,7 @@
                         <ul class="contact-info">
                             <li>
                                 <span class="icon-container"><i class="fa fa-globe"></i></span>
-                                <address><a href="#">www.yourdomain.com</a></address>
+                                <address><a href="{{ route('home') }}">{{ str_replace(['http://', 'https://'], '', url('/')) }}</a></address>
                             </li>
                         </ul>                        
 
@@ -105,7 +105,8 @@
 
                             <h2 class="contact-title">Gửi lời chào đến chúng tôi</h2>
 
-                            <form role="form" action="#" method="post" id="contact-form">
+                            <form role="form" action="{{ route('contact.store') }}" method="post" id="contact-form">
+                                @csrf
 
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Tên" data-msg="Vui lòng viết tên của bạn" />

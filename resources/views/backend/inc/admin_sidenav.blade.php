@@ -113,9 +113,14 @@
                     <span class="aiz-side-nav-arrow"></span>
                 </a>
                 <ul class="aiz-side-nav-list level-2">
-                    <li class="aiz-side-nav-item">
+                    <!-- <li class="aiz-side-nav-item">
                         <a href="{{ route('subscribers.index') }}" class="aiz-side-nav-link">
                             <span class="aiz-side-nav-text">{{ translate('Subscribers') }}</span>
+                        </a>
+                    </li> -->
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('admin.contacts') }}" class="aiz-side-nav-link {{ areActiveRoutes(['admin.contacts'])}}">
+                            <span class="aiz-side-nav-text">{{ translate('Contact Messages') }}</span>
                         </a>
                     </li>
                 </ul>

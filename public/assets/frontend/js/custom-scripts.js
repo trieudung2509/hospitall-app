@@ -1125,7 +1125,7 @@ jQuery(function ($) {
 
     }
 
-    if ($('#contact-form').length) {
+    if ($('#contact-form-main').length) {
 
         var $contact_form = $("#contact-form");
 
@@ -1213,16 +1213,10 @@ jQuery(function ($) {
                 $contact_submit_btn.after("<span class='form_msg'>Please wait ....</span>").attr("disabled", "disabled");
 
                 $.ajax({
-                    url: "contact_email.php",
+                    url: $contact_form.attr('action'),
                     type: 'POST',
                     dataType: 'JSON',
-                    data: {
-                        safety_key: 'dynatf',
-                        user_name: $user_name.val(),
-                        user_email: $user_email.val(),
-                        email_subject: $email_subject.val(),
-                        email_message: $email_message.val()
-                    },
+                    data: $contact_form.serialize(),
                     success: function (data) {
 
 

@@ -29,7 +29,7 @@ Route::get('/home', 'HomeController@home_page')->name('homepage');
 // contact 
 Route::get('/contact', 'ContactController@contact_page')->name('contact_page');
 Route::get('/contact-us', 'ContactController@contact_page')->name('contact_us');
-Route::post('/save-contact', 'ContactController@save_subscriber')->name('contact.save');
+Route::post('/save-contact', 'ContactController@store')->name('contact.store');
 
 
 // about us page

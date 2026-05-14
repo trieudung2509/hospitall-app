@@ -24,6 +24,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     // contact
     Route::get('/contact', 'ContactController@edit')->name('contact.edit');
     Route::post('/contact', 'ContactController@update')->name('contact.update');
+    Route::get('/contacts', 'ContactController@admin_index')->name('admin.contacts');
 
     // slider
     Route::get("/slider-banner", 'SliderBannerController@admin_home')->name('slider.home');

@@ -163,12 +163,16 @@
                                     </div>
                                     <p>Đăng ký nhận bản tin định kỳ và cập nhật tin tức mới nhất từ chúng tôi.</p>
                                     <div class="footer-subscription">
-                                        <p>
-                                            <input id="mc4wp_email" class="form-control" required="" placeholder="Nhập email của bạn" name="EMAIL" type="email">
-                                        </p>
-                                        <p>
-                                            <input class="btn btn-default" value="Đăng ký ngay" type="submit">
-                                        </p>
+                                        <form action="{{ route('contact.store') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="email_subject" value="Newsletter Subscription">
+                                            <p>
+                                                <input id="mc4wp_email" class="form-control" required="" placeholder="{{ translate('Nhập email của bạn') }}" name="user_email" type="email">
+                                            </p>
+                                            <p>
+                                                <input class="btn btn-default" value="{{ translate('Đăng ký ngay') }}" type="submit">
+                                            </p>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
