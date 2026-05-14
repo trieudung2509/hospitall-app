@@ -30,6 +30,7 @@ Route::get('/home', 'HomeController@home_page')->name('homepage');
 Route::get('/contact', 'ContactController@contact_page')->name('contact_page');
 Route::get('/contact-us', 'ContactController@contact_page')->name('contact_us');
 Route::post('/save-contact', 'ContactController@store')->name('contact.store');
+Route::post('/appointment/store', 'AppointmentController@store')->name('appointment.store');
 
 
 // about us page

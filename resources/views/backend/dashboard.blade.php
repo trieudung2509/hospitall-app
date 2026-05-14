@@ -103,7 +103,7 @@
                             </td>
                             <td>{{ $program->start_time ? $program->start_time->format('Y-m-d H:i') : '--' }}</td>
                             <td>
-                                @if($program->status == 'activated')
+                                @if($program->status == 1)
                                     <span class="badge badge-inline badge-success">{{ translate('Activated') }}</span>
                                 @else
                                     <span class="badge badge-inline badge-danger">{{ translate('Inactive') }}</span>

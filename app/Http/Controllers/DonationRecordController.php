@@ -63,7 +63,6 @@ class DonationRecordController extends Controller
 
         $donationRecord = new DonationRecord;
         $donationRecord->fill($validated);
-        $donationRecord->id = (string) Str::uuid(); // Use UUID for string ID as requested
         $donationRecord->registration_time = now();
         $donationRecord->save();
 
@@ -74,16 +73,8 @@ class DonationRecordController extends Controller
     public function edit($id)
     {
         $donationRecord = DonationRecord::findOrFail($id);
-        $programs = Program::where('status', 'activated')->orderBy('name')->get();
+        $programs = Program::orderBy('name')->get();
         $users = User::orderBy('name')->get();
-
-        // Ensure current program/user is in the list even if not activated/banned
-        if (!$programs->contains('id', $donationRecord->program_id)) {
-            $programs->push(Program::find($donationRecord->program_id));
-        }
-        if (!$users->contains('id', $donationRecord->user_id)) {
-            $users->push(User::find($donationRecord->user_id));
-        }
 
         return view('backend.donation_records.edit', compact('donationRecord', 'programs', 'users'));
     }
@@ -93,8 +84,8 @@ class DonationRecordController extends Controller
         $donationRecord = DonationRecord::findOrFail($id);
 
         $validated = $request->validate([
-            'user_id'             => 'required|integer|exists:users,id',
-            'program_id'          => 'required|integer|exists:programs,id',
+            'user_id'             => 'nullable|integer|exists:users,id',
+            'program_id'          => 'nullable|integer|exists:programs,id',
             'status'              => 'required|in:Registered,Completed,Canceled',
             'check_in_time'       => 'nullable|date',
             'blood_type_verified' => 'nullable|string|max:255',
@@ -102,10 +93,12 @@ class DonationRecordController extends Controller
             'health_status'       => 'nullable|string',
             'failure_reason'      => 'nullable|string',
             'notes'               => 'nullable|string',
-            'EmailConfirm'        => 'nullable|string|max:255',
         ]);
 
         $donationRecord->fill($validated);
+        if ($donationRecord->EmailConfirm == null) {
+            $donationRecord->EmailConfirm = auth()->user()->email;
+        }
         $donationRecord->save();
 
         flash(translate('Donation record has been updated successfully'))->success();

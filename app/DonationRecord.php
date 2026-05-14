@@ -10,9 +10,6 @@ class DonationRecord extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $keyType = 'string';
-    public $incrementing = false;
-
     protected $fillable = [
         'id', 'user_id', 'program_id', 'status', 'registration_time',
         'check_in_time', 'blood_type_verified', 'blood_volume',

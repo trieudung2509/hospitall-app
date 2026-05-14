@@ -27,7 +27,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">{{ translate('User') }} <span class="text-danger">*</span></label>
                         <div class="col-md-10">
-                            <select class="form-control aiz-selectpicker" name="user_id" data-live-search="true" required>
+                            <select class="form-control aiz-selectpicker" name="user_id" data-live-search="true" required disabled>
                                 @foreach ($users as $u)
                                     <option value="{{ $u->id }}" @if($u->id == $donationRecord->user_id) selected @endif>
                                         {{ $u->name }} ({{ $u->email }})
@@ -40,7 +40,7 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">{{ translate('Program') }} <span class="text-danger">*</span></label>
                         <div class="col-md-10">
-                            <select class="form-control aiz-selectpicker" name="program_id" data-live-search="true" required>
+                            <select class="form-control aiz-selectpicker" name="program_id" data-live-search="true" required disabled>
                                 @foreach ($programs as $p)
                                     <option value="{{ $p->id }}" @if($p->id == $donationRecord->program_id) selected @endif>
                                         {{ $p->name }}
@@ -100,13 +100,6 @@
                         <label class="col-md-2 col-form-label">{{ translate('Notes') }}</label>
                         <div class="col-md-10">
                             <textarea name="notes" class="form-control" rows="3">{{ $donationRecord->notes }}</textarea>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Email Confirm') }}</label>
-                        <div class="col-md-10">
-                            <input type="text" name="EmailConfirm" class="form-control" value="{{ $donationRecord->EmailConfirm }}">
                         </div>
                     </div>
 

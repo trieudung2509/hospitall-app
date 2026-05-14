@@ -57,13 +57,13 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>{{ translate('ID') }}</th>
                     <th>{{ translate('User') }}</th>
                     <th>{{ translate('Program') }}</th>
                     <th>{{ translate('Status') }}</th>
                     <th>{{ translate('Blood Type') }}</th>
                     <th>{{ translate('Volume') }}</th>
                     <th>{{ translate('Reg Time') }}</th>
+                    <th>{{ translate('Confirmed By') }}</th>
                     <th class="text-right">{{ translate('Options') }}</th>
                 </tr>
             </thead>
@@ -71,7 +71,6 @@
                 @foreach($donation_records as $key => $record)
                 <tr>
                     <td>{{ ($key+1) + ($donation_records->currentPage() - 1) * $donation_records->perPage() }}</td>
-                    <td>{{ $record->id }}</td>
                     <td>{{ $record->user ? $record->user->name : '--' }}</td>
                     <td>{{ $record->program ? $record->program->name : '--' }}</td>
                     <td>
@@ -86,6 +85,7 @@
                     <td>{{ $record->blood_type_verified ?? '--' }}</td>
                     <td>{{ $record->blood_volume ?? '--' }} ml</td>
                     <td>{{ $record->registration_time ? $record->registration_time->format('Y-m-d H:i') : '--' }}</td>
+                    <td>{{ $record->EmailConfirm ?? '--' }}</td>
                     <td class="text-right">
                         <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{ route('donation-records.edit', $record->id) }}" title="{{ translate('Edit') }}">
                             <i class="las la-pen"></i>

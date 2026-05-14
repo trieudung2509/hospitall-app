@@ -9,7 +9,7 @@ class CreateDonationRecordsTable extends Migration
     public function up()
     {
         Schema::create('donation_records', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('program_id');
             $table->enum('status', ['Registered', 'Completed', 'Canceled'])->default('Registered');
