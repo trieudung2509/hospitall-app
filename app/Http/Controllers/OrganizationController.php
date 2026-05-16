@@ -26,6 +26,10 @@ class OrganizationController extends Controller
 
         $organizations = Organization::orderBy('created_at', 'desc');
 
+        if (auth()->user()->user_type == 'organization') {
+            $organizations = auth()->user()->organizations()->orderBy('created_at', 'desc');
+        }
+
         if ($request->search != null) {
             $organizations = $organizations->where('org_name', 'like', '%'.$request->search.'%');
             $sort_search = $request->search;
@@ -37,7 +41,7 @@ class OrganizationController extends Controller
         }
 
         if ($request->status !== null && $request->status !== '') {
-            $organizations = $organizations->where('status', (int) $request->status);
+            $organizations = $organizations->where('organizations.status', (int) $request->status);
             $sort_status = $request->status;
         }
 
@@ -48,11 +52,19 @@ class OrganizationController extends Controller
 
     public function create()
     {
+        if (auth()->user()->user_type == 'organization') {
+            flash(translate('Access Denied'))->danger();
+            return redirect()->route('organizations.index');
+        }
         return view('backend.organizations.create');
     }
 
     public function store(Request $request)
     {
+        if (auth()->user()->user_type == 'organization') {
+            flash(translate('Access Denied'))->danger();
+            return redirect()->route('organizations.index');
+        }
         $validated = $request->validate([
             'org_name'       => 'required|string|max:255',
             'org_type'       => 'nullable|string|max:255',
@@ -119,6 +131,10 @@ class OrganizationController extends Controller
 
     public function edit($id)
     {
+        if (auth()->user()->user_type == 'organization') {
+            flash(translate('Access Denied'))->danger();
+            return redirect()->route('organizations.index');
+        }
         $organization = Organization::findOrFail($id);
         $linkedUser   = $organization->linkedUser();
         return view('backend.organizations.edit', compact('organization', 'linkedUser'));
@@ -126,6 +142,10 @@ class OrganizationController extends Controller
 
     public function update(Request $request, $id)
     {
+        if (auth()->user()->user_type == 'organization') {
+            flash(translate('Access Denied'))->danger();
+            return redirect()->route('organizations.index');
+        }
         $organization = Organization::findOrFail($id);
         $pivot        = OrganizationUser::where('org_id', $organization->id)->first();
         $linkedUserId = $pivot ? $pivot->user_id : null;
@@ -170,6 +190,10 @@ class OrganizationController extends Controller
 
     public function destroy($id)
     {
+        if (auth()->user()->user_type == 'organization') {
+            flash(translate('Access Denied'))->danger();
+            return redirect()->route('organizations.index');
+        }
         $organization = Organization::findOrFail($id);
 
         Program::where('org_id', $organization->id)->delete();
@@ -187,6 +211,9 @@ class OrganizationController extends Controller
 
     public function change_status(Request $request)
     {
+        if (auth()->user()->user_type == 'organization') {
+            return 0;
+        }
         $organization = Organization::findOrFail($request->id);
         $organization->status = (int) $request->status;
         $organization->save();

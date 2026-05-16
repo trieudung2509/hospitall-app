@@ -16,7 +16,7 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff')) {
+        if (Auth::guard('admin')->check() && (Auth::guard('admin')->user()->user_type == 'admin' || Auth::guard('admin')->user()->user_type == 'staff' || Auth::guard('admin')->user()->user_type == 'organization')) {
             return $next($request);
         }
         else{

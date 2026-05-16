@@ -70,14 +70,25 @@
                                 <li><a href="{{ route('about_page') }}" title="{{ translate('About Us') }}">{{ translate('Giới thiệu') }}</a></li>
 
                                 <li>
-                                    <a href="{{ route('campaign') }}">{{ translate('Chiến dịch') }}</a>
-                                </li>
-
-                                <li>
-                                    <a href="{{ route('news_page_list') }}">{{ translate('Tin tức') }}</a>
+                                    <a href="{{ route('campaign') }}">{{ translate('Chương trình') }}</a>
                                 </li>
 
                                 <li><a href="{{ route('contact_us') }}">{{ translate('Liên hệ') }}</a></li>
+
+                                @auth
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            {{ Auth::user()->name }} <b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{{ route('dashboard') }}">{{ translate('Lịch sử đăng ký') }}</a></li>
+                                            <li><a href="{{ route('logout') }}">{{ translate('Đăng xuất') }}</a></li>
+                                        </ul>
+                                    </li>
+                                @else
+                                    <li><a href="{{ route('login') }}">{{ translate('Đăng nhập') }}</a></li>
+                                    <li><a href="{{ route('register') }}">{{ translate('Đăng ký') }}</a></li>
+                                @endauth
                             </ul>
                         </div>
                     </div>

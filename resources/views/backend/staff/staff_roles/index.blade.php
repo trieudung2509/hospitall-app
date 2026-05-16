@@ -5,11 +5,11 @@
 <div class="aiz-titlebar text-left mt-2 mb-3">
 	<div class="row align-items-center">
 		<div class="col-md-6">
-			<h1 class="h3">{{translate('All Role')}}</h1>
+			<h1 class="h3">{{translate('Tất cả vai trò')}}</h1>
 		</div>
 		<div class="col-md-6 text-md-right">
 			<a href="{{ route('roles.create') }}" class="btn btn-circle btn-info">
-				<span>{{translate('Add New Role')}}</span>
+				<span>{{translate('Thêm vai trò mới')}}</span>
 			</a>
 		</div>
 	</div>
@@ -17,15 +17,15 @@
 
 <div class="card">
     <div class="card-header">
-        <h5 class="mb-0 h6">{{translate('Roles')}}</h5>
+        <h5 class="mb-0 h6">{{translate('Vai trò')}}</h5>
     </div>
     <div class="card-body">
         <table class="table aiz-table">
             <thead>
                 <tr>
                     <th width="10%">#</th>
-                    <th>{{translate('Name')}}</th>
-                    <th width="10%">{{translate('Options')}}</th>
+                    <th>{{translate('Tên')}}</th>
+                    <th width="10%">{{translate('Tùy chọn')}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,10 +34,10 @@
                         <td>{{ ($key+1) + ($roles->currentPage() - 1)*$roles->perPage() }}</td>
                         <td>{{ $role->getTranslation('name')}}</td>
                         <td class="text-right">
-                            <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('roles.edit', ['id'=>$role->id, 'lang'=>env('DEFAULT_LANGUAGE')] )}}" title="{{ translate('Edit') }}">
+                            <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('roles.edit', ['id'=>$role->id, 'lang'=>env('DEFAULT_LANGUAGE')] )}}" title="{{ translate('Chỉnh sửa') }}">
                                 <i class="las la-edit"></i>
                             </a>
-                            <a href="#" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" data-href="{{route('roles.destroy', $role->id)}}" title="{{ translate('Delete') }}">
+                            <a href="#" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" data-href="{{route('roles.destroy', $role->id)}}" title="{{ translate('Xóa') }}">
                                 <i class="las la-trash"></i>
                             </a>
                         </td>

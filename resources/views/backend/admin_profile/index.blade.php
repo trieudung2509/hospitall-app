@@ -5,16 +5,16 @@
     <div class="col-lg-6  mx-auto">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0 h6">{{translate('Profile')}}</h5>
+                <h5 class="mb-0 h6">{{translate('Hồ sơ')}}</h5>
             </div>
             <div class="card-body">
                 <form class="form-horizontal" action="{{ route('profile.update', Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
                     <input name="_method" type="hidden" value="PATCH">
                 	@csrf
                     <div class="form-group row">
-                        <label class="col-sm-3 col-from-label" for="name">{{translate('Name')}}</label>
+                        <label class="col-sm-3 col-from-label" for="name">{{translate('Tên')}}</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="{{translate('Name')}}" name="name" value="{{ Auth::user()->name }}" required>
+                            <input type="text" class="form-control" placeholder="{{translate('Tên')}}" name="name" value="{{ Auth::user()->name }}" required>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -24,25 +24,25 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-from-label" for="new_password">{{translate('New Password')}}</label>
+                        <label class="col-sm-3 col-from-label" for="new_password">{{translate('Mật khẩu mới')}}</label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" placeholder="{{translate('New Password')}}" name="new_password">
+                            <input type="password" class="form-control" placeholder="{{translate('Mật khẩu mới')}}" name="new_password">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-from-label" for="confirm_password">{{translate('Confirm Password')}}</label>
+                        <label class="col-sm-3 col-from-label" for="confirm_password">{{translate('Xác nhận mật khẩu')}}</label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" placeholder="{{translate('Confirm Password')}}" name="confirm_password">
+                            <input type="password" class="form-control" placeholder="{{translate('Xác nhận mật khẩu')}}" name="confirm_password">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label" for="signinSrEmail">{{translate('Avatar')}} <small>(90x90)</small></label>
+                        <label class="col-md-3 col-form-label" for="signinSrEmail">{{translate('Ảnh đại diện')}} <small>(90x90)</small></label>
                         <div class="col-md-9">
                             <div class="input-group" data-toggle="aizuploader" data-type="image">
                                 <div class="input-group-prepend">
-                                    <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse')}}</div>
+                                    <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Duyệt')}}</div>
                                 </div>
-                                <div class="form-control file-amount">{{ translate('Choose File') }}</div>
+                                <div class="form-control file-amount">{{ translate('Chọn tệp') }}</div>
                                 <input type="hidden" name="avatar" class="selected-files" value="{{ Auth::user()->avatar_original }}">
                             </div>
                             <div class="file-preview box sm">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="form-group mb-0 text-right">
-                        <button type="submit" class="btn btn-primary">{{translate('Save')}}</button>
+                        <button type="submit" class="btn btn-primary">{{translate('Lưu')}}</button>
                     </div>
                 </form>
             </div>

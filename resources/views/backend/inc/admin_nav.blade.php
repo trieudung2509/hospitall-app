@@ -23,7 +23,7 @@
             <div class="d-none d-md-flex justify-content-around align-items-center align-items-stretch">
                 <div class="aiz-topbar-item">
                     <div class="d-flex align-items-center">
-                        <a class="btn btn-icon btn-circle btn-light" href="{{ route('home')}}" target="_blank" title="{{ translate('Browse Website') }}">
+                        <a class="btn btn-icon btn-circle btn-light" href="{{ route('home')}}" target="_blank" title="{{ translate('Xem Website') }}">
                             <i class="las la-globe"></i>
                         </a>
                     </div>
@@ -46,7 +46,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-menu-lg py-0">
                         <div class="p-3 bg-light border-bottom">
-                            <h6 class="mb-0">{{ translate('Notifications') }}</h6>
+                            <h6 class="mb-0">{{ translate('Thông báo') }}</h6>
                         </div>
                         <div class="px-3 c-scrollbar-light overflow-auto " style="max-height:300px;">
                             <ul class="list-group list-group-flush">
@@ -61,6 +61,13 @@
                                             <small class="text-muted">
                                                 {{ date("F j Y, g:i a", strtotime($notification->created_at)) }}
                                             </small>
+                                            @elseif($notification->type == 'App\Notifications\ProgramNotification')
+                                            <p class="mb-1 text-truncate-2">
+                                                {{translate('Yêu cầu phê duyệt chương trình mới: ')}} {{$notification->data['program_name']}} {{ translate('từ')}} {{$notification->data['org_name']}}
+                                            </p>
+                                            <small class="text-muted">
+                                                {{ date("F j Y, g:i a", strtotime($notification->created_at)) }}
+                                            </small>
                                             @endif
                                         </div>
                                     </div>
@@ -68,7 +75,7 @@
                                 @empty
                                 <li class="list-group-item">
                                     <div class="py-4 text-center fs-16">
-                                        {{ translate('No notification found') }}
+                                        {{ translate('Không tìm thấy thông báo') }}
                                     </div>
                                 </li>
                                 @endforelse
@@ -76,7 +83,7 @@
                         </div>
                         <div class="text-center border-top">
                             <a href="{{ route('admin.all-notification') }}" class="text-reset d-block py-2">
-                                {{translate('View All Notifications')}}
+                                {{translate('Xem tất cả thông báo')}}
                             </a>
                         </div>
                     </div>
@@ -129,12 +136,12 @@
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-menu-md">
                         <a href="{{ route('profile.index') }}" class="dropdown-item">
                             <i class="las la-user-circle"></i>
-                            <span>{{translate('Profile')}}</span>
+                            <span>{{translate('Hồ sơ')}}</span>
                         </a>
 
                         <a href="{{ route('logout')}}" class="dropdown-item">
                             <i class="las la-sign-out-alt"></i>
-                            <span>{{translate('Logout')}}</span>
+                            <span>{{translate('Đăng xuất')}}</span>
                         </a>
                     </div>
                 </div>

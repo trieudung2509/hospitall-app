@@ -52,6 +52,16 @@ class RegisterController extends Controller
     }
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+        return view('frontend.auth.register');
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -78,6 +88,7 @@ class RegisterController extends Controller
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
+                'user_type' => 'user',
             ]);
 
             $customer = new Customer;
@@ -90,7 +101,8 @@ class RegisterController extends Controller
                     'name' => $data['name'],
                     'phone' => '+'.$data['country_code'].$data['phone'],
                     'password' => Hash::make($data['password']),
-                    'verification_code' => rand(100000, 999999)
+                    'verification_code' => rand(100000, 999999),
+                    'user_type' => 'user',
                 ]);
 
                 $customer = new Customer;
@@ -144,15 +156,9 @@ class RegisterController extends Controller
         $this->guard()->login($user);
 
         if($user->email != null){
-            if(BusinessSetting::where('type', 'email_verification')->first()->value != 1){
-                $user->email_verified_at = date('Y-m-d H:m:s');
-                $user->save();
-                flash(translate('Registration successfull.'))->success();
-            }
-            else {
-                event(new Registered($user));
-                flash(translate('Registration successfull. Please verify your email.'))->success();
-            }
+            $user->email_verified_at = date('Y-m-d H:m:s');
+            $user->save();
+            flash(translate('Registration successfull.'))->success();
         }
 
         return $this->registered($request, $user)

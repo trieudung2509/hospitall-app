@@ -18,6 +18,12 @@ class DonationRecordController extends Controller
 
         $donation_records = DonationRecord::orderBy('created_at', 'desc');
 
+        if (auth()->user()->user_type == 'organization') {
+            $org_ids = auth()->user()->organizations->pluck('id');
+            $program_ids = Program::whereIn('org_id', $org_ids)->pluck('id');
+            $donation_records = $donation_records->whereIn('program_id', $program_ids);
+        }
+
         if ($request->search != null) {
             $donation_records = $donation_records->where('id', 'like', '%'.$request->search.'%');
             $sort_search = $request->search;
@@ -33,7 +39,12 @@ class DonationRecordController extends Controller
             $sort_status = $request->status;
         }
 
-        $programs = Program::orderBy('name')->get();
+        $programs = Program::orderBy('name');
+        if (auth()->user()->user_type == 'organization') {
+            $org_ids = auth()->user()->organizations->pluck('id');
+            $programs = $programs->whereIn('org_id', $org_ids);
+        }
+        $programs = $programs->get();
         $donation_records = $donation_records->paginate(15);
 
         return view('backend.donation_records.index', compact('donation_records', 'programs', 'sort_search', 'sort_program', 'sort_status'));
@@ -41,7 +52,12 @@ class DonationRecordController extends Controller
 
     public function create()
     {
-        $programs = Program::where('status', 'activated')->orderBy('name')->get();
+        $programs = Program::where('status', 'activated')->orderBy('name');
+        if (auth()->user()->user_type == 'organization') {
+            $org_ids = auth()->user()->organizations->pluck('id');
+            $programs = $programs->whereIn('org_id', $org_ids);
+        }
+        $programs = $programs->get();
         $users = User::orderBy('name')->get();
         return view('backend.donation_records.create', compact('programs', 'users'));
     }
@@ -73,7 +89,20 @@ class DonationRecordController extends Controller
     public function edit($id)
     {
         $donationRecord = DonationRecord::findOrFail($id);
-        $programs = Program::orderBy('name')->get();
+        if (auth()->user()->user_type == 'organization') {
+            $org_ids = auth()->user()->organizations->pluck('id');
+            $program_ids = Program::whereIn('org_id', $org_ids)->pluck('id');
+            if (!$program_ids->contains($donationRecord->program_id)) {
+                flash(translate('Access Denied'))->danger();
+                return redirect()->route('donation-records.index');
+            }
+        }
+        $programs = Program::orderBy('name');
+        if (auth()->user()->user_type == 'organization') {
+            $org_ids = auth()->user()->organizations->pluck('id');
+            $programs = $programs->whereIn('org_id', $org_ids);
+        }
+        $programs = $programs->get();
         $users = User::orderBy('name')->get();
 
         return view('backend.donation_records.edit', compact('donationRecord', 'programs', 'users'));
@@ -82,6 +111,14 @@ class DonationRecordController extends Controller
     public function update(Request $request, $id)
     {
         $donationRecord = DonationRecord::findOrFail($id);
+        if (auth()->user()->user_type == 'organization') {
+            $org_ids = auth()->user()->organizations->pluck('id');
+            $program_ids = Program::whereIn('org_id', $org_ids)->pluck('id');
+            if (!$program_ids->contains($donationRecord->program_id)) {
+                flash(translate('Access Denied'))->danger();
+                return redirect()->route('donation-records.index');
+            }
+        }
 
         $validated = $request->validate([
             'user_id'             => 'nullable|integer|exists:users,id',
@@ -107,7 +144,16 @@ class DonationRecordController extends Controller
 
     public function destroy($id)
     {
-        DonationRecord::findOrFail($id)->delete();
+        $donationRecord = DonationRecord::findOrFail($id);
+        if (auth()->user()->user_type == 'organization') {
+            $org_ids = auth()->user()->organizations->pluck('id');
+            $program_ids = Program::whereIn('org_id', $org_ids)->pluck('id');
+            if (!$program_ids->contains($donationRecord->program_id)) {
+                flash(translate('Access Denied'))->danger();
+                return redirect()->route('donation-records.index');
+            }
+        }
+        $donationRecord->delete();
         flash(translate('Donation record has been deleted successfully'))->success();
         return redirect()->route('donation-records.index');
     }

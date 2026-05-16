@@ -80,7 +80,7 @@
                     <div class="col-sm-12">
                         <div class="blog-pagination text-center clearfix">                
                             {{ $programs->links() }}
-                        </div>
+                        </div> 
                     </div>
                 </div>
 

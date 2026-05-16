@@ -37,6 +37,19 @@ class LoginController extends Controller
 
 
     /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm()
+    {
+        if (str_contains(url()->previous(), 'admin') || request()->is('admin*')) {
+            return view('auth.login');
+        }
+        return view('frontend.auth.login');
+    }
+
+    /**
      * Redirect the user to the Google authentication page.
      *
      * @return \Illuminate\Http\Response
@@ -110,14 +123,27 @@ class LoginController extends Controller
      * Check user's role and redirect user based on their role
      * @return
      */
-    public function authenticated()
+    public function authenticated(Request $request, $user)
     {
+        if (str_contains(url()->previous(), 'admin') || request()->is('admin*')) {
+            if (!in_array($user->user_type, ['admin', 'staff', 'organization'])) {
+                auth()->logout();
+                flash(translate('Access Denied'))->error();
+                return redirect()->route('admin.login');
+            }
+        } else {
+            if ($user->user_type != 'user') {
+                auth()->logout();
+                flash(translate('Access Denied'))->error();
+                return redirect()->route('login');
+            }
+        }
 
         if (session('temp_user_id') != null) {
             Cart::where('temp_user_id', session('temp_user_id'))
                 ->update(
                     [
-                        'user_id' => auth()->user()->id,
+                        'user_id' => $user->id,
                         'temp_user_id' => null
                     ]
                 );
@@ -126,7 +152,7 @@ class LoginController extends Controller
         }
 
 
-        if (auth()->user()->user_type == 'admin' || auth()->user()->user_type == 'staff') {
+        if (in_array($user->user_type, ['admin', 'staff', 'organization'])) {
             return redirect()->route('admin.dashboard');
         } else {
 
@@ -153,6 +179,19 @@ class LoginController extends Controller
     }
 
     /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        if (str_contains(url()->previous(), 'admin') || request()->is('admin*')) {
+            return auth()->guard('admin');
+        }
+        return auth()->guard('web');
+    }
+
+    /**
      * Log the user out of the application.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -160,8 +199,8 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        if (auth()->user() != null && (auth()->user()->user_type == 'admin' || auth()->user()->user_type == 'staff')) {
-            $redirect_route = 'login';
+        if ($this->guard()->user() != null && in_array($this->guard()->user()->user_type, ['admin', 'staff', 'organization'])) {
+            $redirect_route = 'admin.login';
         } else {
             $redirect_route = 'home';
         }

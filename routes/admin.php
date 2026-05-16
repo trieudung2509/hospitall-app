@@ -11,12 +11,15 @@
   |
  */
 
+Route::get('admin/login', 'Auth\LoginController@showLoginForm')->name('admin.login');
+Route::post('admin/login', 'Auth\LoginController@login');
+
 Route::post('/update', 'UpdateController@step0')->name('update');
 Route::get('/update/step1', 'UpdateController@step1')->name('update.step1');
 Route::get('/update/step2', 'UpdateController@step2')->name('update.step2');
 
-Route::get('/admin', 'AdminController@admin_dashboard')->name('admin.dashboard')->middleware(['auth', 'admin']);
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function() {
+Route::get('/admin', 'AdminController@admin_dashboard')->name('admin.dashboard')->middleware(['auth:admin', 'admin']);
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'admin']], function() {
     // about us
     Route::get('/about-us', 'AboutUsController@edit')->name('aboutus.edit');
     Route::post('/about-us', 'AboutUsController@update')->name('aboutus.update');

@@ -5,19 +5,19 @@
 <div class="col-lg-7 mx-auto">
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0 h6">{{translate('Role Information')}}</h5>
+            <h5 class="mb-0 h6">{{translate('Thông tin quyền hạn')}}</h5>
         </div>
         <form action="{{ route('roles.store') }}" method="POST">
             @csrf
             <div class="card-body">
                 <div class="form-group row">
-                    <label class="col-md-3 col-from-label" for="name">{{translate('Name')}}</label>
+                    <label class="col-md-3 col-from-label" for="name">{{translate('Tên')}}</label>
                     <div class="col-md-9">
-                        <input type="text" placeholder="{{translate('Name')}}" id="name" name="name" class="form-control" required>
+                        <input type="text" placeholder="{{translate('Tên')}}" id="name" name="name" class="form-control" required>
                     </div>
                 </div>
                 <div class="card-header">
-                    <h5 class="mb-0 h6">{{ translate('Permissions') }}</h5>
+                    <h5 class="mb-0 h6">{{ translate('Quyền hạn') }}</h5>
                 </div>
                 <br>
                 <div class="form-group row">
@@ -25,7 +25,7 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-10">
-                                <label class="col-from-label">{{ translate('Dashboard') }}</label>
+                                <label class="col-from-label">{{ translate('Bảng điều khiển') }}</label>
                             </div>
                             <div class="col-md-2">
                                 <label class="aiz-switch aiz-switch-success mb-0">
@@ -36,7 +36,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-10">
-                                <label class="col-from-label">{{ translate('About Us') }}</label>
+                                <label class="col-from-label">{{ translate('Về chúng tôi') }}</label>
                             </div>
                             <div class="col-md-2">
                                 <label class="aiz-switch aiz-switch-success mb-0">
@@ -47,7 +47,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-10">
-                                <label class="col-from-label">{{ translate('Marketing') }}</label>
+                                <label class="col-from-label">{{ translate('Tiếp thị') }}</label>
                             </div>
                             <div class="col-md-2">
                                 <label class="aiz-switch aiz-switch-success mb-0">
@@ -58,7 +58,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-10">
-                                <label class="col-from-label">{{ translate('Slider Banners') }}</label>
+                                <label class="col-from-label">{{ translate('Banner trình chiếu') }}</label>
                             </div>
                             <div class="col-md-2">
                                 <label class="aiz-switch aiz-switch-success mb-0">
@@ -69,7 +69,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-10">
-                                <label class="col-from-label">{{ translate('Website Setup') }}</label>
+                                <label class="col-from-label">{{ translate('Thiết lập Website') }}</label>
                             </div>
                             <div class="col-md-2">
                                 <label class="aiz-switch aiz-switch-success mb-0">
@@ -80,7 +80,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-10">
-                                <label class="col-from-label">{{ translate('Setup & Configurations') }}</label>
+                                <label class="col-from-label">{{ translate('Cài đặt & Cấu hình') }}</label>
                             </div>
                             <div class="col-md-2">
                                 <label class="aiz-switch aiz-switch-success mb-0">
@@ -91,7 +91,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-10">
-                                <label class="col-from-label">{{ translate('Staffs') }}</label>
+                                <label class="col-from-label">{{ translate('Nhân viên') }}</label>
                             </div>
                             <div class="col-md-2">
                                 <label class="aiz-switch aiz-switch-success mb-0">
@@ -102,7 +102,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-10">
-                                <label class="col-from-label">{{ translate('Uploaded Files') }}</label>
+                                <label class="col-from-label">{{ translate('Tệp đã tải lên') }}</label>
                             </div>
                             <div class="col-md-2">
                                 <label class="aiz-switch aiz-switch-success mb-0">
@@ -111,7 +111,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-md-10">
                                 <label class="col-from-label">{{ translate('Blog System') }}</label>
                             </div>
@@ -121,10 +121,10 @@
                                     <span class="slider round"></span>
                                 </label>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row">
                             <div class="col-md-10">
-                                <label class="col-from-label">{{ translate('Organizations & Programs') }}</label>
+                                <label class="col-from-label">{{ translate('Tổ chức & Chương trình') }}</label>
                             </div>
                             <div class="col-md-2">
                                 <label class="aiz-switch aiz-switch-success mb-0">
@@ -136,7 +136,7 @@
                     </div>
                 </div>
                 <div class="form-group mb-0 text-right">
-                    <button type="submit" class="btn btn-sm btn-primary">{{translate('Save')}}</button>
+                    <button type="submit" class="btn btn-sm btn-primary">{{translate('Lưu')}}</button>
                 </div>
             </div>
         </from>

@@ -10,7 +10,10 @@ class CampaignController extends Controller
 {
     public function index()
     {
-        $programs = Program::where('status', 1)->latest()->paginate(10);
+        // querry data từ database ra.
+        $programs = Program::where('status', 'activated')->latest()->paginate(10);
+
+        // truyền data xuống view.
         return view('frontend.campaign', compact('programs'));
     }
 
@@ -21,8 +24,8 @@ class CampaignController extends Controller
             $program = Program::findOrFail($slug);
         }
 
-        $next_program = Program::where('id', '>', $program->id)->where('status', 1)->orderBy('id', 'asc')->first();
-        $prev_program = Program::where('id', '<', $program->id)->where('status', 1)->orderBy('id', 'desc')->first();
+        $next_program = Program::where('id', '>', $program->id)->where('status', 'activated')->orderBy('id', 'asc')->first();
+        $prev_program = Program::where('id', '<', $program->id)->where('status', 'activated')->orderBy('id', 'desc')->first();
 
         return view('frontend.detail_campaign', compact('program', 'next_program', 'prev_program'));
     }

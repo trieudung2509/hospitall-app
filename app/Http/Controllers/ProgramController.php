@@ -7,6 +7,9 @@ use App\Organization;
 use App\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\User;
+use App\Notifications\ProgramNotification;
+use Illuminate\Support\Facades\Notification;
 
 class ProgramController extends Controller
 {
@@ -17,6 +20,11 @@ class ProgramController extends Controller
         $sort_status = null;
 
         $programs = Program::orderBy('start_time', 'desc');
+
+        if (auth()->user()->user_type == 'organization') {
+            $org_ids = auth()->user()->organizations->pluck('id');
+            $programs = $programs->whereIn('org_id', $org_ids);
+        }
 
         if ($request->search != null) {
             $programs = $programs->where('name', 'like', '%'.$request->search.'%');
@@ -29,12 +37,15 @@ class ProgramController extends Controller
         }
 
         if ($request->status != null && $request->status !== '') {
-            $request->status = $request->status == 'activated' ? 1 : 0;
             $programs = $programs->where('status', $request->status);
             $sort_status = $request->status;
         }
 
-        $organizations = Organization::orderBy('org_name')->get();
+        $organizations = Organization::orderBy('org_name');
+        if (auth()->user()->user_type == 'organization') {
+            $organizations = auth()->user()->organizations()->orderBy('org_name');
+        }
+        $organizations = $organizations->get();
         $programs      = $programs->paginate(15);
 
         return view('backend.programs.index', compact('programs', 'organizations', 'sort_search', 'sort_org', 'sort_status'));
@@ -42,7 +53,11 @@ class ProgramController extends Controller
 
     public function create()
     {
-        $organizations = Organization::where('status', 1)->orderBy('org_name')->get();
+        $organizations = Organization::where('organizations.status', 1)->orderBy('org_name');
+        if (auth()->user()->user_type == 'organization') {
+            $organizations = auth()->user()->organizations()->where('organizations.status', 1)->orderBy('org_name');
+        }
+        $organizations = $organizations->get();
         return view('backend.programs.create', compact('organizations'));
     }
 
@@ -65,12 +80,36 @@ class ProgramController extends Controller
             'meta_description' => 'nullable|string|max:1000',
         ]);
 
+        if (auth()->user()->user_type == 'organization' && !auth()->user()->organizations->contains($request->org_id)) {
+            flash(translate('Access Denied'))->danger();
+            return back();
+        }
+
         $program = new Program;
         $program->fill($validated);
-        $program->user_id     = Auth::id();
-        $program->approved_by = Auth::id();
-        $program->status      = 1;
+        $program->user_id = Auth::id();
+        
+        if (auth()->user()->user_type == 'organization') {
+            $program->status      = 'pending';
+            $program->approved_by = null;
+        } else {
+            $program->status      = 'activated';
+            $program->approved_by = Auth::id();
+        }
+        
         $program->save();
+
+        if ($program->status == 'pending') {
+            $users = User::whereIn('user_type', ['admin', 'staff'])->get();
+            $notification_data = [
+                'program_id'   => $program->id,
+                'program_name' => $program->name,
+                'org_name'     => $program->organization->org_name,
+                'status'       => $program->status,
+                'type'         => 'program_approval'
+            ];
+            Notification::send($users, new ProgramNotification($notification_data));
+        }
 
         flash(translate('Program has been created successfully'))->success();
         return redirect()->route('programs.index');
@@ -84,7 +123,15 @@ class ProgramController extends Controller
     public function edit($id)
     {
         $program       = Program::findOrFail($id);
-        $organizations = Organization::where('status', 1)->orderBy('org_name')->get();
+        if (auth()->user()->user_type == 'organization' && !auth()->user()->organizations->contains($program->org_id)) {
+            flash(translate('Access Denied'))->danger();
+            return redirect()->route('programs.index');
+        }
+        $organizations = Organization::where('organizations.status', 1)->orderBy('org_name');
+        if (auth()->user()->user_type == 'organization') {
+            $organizations = auth()->user()->organizations()->where('organizations.status', 1)->orderBy('org_name');
+        }
+        $organizations = $organizations->get();
 
         // Ensure the program's current org appears in the dropdown even if it's now inactive
         // or soft-deleted, so the value isn't silently swapped.
@@ -101,6 +148,10 @@ class ProgramController extends Controller
     public function update(Request $request, $id)
     {
         $program = Program::findOrFail($id);
+        if (auth()->user()->user_type == 'organization' && !auth()->user()->organizations->contains($program->org_id)) {
+            flash(translate('Access Denied'))->danger();
+            return redirect()->route('programs.index');
+        }
 
         $validated = $request->validate([
             'org_id'           => 'required|integer|exists:organizations,id',
@@ -117,9 +168,25 @@ class ProgramController extends Controller
             'slug'             => 'nullable|string|max:255',
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:1000',
+            'status'           => 'nullable|in:pending,activated,inActived',
         ]);
 
+        if (auth()->user()->user_type == 'organization' && !auth()->user()->organizations->contains($request->org_id)) {
+            flash(translate('Access Denied'))->danger();
+            return back();
+        }
+
         $program->fill($validated);
+
+        if (auth()->user()->user_type == 'admin' || auth()->user()->user_type == 'staff') {
+            if ($request->has('status')) {
+                if ($request->status == 'activated' && $program->status != 'activated') {
+                    $program->approved_by = auth()->id();
+                }
+                $program->status = $request->status;
+            }
+        }
+
         $program->save();
 
         flash(translate('Program has been updated successfully'))->success();
@@ -128,7 +195,12 @@ class ProgramController extends Controller
 
     public function destroy($id)
     {
-        Program::findOrFail($id)->delete();
+        $program = Program::findOrFail($id);
+        if (auth()->user()->user_type == 'organization' && !auth()->user()->organizations->contains($program->org_id)) {
+            flash(translate('Access Denied'))->danger();
+            return redirect()->route('programs.index');
+        }
+        $program->delete();
         flash(translate('Program has been deleted successfully'))->success();
         return redirect()->route('programs.index');
     }
@@ -136,8 +208,17 @@ class ProgramController extends Controller
     public function change_status(Request $request)
     {
         $program = Program::findOrFail($request->id);
-        // The toggle posts 0/1; map to the string enum stored in the column.
-        $program->status = $request->status === 1;
+        if (auth()->user()->user_type == 'organization' && !auth()->user()->organizations->contains($program->org_id)) {
+            return 0;
+        }
+        if ($request->status == 1) {
+            $program->status = 'activated';
+            if (auth()->user()->user_type == 'admin' || auth()->user()->user_type == 'staff') {
+                $program->approved_by = auth()->id();
+            }
+        } else {
+            $program->status = 'inActived';
+        }
         $program->save();
         return 1;
     }

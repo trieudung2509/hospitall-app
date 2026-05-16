@@ -150,4 +150,19 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(DonationRecord::class);
     }
+
+    public function canDo($permission_id)
+    {
+        if ($this->user_type == 'admin') {
+            return true;
+        }
+        if ($this->user_type == 'staff' && $this->staff && $this->staff->role) {
+            return in_array($permission_id, json_decode($this->staff->role->permissions));
+        }
+        if ($this->user_type == 'organization') {
+            // Organizations can access Dashboard (1, 8) and Programs (24)
+            return in_array($permission_id, ['1', '8', '24']);
+        }
+        return false;
+    }
 }

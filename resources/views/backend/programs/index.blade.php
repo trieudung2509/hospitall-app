@@ -5,11 +5,11 @@
 <div class="aiz-titlebar text-left mt-2 mb-3">
     <div class="row align-items-center">
         <div class="col-auto">
-            <h1 class="h3">{{ translate('All Programs') }}</h1>
+            <h1 class="h3">{{ translate('Tất cả chương trình') }}</h1>
         </div>
         <div class="col text-right">
             <a href="{{ route('programs.create') }}" class="btn btn-circle btn-info">
-                <span>{{ translate('Add New Program') }}</span>
+                <span>{{ translate('Thêm chương trình mới') }}</span>
             </a>
         </div>
     </div>
@@ -20,12 +20,12 @@
         <form id="filter_programs" method="GET">
             <div class="form-group row">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" name="search" placeholder="{{ translate('Search by name') }}"
+                    <input type="text" class="form-control" name="search" placeholder="{{ translate('Tìm kiếm theo tên') }}"
                         @isset($sort_search) value="{{ $sort_search }}" @endisset>
                 </div>
                 <div class="col-md-4">
                     <select class="form-control aiz-selectpicker" name="org_id" data-live-search="true">
-                        <option value="">{{ translate('All organizations') }}</option>
+                        <option value="">{{ translate('Tất cả tổ chức') }}</option>
                         @foreach ($organizations as $o)
                             <option value="{{ $o->id }}" @if ($sort_org == $o->id) selected @endif>{{ $o->org_name }}</option>
                         @endforeach
@@ -33,15 +33,16 @@
                 </div>
                 <div class="col-md-4">
                     <select class="form-control aiz-selectpicker" name="status">
-                        <option value="">{{ translate('All statuses') }}</option>
-                        <option value="activated" @if ($sort_status === "activated") selected @endif>{{ translate('Activated') }}</option>
-                        <option value="inActived" @if ($sort_status === "inActived") selected @endif>{{ translate('Inactive') }}</option>
+                        <option value="">{{ translate('Tất cả trạng thái') }}</option>
+                        <option value="activated" @if ($sort_status === "activated") selected @endif>{{ translate('Đã kích hoạt') }}</option>
+                        <option value="pending" @if ($sort_status === "pending") selected @endif>{{ translate('Đang chờ') }}</option>
+                        <option value="inActived" @if ($sort_status === "inActived") selected @endif>{{ translate('Ngừng hoạt động') }}</option>
                     </select>
                 </div>
             </div>
             <div class="offset-md-5 mb-0">
-                <button class="btn btn-primary" type="submit">{{ translate('Search') }}</button>
-                <a href="{{ route('programs.index') }}" class="btn btn-outline-info">{{ translate('Clear') }}</a>
+                <button class="btn btn-primary" type="submit">{{ translate('Tìm kiếm') }}</button>
+                <a href="{{ route('programs.index') }}" class="btn btn-outline-info">{{ translate('Xóa bộ lọc') }}</a>
             </div>
         </form>
     </div>
@@ -49,7 +50,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h5 class="mb-md-0 h6">{{ translate('All programs') }}</h5>
+        <h5 class="mb-md-0 h6">{{ translate('Tất cả chương trình') }}</h5>
     </div>
     <div class="card-body">
         <table class="table mb-0 aiz-table">
@@ -58,12 +59,12 @@
                     <th>#</th>
                     <th>{{ translate('ID') }}</th>
                     <th>{{ translate('Banner') }}</th>
-                    <th>{{ translate('Name') }}</th>
-                    <th>{{ translate('Organization') }}</th>
-                    <th>{{ translate('Start') }}</th>
-                    <th>{{ translate('End') }}</th>
-                    <th>{{ translate('Status') }}</th>
-                    <th class="text-right">{{ translate('Options') }}</th>
+                    <th>{{ translate('Tên') }}</th>
+                    <th>{{ translate('Tổ chức') }}</th>
+                    <th>{{ translate('Bắt đầu') }}</th>
+                    <th>{{ translate('Kết thúc') }}</th>
+                    <th>{{ translate('Trạng thái') }}</th>
+                    <th class="text-right">{{ translate('Tùy chọn') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,17 +84,29 @@
                     <td>{{ $program->start_time ? utcToLocalTime($program->start_time) : '--' }}</td>
                     <td>{{ $program->end_time ? utcToLocalTime($program->end_time) : '--' }}</td>
                     <td>
-                        <label class="aiz-switch aiz-switch-success mb-0">
-                            <input type="checkbox" onchange="change_status(this)"
-                                value="{{ $program->id }}" <?php if ($program->status == 1) echo "checked"; ?>>
-                            <span></span>
-                        </label>
+                        @if($program->status == 'pending')
+                            <span class="badge badge-inline badge-warning mb-1">{{ translate('Đang chờ') }}</span>
+                            @if(auth()->user()->user_type == 'admin' || auth()->user()->user_type == 'staff')
+                                <br>
+                                <label class="aiz-switch aiz-switch-success mb-0">
+                                    <input type="checkbox" onchange="change_status(this)"
+                                        value="{{ $program->id }}">
+                                    <span></span>
+                                </label>
+                            @endif
+                        @else
+                            <label class="aiz-switch aiz-switch-success mb-0">
+                                <input type="checkbox" onchange="change_status(this)"
+                                    value="{{ $program->id }}" <?php if ($program->status == 'activated') echo "checked"; ?>>
+                                <span></span>
+                            </label>
+                        @endif
                     </td>
                     <td class="text-right">
-                        <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{ route('programs.edit', $program->id) }}" title="{{ translate('Edit') }}">
+                        <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{ route('programs.edit', $program->id) }}" title="{{ translate('Chỉnh sửa') }}">
                             <i class="las la-pen"></i>
                         </a>
-                        <a href="#" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" data-href="{{ route('programs.destroy', $program->id) }}" title="{{ translate('Delete') }}">
+                        <a href="#" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" data-href="{{ route('programs.destroy', $program->id) }}" title="{{ translate('Xóa') }}">
                             <i class="las la-trash"></i>
                         </a>
                     </td>
@@ -119,9 +132,9 @@
         var status = el.checked ? 1 : 0;
         $.post('{{ route('programs.change-status') }}', { _token: '{{ csrf_token() }}', id: el.value, status: status }, function (data) {
             if (data == 1) {
-                AIZ.plugins.notify('success', '{{ translate('Program status updated') }}');
+                AIZ.plugins.notify('success', '{{ translate('Trạng thái chương trình đã được cập nhật') }}');
             } else {
-                AIZ.plugins.notify('danger', '{{ translate('Something went wrong') }}');
+                AIZ.plugins.notify('danger', '{{ translate('Đã xảy ra lỗi') }}');
             }
         });
     }

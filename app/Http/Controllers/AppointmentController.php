@@ -11,15 +11,19 @@ class AppointmentController extends Controller
 {
     public function store(Request $request)
     {
-        $user = User::where('email', $request->user_email)->first();
-        if (!$user) {
-            $user = new User();
-            $user->name = $request->user_name;
-            $user->email = $request->user_email;
-            $user->phone = $request->user_phone;
-            $user->user_type = 'participants';
-            $user->password = bcrypt(Str::random(10));
-            $user->save();
+        if (auth()->check()) {
+            $user = auth()->user();
+        } else {
+            $user = User::where('email', $request->user_email)->first();
+            if (!$user) {
+                $user = new User();
+                $user->name = $request->user_name;
+                $user->email = $request->user_email;
+                $user->phone = $request->user_phone;
+                $user->user_type = 'participants';
+                $user->password = bcrypt(Str::random(10));
+                $user->save();
+            }
         }
 
         $donationRecord = new DonationRecord();

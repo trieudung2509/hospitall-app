@@ -128,7 +128,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-md-10">
                                 <label class="col-from-label">{{ translate('Blog System') }}</label>
                             </div>
@@ -138,7 +138,7 @@
                                     <span class="slider round"></span>
                                 </label>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row">
                             <div class="col-md-10">
                                 <label class="col-from-label">{{ translate('Organizations & Programs') }}</label>

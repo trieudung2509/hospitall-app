@@ -35,26 +35,26 @@
 	<script>
     	var AIZ = AIZ || {};
         AIZ.local = {
-            nothing_selected: '{{ translate('Nothing selected') }}',
-            nothing_found: '{{ translate('Nothing found') }}',
-            choose_file: '{{ translate('Choose file') }}',
-            file_selected: '{{ translate('File selected') }}',
-            files_selected: '{{ translate('Files selected') }}',
-            add_more_files: '{{ translate('Add more files') }}',
-            adding_more_files: '{{ translate('Adding more files') }}',
-            drop_files_here_paste_or: '{{ translate('Drop files here, paste or') }}',
-            browse: '{{ translate('Browse') }}',
-            upload_complete: '{{ translate('Upload complete') }}',
-            upload_paused: '{{ translate('Upload paused') }}',
-            resume_upload: '{{ translate('Resume upload') }}',
-            pause_upload: '{{ translate('Pause upload') }}',
-            retry_upload: '{{ translate('Retry upload') }}',
-            cancel_upload: '{{ translate('Cancel upload') }}',
-            uploading: '{{ translate('Uploading') }}',
-            processing: '{{ translate('Processing') }}',
-            complete: '{{ translate('Complete') }}',
-            file: '{{ translate('File') }}',
-            files: '{{ translate('Files') }}',
+            nothing_selected: '{{ translate('Không có gì được chọn') }}',
+            nothing_found: '{{ translate('Không tìm thấy kết quả') }}',
+            choose_file: '{{ translate('Chọn tệp') }}',
+            file_selected: '{{ translate('Tệp đã chọn') }}',
+            files_selected: '{{ translate('Các tệp đã chọn') }}',
+            add_more_files: '{{ translate('Thêm tệp') }}',
+            adding_more_files: '{{ translate('Đang thêm tệp') }}',
+            drop_files_here_paste_or: '{{ translate('Thả tệp vào đây, dán hoặc') }}',
+            browse: '{{ translate('Duyệt') }}',
+            upload_complete: '{{ translate('Tải lên hoàn tất') }}',
+            upload_paused: '{{ translate('Tạm dừng tải lên') }}',
+            resume_upload: '{{ translate('Tiếp tục tải lên') }}',
+            pause_upload: '{{ translate('Tạm dừng tải lên') }}',
+            retry_upload: '{{ translate('Thử lại') }}',
+            cancel_upload: '{{ translate('Hủy tải lên') }}',
+            uploading: '{{ translate('Đang tải lên') }}',
+            processing: '{{ translate('Đang xử lý') }}',
+            complete: '{{ translate('Hoàn tất') }}',
+            file: '{{ translate('Tệp') }}',
+            files: '{{ translate('Tệp') }}',
         }
 	</script>
 
@@ -166,7 +166,7 @@
 						 $("#search-menu").append(`<li class="aiz-side-nav-item"><a href="${link}" class="aiz-side-nav-link"><i class="las la-ellipsis-h aiz-side-nav-icon"></i><span>${text}</span></a></li`);
 					}
 				}else{
-					$("#search-menu").html(`<li class="aiz-side-nav-item"><span	class="text-center text-muted d-block">{{ translate('Nothing Found') }}</span></li>`);
+					$("#search-menu").html(`<li class="aiz-side-nav-item"><span	class="text-center text-muted d-block">{{ translate('Không tìm thấy kết quả') }}</span></li>`);
 				}
 			}else{
 				$("#main-menu").removeClass('d-none');

@@ -16,10 +16,11 @@ class IsUser
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && 
-                (Auth::user()->user_type == 'customer' || 
-                Auth::user()->user_type == 'seller' || 
-                Auth::user()->user_type == 'delivery_boy') ) {
+        if (Auth::guard('web')->check() && 
+                (Auth::guard('web')->user()->user_type == 'customer' || 
+                Auth::guard('web')->user()->user_type == 'seller' || 
+                Auth::guard('web')->user()->user_type == 'user' ||
+                Auth::guard('web')->user()->user_type == 'delivery_boy') ) {
             
             return $next($request);
         }

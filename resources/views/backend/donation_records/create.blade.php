@@ -6,10 +6,10 @@
     <div class="col-lg-12 mx-auto">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0 h6">{{ translate('Donation Record Information') }}</h5>
+                <h5 class="mb-0 h6">{{ translate('Thông tin hồ sơ hiến máu') }}</h5>
                 <a href="{{ route('donation-records.index') }}" class="btn btn-link text-reset">
                     <i class="las la-angle-left"></i>
-                    <span>{{ translate('Back to records') }}</span>
+                    <span>{{ translate('Quay lại danh sách hồ sơ') }}</span>
                 </a>
             </div>
             <div class="card-body">
@@ -17,7 +17,7 @@
                     @csrf
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('User') }} <span class="text-danger">*</span></label>
+                        <label class="col-md-2 col-form-label">{{ translate('Người dùng') }} <span class="text-danger">*</span></label>
                         <div class="col-md-10">
                             <select class="form-control aiz-selectpicker" name="user_id" data-live-search="true" required>
                                 <option value="">--</option>
@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Program') }} <span class="text-danger">*</span></label>
+                        <label class="col-md-2 col-form-label">{{ translate('Chương trình') }} <span class="text-danger">*</span></label>
                         <div class="col-md-10">
                             <select class="form-control aiz-selectpicker" name="program_id" data-live-search="true" required>
                                 <option value="">--</option>
@@ -41,68 +41,68 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Status') }} <span class="text-danger">*</span></label>
+                        <label class="col-md-2 col-form-label">{{ translate('Trạng thái') }} <span class="text-danger">*</span></label>
                         <div class="col-md-10">
                             <select class="form-control aiz-selectpicker" name="status" required>
-                                <option value="Registered">{{ translate('Registered') }}</option>
-                                <option value="Completed">{{ translate('Completed') }}</option>
-                                <option value="Canceled">{{ translate('Canceled') }}</option>
+                                <option value="Registered">{{ translate('Đã đăng ký') }}</option>
+                                <option value="Completed">{{ translate('Đã hoàn thành') }}</option>
+                                <option value="Canceled">{{ translate('Đã hủy') }}</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Check-in Time') }}</label>
+                        <label class="col-md-2 col-form-label">{{ translate('Thời gian Check-in') }}</label>
                         <div class="col-md-10">
                             <input type="datetime-local" name="check_in_time" class="form-control">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Blood Type Verified') }}</label>
+                        <label class="col-md-2 col-form-label">{{ translate('Nhóm máu đã xác minh') }}</label>
                         <div class="col-md-10">
                             <input type="text" name="blood_type_verified" class="form-control">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Blood Volume (ml)') }}</label>
+                        <label class="col-md-2 col-form-label">{{ translate('Thể tích máu (ml)') }}</label>
                         <div class="col-md-10">
                             <input type="number" min="0" name="blood_volume" class="form-control">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Health Status') }}</label>
+                        <label class="col-md-2 col-form-label">{{ translate('Tình trạng sức khỏe') }}</label>
                         <div class="col-md-10">
                             <textarea name="health_status" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Failure Reason') }}</label>
+                        <label class="col-md-2 col-form-label">{{ translate('Lý do thất bại') }}</label>
                         <div class="col-md-10">
                             <textarea name="failure_reason" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Notes') }}</label>
+                        <label class="col-md-2 col-form-label">{{ translate('Ghi chú') }}</label>
                         <div class="col-md-10">
                             <textarea name="notes" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">{{ translate('Email Confirm') }}</label>
+                        <label class="col-md-2 col-form-label">{{ translate('Email xác nhận') }}</label>
                         <div class="col-md-10">
                             <input type="text" name="EmailConfirm" class="form-control">
                         </div>
                     </div>
 
                     <div class="form-group mb-0 text-right">
-                        <button type="submit" class="btn btn-primary">{{ translate('Save') }}</button>
-                        <a href="{{ route('donation-records.index') }}" class="btn btn-outline-info">{{ translate('Cancel') }}</a>
+                        <button type="submit" class="btn btn-primary">{{ translate('Lưu') }}</button>
+                        <a href="{{ route('donation-records.index') }}" class="btn btn-outline-info">{{ translate('Hủy') }}</a>
                     </div>
                 </form>
             </div>

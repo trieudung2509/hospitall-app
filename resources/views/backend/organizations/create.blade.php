@@ -6,10 +6,10 @@
     <div class="col-lg-8 mx-auto">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0 h6">{{ translate('Organization Information') }}</h5>
+                <h5 class="mb-0 h6">{{ translate('Thông tin tổ chức') }}</h5>
                 <a href="{{ route('organizations.index') }}" class="btn btn-link text-reset">
                     <i class="las la-angle-left"></i>
-                    <span>{{ translate('Back to organizations') }}</span>
+                    <span>{{ translate('Quay lại danh sách tổ chức') }}</span>
                 </a>
             </div>
             <div class="card-body">
@@ -17,43 +17,43 @@
                     @csrf
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">{{ translate('Organization name') }} <span class="text-danger">*</span></label>
+                        <label class="col-md-3 col-form-label">{{ translate('Tên tổ chức') }} <span class="text-danger">*</span></label>
                         <div class="col-md-9">
                             <input type="text" name="org_name" class="form-control" required>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">{{ translate('Type') }}</label>
+                        <label class="col-md-3 col-form-label">{{ translate('Loại') }}</label>
                         <div class="col-md-9">
-                            <input type="text" name="org_type" class="form-control" placeholder="{{ translate('e.g. hospital, clinic, ngo') }}">
+                            <input type="text" name="org_type" class="form-control" placeholder="{{ translate('Ví dụ: bệnh viện, phòng khám, tổ chức phi chính phủ') }}">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">{{ translate('Contact person') }}</label>
+                        <label class="col-md-3 col-form-label">{{ translate('Người liên hệ') }}</label>
                         <div class="col-md-9">
                             <input type="text" name="contact_person" class="form-control">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">{{ translate('Contact phone') }}</label>
+                        <label class="col-md-3 col-form-label">{{ translate('Số điện thoại liên hệ') }}</label>
                         <div class="col-md-9">
                             <input type="text" name="contact_phone" class="form-control">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">{{ translate('Contact email') }} <span class="text-danger">*</span></label>
+                        <label class="col-md-3 col-form-label">{{ translate('Email liên hệ') }} <span class="text-danger">*</span></label>
                         <div class="col-md-9">
                             <input type="email" name="contact_email" class="form-control" required>
-                            <small class="form-text text-muted">{{ translate('A user account (user_type=organization) will be created with this email.') }}</small>
+                            <small class="form-text text-muted">{{ translate('Một tài khoản người dùng (loại tổ chức) sẽ được tạo với email này.') }}</small>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">{{ translate('Status') }}</label>
+                        <label class="col-md-3 col-form-label">{{ translate('Trạng thái') }}</label>
                         <div class="col-md-9">
                             <input type="hidden" name="status" value="0">
                             <label class="aiz-switch aiz-switch-success mb-0">
@@ -64,8 +64,8 @@
                     </div>
 
                     <div class="form-group mb-0 text-right">
-                        <button type="submit" class="btn btn-primary">{{ translate('Save') }}</button>
-                        <a href="{{ route('organizations.index') }}" class="btn btn-outline-info">{{ translate('Cancel') }}</a>
+                        <button type="submit" class="btn btn-primary">{{ translate('Lưu') }}</button>
+                        <a href="{{ route('organizations.index') }}" class="btn btn-outline-info">{{ translate('Hủy') }}</a>
                     </div>
                 </form>
             </div>
