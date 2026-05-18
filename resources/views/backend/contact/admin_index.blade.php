@@ -5,25 +5,25 @@
 <div class="aiz-titlebar text-left mt-2 mb-3">
 	<div class="row align-items-center">
 		<div class="col-md-6">
-			<h1 class="h3">{{translate('All Contacts')}}</h1>
+			<h1 class="h3">{{translate('Liên hệ')}}</h1>
 		</div>
 	</div>
 </div>
 
 <div class="card">
     <div class="card-header">
-        <h5 class="mb-0 h6">{{translate('Contact Messages')}}</h5>
+        <h5 class="mb-0 h6">{{translate('Tin nhắn liên hệ')}}</h5>
     </div>
     <div class="card-body">
         <table class="table aiz-table mb-0">
             <thead>
                 <tr>
                     <th data-breakpoints="lg">#</th>
-                    <th>{{translate('Name')}}</th>
+                    <th>{{translate('Họ tên')}}</th>
                     <th>{{translate('Email')}}</th>
-                    <th data-breakpoints="lg">{{translate('Subject')}}</th>
-                    <th data-breakpoints="lg">{{translate('Message')}}</th>
-                    <th data-breakpoints="lg">{{translate('Date')}}</th>
+                    <th data-breakpoints="lg">{{translate('Tiêu đề')}}</th>
+                    <th data-breakpoints="lg">{{translate('Nội dung')}}</th>
+                    <th data-breakpoints="lg">{{translate('Ngày gửi')}}</th>
                 </tr>
             </thead>
             <tbody>

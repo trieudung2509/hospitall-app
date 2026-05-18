@@ -1,0 +1,405 @@
+// Generated from database/migrations/*.php
+// Use this file as the single source for table-diagram tooling.
+// Vendor migrations are excluded.
+
+Table users {
+  id bigint [pk, increment]
+  referred_by int [null]
+  provider_id varchar(50) [null]
+  user_type varchar [default: 'customer']
+  name varchar
+  email varchar [null]
+  email_verified_at timestamp [null]
+  verification_code text [null]
+  new_email_verificiation_code text [null]
+  password varchar [null]
+  remember_token varchar [null]
+  device_token varchar [null]
+  avatar varchar [null]
+  avatar_original varchar [null]
+  address varchar(300) [null]
+  country varchar(30) [null]
+  city varchar(30) [null]
+  postal_code varchar(20) [null]
+  phone varchar(20) [null]
+  balance double [default: 0.00]
+  banned tinyint [default: 0]
+  referral_code varchar [null]
+  customer_package_id int [null]
+  remaining_uploads int [default: 0]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp [null]
+}
+
+Table password_resets {
+  email varchar [index]
+  token varchar
+  created_at timestamp [null]
+}
+
+Table app_settings {
+  id bigint [pk, increment]
+  name varchar [null]
+  logo varchar [null]
+  currency_id int [null]
+  currency_format varchar [null]
+  facebook varchar [null]
+  twitter varchar [null]
+  instagram varchar [null]
+  youtube varchar [null]
+  google_plus varchar [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table banners {
+  id bigint [pk, increment]
+  photo varchar [null]
+  url varchar(1000) [null]
+  position int [default: 1]
+  published int [default: 0]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table blog_categories {
+  id bigint [pk, increment]
+  category_name varchar
+  slug varchar
+  parent_id int [null]
+  status boolean [default: 1]
+  display_order int [default: 0]
+  description text [null]
+  short_description text [null]
+  meta_img varchar [null]
+  meta_title varchar [null]
+  meta_description text [null]
+  is_show_menu boolean [default: 0]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp [null]
+}
+
+Table blogs {
+  id bigint [pk, increment]
+  category_id int
+  title varchar
+  slug varchar
+  short_description varchar [null]
+  description text [null]
+  banner int [null]
+  user_id bigint
+  status int [default: 0]
+  published_date datetime [null]
+  post_modified datetime [null]
+  meta_title varchar [null]
+  meta_img int [null]
+  meta_description varchar [null]
+  meta_keywords text [null]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp [null]
+}
+
+Table business_settings {
+  id bigint [pk, increment]
+  type varchar(30)
+  value longtext [null]
+  lang varchar(30) [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table countries {
+  id bigint [pk, increment]
+  code varchar(2)
+  status int [default: 1]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table customers {
+  id bigint [pk, increment]
+  user_id int
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table customer_packages {
+  id bigint [pk, increment]
+  name varchar [null]
+  amount double [null]
+  product_upload int [null]
+  logo varchar(150) [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table firebase_notifications {
+  id bigint [pk, increment]
+  title varchar [null]
+  text text [null]
+  item_type varchar [null]
+  item_type_id int
+  receiver_id int
+  is_read tinyint
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table home_categories {
+  id bigint [pk, increment]
+  category_id int
+  subsubcategories varchar [null]
+  status int [default: 1]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table languages {
+  id bigint [pk, increment]
+  name varchar(100)
+  code varchar(100)
+  rtl int [default: 0]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table notifications {
+  id bigint [pk, increment]
+  type varchar
+  notifiable_type varchar
+  notifiable_id bigint
+  data text
+  read_at timestamp [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table pages {
+  id bigint [pk, increment]
+  type varchar
+  title varchar [null]
+  slug varchar [null]
+  content longtext [null]
+  meta_title text [null]
+  meta_description varchar [null]
+  keywords varchar [null]
+  meta_image varchar [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table page_translations {
+  id bigint [pk, increment]
+  page_id bigint
+  title varchar
+  content longtext
+  lang varchar(100)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table roles {
+  id bigint [pk, increment]
+  name varchar
+  permissions mediumtext
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table role_translations {
+  id bigint [pk, increment]
+  role_id bigint
+  name varchar(50)
+  lang varchar(100)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table shops {
+  id bigint [pk, increment]
+  user_id int
+  name varchar [null]
+  logo varchar [null]
+  sliders longtext [null]
+  phone varchar [null]
+  address varchar(500) [null]
+  facebook varchar [null]
+  google varchar [null]
+  twitter varchar [null]
+  youtube varchar [null]
+  slug varchar [null]
+  meta_title varchar [null]
+  meta_description text [null]
+  pick_up_point_id text [null]
+  shipping_cost text [null]
+  delivery_pickup_latitude float [null]
+  delivery_pickup_longitude float [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table sliders {
+  id bigint [pk, increment]
+  photo varchar [null]
+  published int [default: 1]
+  link varchar [default: '']
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table slider_banners {
+  id bigint [pk, increment]
+  short_description varchar(1000) [null]
+  image_thumb_ids varchar [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table staff {
+  id bigint [pk, increment]
+  user_id int
+  role_id int
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table subscribers {
+  id bigint [pk, increment]
+  first_name varchar(50)
+  last_name varchar(50)
+  phone_number varchar(20)
+  email varchar(50)
+  message varchar
+  file_id int [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table translations {
+  id bigint [pk, increment]
+  lang varchar [null]
+  lang_key text [null]
+  lang_value text [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table uploads {
+  id bigint [pk, increment]
+  file_original_name varchar [null]
+  file_name varchar [null]
+  user_id int [null]
+  file_size int [null]
+  extension varchar(10) [null]
+  type varchar(15) [null]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp [null]
+}
+
+Table about_us {
+  id bigint [pk, increment]
+  title varchar [null]
+  description varchar(500) [null]
+  content text [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contacts {
+  id bigint [pk, increment]
+  title varchar [null]
+  description longtext [null]
+  name varchar [null]
+  email varchar [null]
+  subject varchar [null]
+  message text [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table organizations {
+  id bigint [pk, increment]
+  org_name varchar
+  org_type varchar [null]
+  status boolean [default: 1]
+  contact_person varchar [null]
+  contact_phone varchar(30) [null]
+  contact_email varchar
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp [null]
+}
+
+Table organization_users {
+  id bigint [pk, increment]
+  user_id bigint
+  org_id bigint
+  status boolean [default: 1]
+  note varchar [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table programs {
+  id bigint [pk, increment]
+  org_id bigint
+  approved_by bigint [null]
+  user_id bigint
+  name varchar
+  slug varchar [null]
+  description text [null]
+  banner int [null]
+  location varchar [null]
+  google_map text [null]
+  start_time datetime
+  end_time datetime
+  max_participants int [null]
+  short_description varchar [null]
+  status varchar(20) [default: 'activated']
+  note text [null]
+  meta_title varchar [null]
+  meta_description text [null]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp [null]
+}
+
+Table donation_records {
+  id bigint [pk, increment]
+  user_id bigint
+  program_id bigint
+  status enum('Registered', 'Completed', 'Canceled') [default: 'Registered']
+  registration_time timestamp
+  check_in_time datetime [null]
+  blood_type_verified varchar [null]
+  blood_volume int [null]
+  health_status text [null]
+  failure_reason text [null]
+  notes text [null]
+  EmailConfirm varchar [null]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp [null]
+}
+
+Ref: blogs.category_id > blog_categories.id
+Ref: blogs.user_id > users.id
+Ref: customers.user_id > users.id
+Ref: donation_records.user_id > users.id
+Ref: donation_records.program_id > programs.id
+Ref: organization_users.user_id > users.id
+Ref: organization_users.org_id > organizations.id
+Ref: page_translations.page_id > pages.id
+Ref: programs.org_id > organizations.id
+Ref: programs.approved_by > users.id
+Ref: programs.user_id > users.id
+Ref: role_translations.role_id > roles.id
+Ref: shops.user_id > users.id
+Ref: staff.user_id > users.id
+Ref: staff.role_id > roles.id
+Ref: subscribers.file_id > uploads.id
+Ref: uploads.user_id > users.id

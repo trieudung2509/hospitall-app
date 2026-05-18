@@ -11,12 +11,24 @@ use Image;
 
 class AizUploadController extends Controller
 {
-
+    protected function getActiveUser()
+    {
+        if (Auth::guard('admin')->check()) {
+            return Auth::guard('admin')->user();
+        }
+        if (Auth::guard('web')->check()) {
+            return Auth::guard('web')->user();
+        }
+        return Auth::user();
+    }
 
     public function index(Request $request){
 
-
-        $all_uploads = (auth()->user()->user_type == 'seller') ? Upload::where('user_id',auth()->user()->id) : Upload::query();
+        $user = $this->getActiveUser();
+        if (!$user) {
+            abort(403, 'Unauthorized');
+        }
+        $all_uploads = ($user->user_type == 'seller') ? Upload::where('user_id', $user->id) : Upload::query();
         $search = null;
         $sort_by = null;
 
@@ -47,13 +59,21 @@ class AizUploadController extends Controller
         $all_uploads = $all_uploads->paginate(60)->appends(request()->query());
 
 
-        return (auth()->user()->user_type == 'seller')
+        $user = $this->getActiveUser();
+        if (!$user) {
+            abort(403, 'Unauthorized');
+        }
+        return ($user->user_type == 'seller')
             ? view('frontend.user.seller.uploads.index', compact('all_uploads', 'search', 'sort_by'))
             : view('backend.uploaded_files.index', compact('all_uploads', 'search', 'sort_by'));
     }
 
     public function create(){
-        return (auth()->user()->user_type == 'seller')
+        $user = $this->getActiveUser();
+        if (!$user) {
+            abort(403, 'Unauthorized');
+        }
+        return ($user->user_type == 'seller')
             ? view('frontend.user.seller.uploads.create')
             : view('backend.uploaded_files.create');
     }
@@ -162,12 +182,16 @@ class AizUploadController extends Controller
                     }
                 }
 
-                $upload->extension = $extension;
-                $upload->file_name = $path;
-                $upload->user_id = Auth::user()->id;
-                $upload->type = $type[$upload->extension];
-                $upload->file_size = $size;
-                $upload->save();
+                 $user = $this->getActiveUser();
+                 if (!$user) {
+                     return response()->json(['error' => 'Unauthorized'], 401);
+                 }
+                 $upload->extension = $extension;
+                 $upload->file_name = $path;
+                 $upload->user_id = $user->id;
+                 $upload->type = $type[$upload->extension];
+                 $upload->file_size = $size;
+                 $upload->save();
             }
             return '{}';
         }
@@ -175,7 +199,11 @@ class AizUploadController extends Controller
 
     public function get_uploaded_files(Request $request)
     {
-        $uploads = Upload::where('user_id', Auth::user()->id);
+        $user = $this->getActiveUser();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $uploads = Upload::where('user_id', $user->id);
         if ($request->search != null) {
             $uploads->where('file_original_name', 'like', '%'.$request->search.'%');
         }
@@ -205,7 +233,12 @@ class AizUploadController extends Controller
     {
         $upload = Upload::findOrFail($id);
         
-        if(auth()->user()->user_type == 'seller' && $upload->user_id != auth()->user()->id){
+        $user = $this->getActiveUser();
+        if (!$user) {
+            flash(translate("You don't have permission for deleting this!"))->error();
+            return back();
+        }
+        if($user->user_type == 'seller' && $upload->user_id != $user->id){
             flash(translate("You don't have permission for deleting this!"))->error();
             return back();
         }
@@ -253,7 +286,11 @@ class AizUploadController extends Controller
     {
         $file = Upload::findOrFail($request['id']);
 
-        return (auth()->user()->user_type == 'seller')
+        $user = $this->getActiveUser();
+        if (!$user) {
+            abort(403, 'Unauthorized');
+        }
+        return ($user->user_type == 'seller')
             ? view('frontend.user.seller.uploads.info',compact('file'))
             : view('backend.uploaded_files.info',compact('file'));
     }

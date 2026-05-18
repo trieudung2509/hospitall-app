@@ -6,14 +6,14 @@
     <div class="col-lg-12 mx-auto">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0 h6">{{translate('About Us')}}</h5>
+                <h5 class="mb-0 h6">{{translate('Về chúng tôi')}}</h5>
             </div>
             <div class="card-body">
                 <form id="add_form" class="form-horizontal" action="{{ route('aboutus.update') }}" method="POST">
                     @csrf
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">
-                            {{translate('Title')}}
+                            {{translate('Tiêu đề')}}
                         </label>
                         <div class="col-md-10">
                             <input type="text" placeholder="{{translate('Title')}}" id="title" name="title" class="form-control" value="{{ $about_us->title != null ? $about_us->title : '' }}">
@@ -22,7 +22,7 @@
       
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">
-                            {{translate('Short Description')}}
+                            {{translate('Mô tả ngắn')}}
                             <span class="text-danger">*</span>
                         </label>
                         <div class="col-md-10">
@@ -32,7 +32,7 @@
                     
                     <div class="form-group row">
                         <label class="col-md-2 col-from-label">
-                            {{translate('Content')}}
+                            {{translate('Mô tả')}}
                         </label>
                         <div class="col-md-10">
                             <textarea class="tiny-text" name="content"> {!! $about_us->content != null ? $about_us->content : '' !!} </textarea>
