@@ -25,23 +25,14 @@ Route::post('/currency', 'CurrencyController@changeCurrency')->name('currency.ch
 // home page
 Route::get('/', 'HomeController@home_page')->name('home');
 
-// contact 
-Route::get('/contact', 'ContactController@contact_page')->name('contact_page');
-Route::post('/save-contact', 'ContactController@save_subscriber')->name('contact.save');
 
 
-// about us page
-Route::get('/about-us', 'AboutUsController@about_page')->name('about_page');
 
-// news
-Route::get('/category/{slug}', 'NewController@news_page')->name('news_page');
-Route::get('/ajax_category/{slug}', 'NewController@ajax_new_post')->name('ajax_new_page');
-Route::get('/news/{slug}`', 'NewController@detail_page')->name('detail_page');
+
+
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
-//Blog Section
-Route::get('/blog', 'BlogController@all_blog')->name('blog');
-Route::get('/blog/{slug}', 'BlogController@blog_details')->name('blog.details');
+
 
 Auth::routes(['verify' => true]);
 Route::get('/refresh-csrf', function() {
@@ -50,6 +41,9 @@ Route::get('/refresh-csrf', function() {
 
 //mobile app balnk page for webview
 Route::get('/mobile-page/{slug}', 'PageController@mobile_custom_page')->name('mobile.custom-pages');
+
+//Outfit detail page
+Route::get('/outfits/{slug}', 'HomeController@outfit_detail')->name('outfits.detail');
 
 //Custom page
 Route::get('/{slug}', 'PageController@show_custom_page')->name('custom-pages.show_custom_page');

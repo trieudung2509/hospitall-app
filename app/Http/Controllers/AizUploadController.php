@@ -258,4 +258,71 @@ class AizUploadController extends Controller
             : view('backend.uploaded_files.info',compact('file'));
     }
 
+    public function save_tinymce_image(Request $request)
+    {
+        $type = array(
+            "jpg"=>"image",
+            "jpeg"=>"image",
+            "png"=>"image",
+            "svg"=>"image",
+            "webp"=>"image",
+            "gif"=>"image",
+        );
+        $status = false;
+        if($request->hasFile('file')){
+            $upload = new Upload();
+            $extension = strtolower($request->file('file')->getClientOriginalExtension());
+
+            if(isset($type[$extension])){
+                $upload->file_original_name = null;
+                $arr = explode('.', $request->file('file')->getClientOriginalName());
+                for($i=0; $i < count($arr)-1; $i++){
+                    if($i == 0){
+                        $upload->file_original_name .= $arr[$i];
+                    }
+                    else{
+                        $upload->file_original_name .= ".".$arr[$i];
+                    }
+                }
+
+                $path = $request->file('file')->store('uploads/all', 'local');
+                $size = $request->file('file')->getSize();
+
+                if($type[$extension] == 'image' && get_setting('disable_image_optimization') != 1){
+                    try {
+                        $img = Image::make($request->file('file')->getRealPath())->encode();
+                        $height = $img->height();
+                        $width = $img->width();
+                        if($width > $height && $width > 1500){
+                            $img->resize(1500, null, function ($constraint) {
+                                $constraint->aspectRatio();
+                            });
+                        }elseif ($height > 1500) {
+                            $img->resize(null, 800, function ($constraint) {
+                                $constraint->aspectRatio();
+                            });
+                        }
+                        $img->save(base_path('public/').$path);
+                        clearstatcache();
+                        $size = $img->filesize();
+
+                    } catch (\Exception $e) {
+                        //dd($e);
+                    }
+                }
+                $upload->extension = $extension;
+                $upload->file_name = $path;
+                $upload->user_id = Auth::user()->id;
+                $upload->type = $type[$upload->extension];
+                $upload->file_size = $size;
+                $upload->save();
+                $status = true;
+            }
+        }
+        return response()->json([
+            'success' => $status,
+            'location' => uploaded_asset($upload->id),
+        ]);
+    }
+
 }

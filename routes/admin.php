@@ -17,17 +17,6 @@ Route::get('/update/step2', 'UpdateController@step2')->name('update.step2');
 
 Route::get('/admin', 'AdminController@admin_dashboard')->name('admin.dashboard')->middleware(['auth', 'admin']);
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function() {
-    // about us
-    Route::get('/about-us', 'AboutUsController@edit')->name('aboutus.edit');
-    Route::post('/about-us', 'AboutUsController@update')->name('aboutus.update');
-
-    // contact
-    Route::get('/contact', 'ContactController@edit')->name('contact.edit');
-    Route::post('/contact', 'ContactController@update')->name('contact.update');
-
-    // slider
-    Route::get("/slider-banner", 'SliderBannerController@admin_home')->name('slider.home');
-    Route::post("/slider-banner", 'SliderBannerController@slider_update')->name('slider.update');
     //Update Routes
 
     Route::resource('categories', 'CategoryController');
@@ -75,15 +64,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::get('/subscribers', 'SubscriberController@index')->name('subscribers.index');
     Route::get('/subscribers/destroy/{id}', 'SubscriberController@destroy')->name('subscriber.destroy');
 
-    //Blog Section
-    Route::resource('blog-category', 'BlogCategoryController');
-    Route::get('/blog-category/destroy/{id}', 'BlogCategoryController@destroy')->name('blog-category.destroy');
-    Route::post('/blog-category/change-status', 'BlogCategoryController@change_status')->name('blog-category.change-status');
-    Route::resource('blog', 'BlogController');
-    Route::get('/blog/destroy/{id}', 'BlogController@destroy')->name('blog.destroy');
-    Route::post('/blog/change-status', 'BlogController@change_status')->name('blog.change-status');
-    Route::post('/blog-category/change-home-page-status', 'BlogCategoryController@change_home_page_status')->name('blog-category.change-home-page-status');
-    Route::post('/blog-category/change_show_menu_status', 'BlogCategoryController@change_show_menu_status')->name('blog-category.change-show-menu-status');
     
 
     // Route::resource('pages', 'PageController');
@@ -96,6 +76,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::resource('/uploaded-files', 'AizUploadController');
     Route::get('/uploaded-files/destroy/{id}', 'AizUploadController@destroy')->name('uploaded-files.destroy');
 
-    Route::post('/save-post-image', 'BlogController@save_blog_image')->name('images.upload');
+
+    // Collection CRUD
+    Route::resource('collections', 'CollectionController');
+    Route::get('/collections/destroy/{id}', 'CollectionController@destroy')->name('collections.destroy');
+
+    // Outfit CRUD
+    Route::resource('outfits', 'OutfitController');
+    Route::get('/outfits/destroy/{id}', 'OutfitController@destroy')->name('outfits.destroy');
+
     Route::get('/all-notification', 'NotificationController@index')->name('admin.all-notification');
+    Route::post('/save-post-image', 'AizUploadController@save_tinymce_image')->name('images.upload');
 });

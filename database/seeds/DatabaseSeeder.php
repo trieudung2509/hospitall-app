@@ -30,6 +30,6 @@ class DatabaseSeeder extends Seeder
             'updated_at' => Carbon::now(),
          ]);
 
-        \App\Blog::factory()->count(800)->create();
+         $this->call(OutfitCollectionSeeder::class);
     }
 }

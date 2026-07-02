@@ -35,46 +35,26 @@
             </li>
             @endif
 
-            @if(Auth::user()->user_type == 'admin' || in_array('23', json_decode(Auth::user()->staff->role->permissions)))
-            <!--Blog System-->
+            <!-- Outfits & Collections -->
             <li class="aiz-side-nav-item">
-                <a href="#" class="aiz-side-nav-link">
-                    <i class="las la-bullhorn aiz-side-nav-icon"></i>
-                    <span class="aiz-side-nav-text">{{ translate('Blog System') }}</span>
+                <a href="#" class="aiz-side-nav-link {{ areActiveRoutes(['collections.index', 'collections.create', 'collections.edit', 'outfits.index', 'outfits.create', 'outfits.edit'])}}">
+                    <i class="las la-tshirt aiz-side-nav-icon"></i>
+                    <span class="aiz-side-nav-text">{{ translate('Outfits & Collections') }}</span>
                     <span class="aiz-side-nav-arrow"></span>
                 </a>
                 <ul class="aiz-side-nav-list level-2">
                     <li class="aiz-side-nav-item">
-                        <a href="{{ route('blog.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['blog.create', 'blog.edit'])}}">
-                            <span class="aiz-side-nav-text">{{ translate('All Posts') }}</span>
+                        <a href="{{ route('collections.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['collections.index', 'collections.create', 'collections.edit'])}}">
+                            <span class="aiz-side-nav-text">{{ translate('Collections') }}</span>
                         </a>
                     </li>
                     <li class="aiz-side-nav-item">
-                        <a href="{{ route('blog-category.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['blog-category.create', 'blog-category.edit'])}}">
-                            <span class="aiz-side-nav-text">{{ translate('Categories') }}</span>
+                        <a href="{{ route('outfits.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['outfits.index', 'outfits.create', 'outfits.edit'])}}">
+                            <span class="aiz-side-nav-text">{{ translate('Outfits') }}</span>
                         </a>
                     </li>
                 </ul>
             </li>
-            @endif
-
-            @if(Auth::user()->user_type == 'admin' || in_array('9', json_decode(Auth::user()->staff->role->permissions)))
-            <li class="aiz-side-nav-item">
-                <a href="{{ route('aboutus.edit') }}" class="aiz-side-nav-link {{ areActiveRoutes(['aboutus.edit'])}}">
-                    <i class="las la-folder-open aiz-side-nav-icon"></i>
-                    <span class="aiz-side-nav-text">{{ translate('About Us') }}</span>
-                </a>
-            </li>
-            @endif
-
-            @if(Auth::user()->user_type == 'admin' || in_array('12', json_decode(Auth::user()->staff->role->permissions)))
-            <li class="aiz-side-nav-item">
-                <a href="{{ route('slider.home') }}" class="aiz-side-nav-link {{ areActiveRoutes(['slider.home'])}}">
-                    <i class="las la-folder-open aiz-side-nav-icon"></i>
-                    <span class="aiz-side-nav-text">{{ translate('Slider Banners') }}</span>
-                </a>
-            </li>
-            @endif
 
             <!-- marketing -->
             @if(Auth::user()->user_type == 'admin' || in_array('11', json_decode(Auth::user()->staff->role->permissions)))

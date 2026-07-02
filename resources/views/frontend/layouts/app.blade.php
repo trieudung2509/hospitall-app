@@ -1,249 +1,186 @@
-<!doctype html>
-<html dir="ltr" lang="en-GB" prefix="og: http://ogp.me/ns#">
-  <head>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="app-url" content="{{ getBaseURL() }}">
-    <meta name="file-base-url" content="{{ getFileBaseURL() }}">
-    <link rel="icon" href="{{ uploaded_asset(get_setting('site_icon')) }}">
-
-    <meta charset="utf-8">
-    <title>@yield('meta_description', get_setting('meta_description') )</title>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="robots" content="index, follow">
+    <meta name="description" content="BeeLink - Khám phá phong cách thời trang của bạn. Tìm kiếm outfits trending, collections và video reels thời trang mỗi ngày.">
+    <title>@yield('title', 'BeeLink — Khám Phá Phong Cách Của Bạn')</title>
     
-    <meta name="description" content="@yield('meta_description', get_setting('meta_description') )" />
-    <meta name="keywords" content="@yield('meta_keywords', get_setting('meta_keywords') )">
-    @yield('meta')
-
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ static_asset('assets/frontend/css/main.css') }}">
-    <script>
-      (function(w, d) {
-        w.addEventListener('LazyLoad::Initialized', function(e) {
-          w.lazyLoadInstance = e.detail.instance;
-        }, false);
-        var b = d.getElementsByTagName('head')[0];
-        var s = d.createElement("script");
-        s.async = true;
-        var v = !("IntersectionObserver" in w) ? "lazyloadPolyfill.js" : "lazyloadIntersectionObserver.js";
-        s.src = "/public/assets/scripts/" + v;
-        w.lazyLoadOptions = {
-          elements_selector: ".lazy",
-          threshold: 0,
-          callback_enter: function(element) {
-            var css = element.getAttribute('data-style');
-            if (css) {
-              css = css.replace(/(\r\n|\n|\r)/gm, "");
-              var style = document.createElement('style');
-              var head = document.getElementsByTagName('head')[0];
-              head.appendChild(style);
-              style.setAttribute("type", "text/css");
-              if (style.styleSheet) {
-                style.styleSheet.cssText = css;
-              } else {
-                var styleText = document.createTextNode(css);
-                style.appendChild(styleText);
-              }
-              setTimeout(function() {
-                element.classList.add('lazy--loaded');
-              }, 300);
-            }
-          }
-        };
-        b.appendChild(s);
-      }(window, document));
-    </script>
+    <!-- Lexend Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Slick Slider CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    
     <style>
-      .aspect {
-        position: relative;
-        padding-top: calc(var(--height) / var(--width) * 100%);
-        height: 0;
-        display: block;
-      }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #FAF9F7; --surface: #FFFFFF; --border: #EBEBEB;
+            --text1: #1A1A1A; --text2: #6B6B6B; --muted: #9E9E9E;
+            --accent: #C9A96E; --tag-bg: #F0EDE8; --tag-text: #6B5E4A;
+            --nav-h: 64px; --r-sm: 10px; --r-md: 14px; --r-lg: 18px;
+            --shadow: 0 2px 12px rgba(0,0,0,0.07);
+            --shadow-h: 0 8px 28px rgba(0,0,0,0.13);
+            --t: 0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+        html { font-size:16px; scroll-behavior:smooth; }
+        body { font-family:'Lexend',sans-serif; background:var(--bg); color:var(--text1); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+        img { display:block; max-width:100%; }
+        a { text-decoration:none; color:inherit; }
+        button { cursor:pointer; border:none; background:none; font-family:inherit; }
+        ::-webkit-scrollbar { width:5px; height:5px; }
+        ::-webkit-scrollbar-thumb { background:#D5CEC4; border-radius:10px; }
 
-      .aspect iframe,
-      .aspect video {
-        position: absolute;
-        top: 0;
-        width: 100%;
-        height: 100%;
-      }
+        /* NAVBAR */
+        .navbar { position:sticky; top:0; z-index:100; background:rgba(250,249,247,0.92); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); height:var(--nav-h); }
+        .nb { display:flex; align-items:center; gap:20px; max-width:1280px; margin:0 auto; padding:0 24px; height:100%; }
+        .logo { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+        .logo-icon { width:34px; height:34px; background:linear-gradient(135deg,#F4C87A,#E8A44A); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; }
+        .logo-text { display:flex; flex-direction:column; }
+        .logo-name { font-size:15px; font-weight:700; line-height:1; }
+        .logo-tag { font-size:10px; color:var(--muted); line-height:1.3; }
+        .search-bar { flex:1; max-width:380px; position:relative; }
+        .search-bar input { width:100%; height:38px; background:#F0EDE8; border:1.5px solid transparent; border-radius:20px; padding:0 40px 0 16px; font-size:13.5px; color:var(--text1); outline:none; transition:var(--t); font-family:inherit; }
+        .search-bar input::placeholder { color:var(--muted); }
+        .search-bar input:focus { background:var(--surface); border-color:var(--border); box-shadow:0 0 0 3px rgba(201, 169, 110, 0.15); }
+        .si { position:absolute; right:13px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none; }
+        .nav-actions { display:flex; align-items:center; gap:6px; margin-left:auto; }
+        .ib { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--text2); transition:var(--t); }
+        .ib:hover { background:var(--tag-bg); color:var(--text1); }
+        .ib svg { width:20px; height:20px; }
+        .av { width:34px; height:34px; border-radius:50%; cursor:pointer; border:2px solid var(--border); transition:var(--t); display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#E8D5B7,#C9A96E); font-size:13px; font-weight:600; color:white; }
+        .av:hover { border-color:var(--accent); }
+
+        /* CATEGORY TABS */
+        .tabs-wrap { background:var(--bg); border-bottom:1px solid var(--border); position:sticky; top:var(--nav-h); z-index:90; }
+        .tabs { display:flex; align-items:center; max-width:1280px; margin:0 auto; padding:0 16px; overflow-x:auto; scrollbar-width:none; }
+        .tabs::-webkit-scrollbar { display:none; }
+        .tab { display:flex; flex-direction:column; align-items:center; gap:5px; padding:12px 16px; font-size:12px; color:var(--muted); cursor:pointer; transition:var(--t); border-bottom:2px solid transparent; white-space:nowrap; flex-shrink:0; font-weight:500; }
+        .tab:hover { color:var(--text1); }
+        .tab.active { color:var(--accent); border-bottom-color:var(--accent); font-weight:600; }
+        .tab-icon { font-size:20px; line-height:1; }
+        .tab-arrow { width:32px; height:32px; border-radius:50%; background:var(--surface); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; margin-left:4px; transition:var(--t); box-shadow:var(--shadow); }
+        .tab-arrow:hover { background:var(--tag-bg); }
+
+        /* MAIN */
+        .main { max-width:1280px; margin:0 auto; padding:28px 24px 60px; }
+
+        /* SECTION HEADER */
+        .sh { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:16px; }
+        .st h2 { font-size:18px; font-weight:700; display:flex; align-items:center; gap:8px; }
+        .st p { font-size:12.5px; color:var(--muted); margin-top:3px; }
+        .va { display:flex; align-items:center; gap:4px; font-size:12.5px; font-weight:500; color:var(--text2); transition:var(--t); }
+        .va:hover { color:var(--accent); }
+        .va svg { width:14px; height:14px; }
+        section { margin-bottom:40px; }
+
+        /* TRENDING CARDS */
+        .tgrid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+        .ocard { border-radius:var(--r-lg); overflow:hidden; position:relative; cursor:pointer; background:#E8E0D4; transition:var(--t); box-shadow:var(--shadow); }
+        .ocard:hover { transform:translateY(-3px); box-shadow:var(--shadow-h); }
+        .ocard-img-wrap { aspect-ratio:3/4; overflow:hidden; }
+        .ocard-img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease; }
+        .ocard:hover .ocard-img { transform:scale(1.04); }
+        .play-btn { position:absolute; top:12px; right:12px; width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.85); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; transition:var(--t); }
+        .play-btn svg { width:13px; height:13px; fill:var(--text1); margin-left:2px; }
+        .play-btn:hover { background:#fff; transform:scale(1.1); }
+        .cbottom { padding:10px 12px; background:var(--surface); }
+        .ctitle { font-size:13px; font-weight:600; margin-bottom:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .cmeta { display:flex; align-items:center; justify-content:space-between; }
+        .ctags { display:flex; gap:4px; overflow:hidden; }
+        .tag { font-size:10.5px; color:var(--tag-text); background:var(--tag-bg); padding:2px 7px; border-radius:20px; white-space:nowrap; }
+        .csaves { display:flex; align-items:center; gap:4px; font-size:11.5px; color:var(--muted); font-weight:500; flex-shrink:0; }
+        .csaves svg { width:12px; height:12px; }
+        .cbm { position:absolute; bottom:60px; right:12px; width:28px; height:28px; background:rgba(255,255,255,0.85); backdrop-filter:blur(4px); border-radius:50%; display:flex; align-items:center; justify-content:center; opacity:0; transition:var(--t); }
+        .ocard:hover .cbm { opacity:1; }
+        .cbm svg { width:13px; height:13px; }
+
+        /* SMALL CARDS */
+        .scroll-wrap { position:relative; }
+        .scroll-x { display:flex; gap:12px; overflow-x:auto; scrollbar-width:none; padding-bottom:4px; scroll-snap-type:x mandatory; }
+        .scroll-x::-webkit-scrollbar { display:none; }
+        .scard { flex-shrink:0; width:148px; border-radius:var(--r-md); overflow:hidden; position:relative; cursor:pointer; background:#E8E0D4; transition:var(--t); box-shadow:var(--shadow); scroll-snap-align:start; }
+        .scard:hover { transform:translateY(-3px); box-shadow:var(--shadow-h); }
+        .scard-img-wrap { aspect-ratio:3/4; overflow:hidden; }
+        .scard-img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease; }
+        .scard:hover .scard-img { transform:scale(1.05); }
+        .sbottom { padding:8px 10px; background:var(--surface); }
+        .stitle { font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:3px; }
+        .smeta { display:flex; align-items:center; justify-content:space-between; }
+        .ssaves { font-size:11px; color:var(--muted); font-weight:500; }
+        .sbm { color:var(--muted); }
+        .sbm svg { width:13px; height:13px; }
+        .scroll-btn { position:absolute; top:50%; transform:translateY(calc(-50% - 22px)); width:36px; height:36px; border-radius:50%; background:var(--surface); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:10; box-shadow:var(--shadow-h); transition:var(--t); }
+        .scroll-btn:hover { background:var(--text1); border-color:var(--text1); color:white; }
+        .scroll-btn svg { width:16px; height:16px; }
+        .sbr { right:-4px; }
+        .sbl { left:-4px; }
+        .slick-slide { outline: none; margin: 0 6px; }
+        .slick-list { margin: 0 -6px; }
+
+        /* COLLECTIONS */
+        .cgrid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+        .colcard { border-radius:var(--r-md); overflow:hidden; position:relative; cursor:pointer; aspect-ratio:3/4; transition:var(--t); box-shadow:var(--shadow); }
+        .colcard:hover { transform:translateY(-3px); box-shadow:var(--shadow-h); }
+        .colcard-img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease; }
+        .colcard:hover .colcard-img { transform:scale(1.05); }
+        .col-ov { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.1) 50%,transparent 100%); }
+        .col-info { position:absolute; bottom:0; left:0; right:0; padding:14px 13px; color:white; }
+        .col-name { font-size:13.5px; font-weight:700; line-height:1.3; margin-bottom:3px; }
+        .col-count { font-size:11px; opacity:0.8; }
+
+        /* REELS */
+        .rscroll { display:flex; gap:12px; overflow-x:auto; scrollbar-width:none; padding-bottom:4px; }
+        .rscroll::-webkit-scrollbar { display:none; }
+        .rcard { flex-shrink:0; width:160px; border-radius:var(--r-md); overflow:hidden; position:relative; cursor:pointer; background:#1A1A1A; transition:var(--t); box-shadow:var(--shadow); }
+        .rcard:hover { transform:translateY(-3px); box-shadow:var(--shadow-h); }
+        .rcard-img-wrap { aspect-ratio:9/16; overflow:hidden; }
+        .rcard-img { width:100%; height:100%; object-fit:cover; opacity:0.88; transition:transform 0.4s ease; }
+        .rcard:hover .rcard-img { transform:scale(1.04); opacity:1; }
+        .rov { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 55%); }
+        .rplay { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.2); backdrop-filter:blur(4px); border:1.5px solid rgba(255,255,255,0.4); display:flex; align-items:center; justify-content:center; transition:var(--t); }
+        .rcard:hover .rplay { background:rgba(255,255,255,0.3); transform:translate(-50%,-50%) scale(1.1); }
+        .rplay svg { width:14px; height:14px; fill:white; margin-left:2px; }
+        .rinfo { position:absolute; bottom:0; left:0; right:0; padding:12px 10px; color:white; }
+        .rtitle { font-size:12px; font-weight:600; line-height:1.35; margin-bottom:5px; }
+        .rstats { display:flex; align-items:center; gap:6px; font-size:10.5px; opacity:0.75; }
+        .rstats svg { width:11px; height:11px; }
+
+        /* FOOTER */
+        .footer { background: #FAF9F7; border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; margin-top: 40px; }
+        .footer-logo { font-size: 20px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        .footer-copyright { font-size: 13px; color: var(--muted); }
+
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+        section { animation:fadeInUp 0.5s ease both; }
+        section:nth-child(1){animation-delay:0.05s}
+        section:nth-child(2){animation-delay:0.12s}
+        section:nth-child(3){animation-delay:0.19s}
+        section:nth-child(4){animation-delay:0.26s}
+
+        @media(max-width:1100px){ .tgrid{grid-template-columns:repeat(3,1fr)} .cgrid{grid-template-columns:repeat(4,1fr)} }
+        @media(max-width:768px){ .nb{padding:0 16px;gap:12px} .main{padding:20px 16px 60px} .tgrid{grid-template-columns:repeat(2,1fr);gap:10px} .cgrid{grid-template-columns:repeat(3,1fr)} .search-bar{max-width:220px} .logo-tag{display:none} }
+        @media(max-width:480px){ .tgrid{grid-template-columns:repeat(2,1fr);gap:8px} .cgrid{grid-template-columns:repeat(2,1fr)} }
     </style>
-   <script src="{{ static_asset('assets/frontend/js/jquery.min.js') }}"></script>
-  <link rel="stylesheet" href="{{ static_asset('assets/frontend/css/all.min.css') }}" />
-  <link rel='stylesheet' href="{{ static_asset('assets/frontend/css/slick.min.css') }}">
-  <script src="{{ static_asset('assets/frontend/js/slick-animation.min.js') }}"></script>
-  <script src="{{ static_asset('assets/frontend/js/slick.min.js') }}"></script>
-  <link rel="stylesheet" href="{{ static_asset('assets/frontend/css/style.css') }}">
+    @yield('styles')
+</head>
+<body>
 
-    </head>
-    <body>
-    <section class="edgtf-side-menu" style="overflow-y: hidden; outline: none;" tabindex="0">
-      <div class="edgtf-close-side-menu-holder">
-        <a class="edgtf-close-side-menu" href="#" target="_self">
-          <i class="fal fa-times" style="font-size: 30px;"></i>
-        </a>
-      </div>
-      <div class="widget edgtf-separator-widget">
-        <div class="edgtf-separator-holder clearfix  edgtf-separator-center edgtf-separator-normal">
-          <div class="edgtf-separator" style="border-color: transparent;border-style: solid;width: 10px;border-bottom-width: 20px;margin-top: 24px;margin-bottom: 10px"></div>
-        </div>
-      </div>
-      <div id="text-10" class="widget edgtf-sidearea widget_text">
-        <div class="textwidget">
-          <p>
-            <img decoding="async" loading="lazy" class="alignnone size-full wp-image-3841" src="{{ uploaded_asset(get_setting('footer_logo')) }}" alt="" width="70%">
-          </p>
-        </div>
-      </div>
-      <div class="widget edgtf-separator-widget">
-        <div class="edgtf-separator-holder clearfix  edgtf-separator-center edgtf-separator-normal">
-          <div class="edgtf-separator" style="border-color: transparent;border-style: solid;margin-top: 0px"></div>
-        </div>
-      </div>
-      <div id="text-11" class="widget edgtf-sidearea widget_text">
-        <div class="textwidget">
-          <p style="font-size: 15px">
-            <em>{{ get_setting('about_us_description'); }}</em>
-          </p>
-        </div>
-      </div>
-      <div class="widget edgtf-separator-widget">
-        <div class="edgtf-separator-holder clearfix  edgtf-separator-center edgtf-separator-normal">
-          <div class="edgtf-separator" style="border-style: solid;border-bottom-width: 0px;margin-top: 20px;margin-bottom: 0px"></div>
-        </div>
-      </div>
-      <div class="widget edgtf-raw-html-widget  ">
-        <div class="edgtf-icon-list-holder  edgtf-icon-list-inline-display" style="margin-bottom: 0px">
-          <div class="edgtf-il-icon-holder">
-            <i class="fal fa-headphones-alt" style="color: #fff;font-size: 21px"></i>
-          </div>
-          <p class="edgtf-il-text" style="color: #fff;font-size: 15px;padding-left: 13px">Call us on {{ get_setting('contact_phone') }}</p>
-        </div>
-        <div class="edgtf-icon-list-holder  edgtf-icon-list-inline-display" style="margin-bottom: 0px">
-          <div class="edgtf-il-icon-holder">
-            <i class="fal fa-map-marker-alt" style="color: #fff;font-size: 21px"></i>
-          </div>
-          <p class="edgtf-il-text" style="color: #fff;font-size: 15px;padding-left: 13px">{{ get_setting('contact_address') }}</p>
-        </div>
-        <div class="edgtf-icon-list-holder  edgtf-icon-list-inline-display" style="margin-bottom: 0px">
-          <div class="edgtf-il-icon-holder">
-            <i class="fal fa-clock" style="color: #fff;font-size: 21px"></i>
-          </div>
-          <p class="edgtf-il-text" style="color: #fff;font-size: 15px;padding-left: 13px">Mon - Sat 8 AM - 8 PM</p>
-        </div>
-        <div class="edgtf-icon-list-holder  edgtf-icon-list-inline-display" style="margin-bottom: 0px">
-          <div class="edgtf-il-icon-holder">
-            <i class="fal fa-envelope" style="color: #fff;font-size: 21px"></i>
-          </div>
-          <p class="edgtf-il-text" style="color: #fff;font-size: 15px;padding-left: 13px">{{ get_setting('contact_email') }}</p>
-        </div>
-      </div>
-    </section>
-      <div id="barba-wrapper">
-        <div class="barba-container">
-          <div class="l-navbar js-navbar-scroll ">
-            <div class="l-navbar__logo ">
-              <a class="l-navbar__logo-icon reload-home" href="#" title="Go to homepage">
-                <span>Go to homepage</span>
-                <img src="{{ uploaded_asset(get_setting('header_logo')) }}" style="width: 75%;" />
-              </a>
-            </div>
-              <button class="l-navbar__burger js-burger-btn custom-cursor" type="button" aria-label="menu">
-                <span class="l-navbar__burger-text">Menu</span>
-                <span class="burger custom-cursor">
-                  <span class="burger-item burger-item--first"></span>
-                  <span class="burger-item burger-item--second"></span>
-                </span>
-              </button>
-            </div>
-          <div class="l-navbar-mobile l-navbar-mobile--hide js-nav-mobile"><a href="#" class="reload-home" title="Go to homepage"><img class="l-navbar-mobile__logo" src="{{ uploaded_asset(get_setting('header_logo')) }}" alt="Archiplus Design"></a><button class="burger js-burger-btn custom-cursor" type="button" aria-label="menu"><span class="burger-item burger-item--first"></span><span class="burger-item burger-item--second"></span></button></div>
-          <!-- onclick icon show menu -->
-          <nav class="l-menu-wrapper js-menu-wrapper hide">
-            <div class="container-large">
-              <div class="row row--no-gutters align-items-center l-menu">
-                <ul class="col-lg-11 offset-pad-lg-1 l-menu-left">
-                  <li class="l-menu-left__item"><a class="l-menu-left__link js-wordsplit reload-home" href="#" title="Trang Chủ">Trang Chủ</a></li>
-                  <?php 
-                    $categories_menu = \App\BlogCategory::where(['status' => 1, 'is_show_menu' =>  1])->get();
-                  ?>
-                  @foreach( $categories_menu as $cate)
-                  <li class="l-menu-left__item"><a class="l-menu-left__link js-wordsplit" href="{{ route('news_page', ['slug' => $cate->slug]) }}" title="{{ $cate->category_name }}">{{ $cate->category_name }}</a></li>
-                  @endforeach
-                  <li class="l-menu-left__item"><a class="l-menu-left__link js-wordsplit" href="/about-us" title="About Us">Về chúng tôi</a></li>
-                  <li class="l-menu-left__item"><a class="l-menu-left__link js-wordsplit" href="/contact" title="Contact">Liên Hệ</a></li>
-                </ul>
-                <div class="l-menu-right">
-                  <p class="headline-6 mb-5em">ĐỊA CHỈ</p>
-                  <address class="address">
-                    <p><span>{{ get_setting('contact_address',null,'en') }}</span><br></p>
-                  </address>
-                  <p class="headline-6 mt-20em mb-5em">ĐIỆN THOẠI</p><a href="tel:{{ get_setting('contact_phone') }}" title="Call us"> {{ get_setting('contact_phone') }} </a>
-                  <p class="headline-6 mt-20em mb-5em">Email</p><a href="mailto:{{ get_setting('contact_email') }}" title="Email us"> {{ get_setting('contact_email') }} </a>
-                  <p class="headline-6 mt-20em mb-5em">Social</p>
-                  <ul class="social">
-                    <li class="social__item"><a class="social__link" href="{{ get_setting('facebook_link')}}" title="Our Instagram" target="_blank" rel="noopener noreferrer"> Facebook </a></li>
-                    <!-- <li class="social__item"><a class="social__link" href="https://www.linkedin.com/company/xavio-design" title="Our Linkedin" target="_blank" rel="noopener noreferrer"> Linkedin </a></li> -->
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </nav>
+    <!-- Header Include -->
     @include('frontend.layouts.header')
+
+    <!-- Main Content Yield -->
     @yield('content')
-    @include('frontend.layouts.footer') 
-    <div class="cursor" id="cursor"></div>
-    <script src="{{ static_asset('assets/frontend/js/vendor.js') }}"></script>
-    <script src="{{ static_asset('assets/frontend/js/app.js') }}"></script>
-    @yield('script')
-    <script>
-      $(document).ready(function() {
-        var body = $("html, body");
-        let height = $(document).height();
-        
-        $(document).on("click", ".edgtf-side-menu-button-opener", function() {
-          $(this).addClass("opened");
-          $(body).addClass("edgtf-right-side-menu-opened")
-        });
 
-        $(document).on("click", ".edgtf-close-side-menu", function() {
-          $(body).find(".edgtf-side-menu-button-opener").removeClass("opened");
-          $(body).removeClass("edgtf-right-side-menu-opened")
-        });
+    <!-- jQuery and Slick Carousel JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-        $(window).scroll(function(){
-            var top = $(this).scrollTop() // Get position of the body
-            if(top >= height/6 )
-            {
-              $("#edgtf-back-to-top").addClass("on");
-            } else {
-              $("#edgtf-back-to-top").removeClass("on");
-            }
-          });
-          $(document).on("click", "#edgtf-back-to-top", function() {
-            body.stop().animate({scrollTop:0}, 500, 'swing');
-          });
+    <!-- Footer Include -->
+    @include('frontend.layouts.footer')
 
-          $('.slider').slick({
-            autoplay: true,
-            speed: 500,
-            autoplaySpeed: 3600,
-            fade: true,
-            lazyLoad: 'progressive',
-            arrows: false,
-            dots: false,
-            cssEase: 'linear',
-            infinite: true
-          });
-          $(document).on("click", ".reload-home", function(event) {
-            event.preventDefault();
-            console.log("asss");
-            window.location.href = "/";
-          });
-      })
-  
-        
-    </script>
+    @yield('scripts')
 </body>
 </html>
