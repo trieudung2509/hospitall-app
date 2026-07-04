@@ -20,7 +20,7 @@
             --bg: #FAF9F7; --surface: #FFFFFF; --border: #EBEBEB;
             --text1: #1A1A1A; --text2: #6B6B6B; --muted: #9E9E9E;
             --accent: #C9A96E; --tag-bg: #F0EDE8; --tag-text: #6B5E4A;
-            --nav-h: 64px; --r-sm: 10px; --r-md: 14px; --r-lg: 18px;
+            --nav-h: 72px; --r-sm: 10px; --r-md: 14px; --r-lg: 18px;
             --shadow: 0 2px 12px rgba(0,0,0,0.07);
             --shadow-h: 0 8px 28px rgba(0,0,0,0.13);
             --t: 0.25s cubic-bezier(0.4,0,0.2,1);
@@ -36,17 +36,17 @@
         /* NAVBAR */
         .navbar { position:sticky; top:0; z-index:100; background:rgba(250,249,247,0.92); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); height:var(--nav-h); }
         .nb { display:flex; align-items:center; gap:20px; max-width:1280px; margin:0 auto; padding:0 24px; height:100%; }
-        .logo { display:flex; align-items:center; gap:10px; flex-shrink:0; }
-        .logo-icon { width:34px; height:34px; background:linear-gradient(135deg,#F4C87A,#E8A44A); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; }
+        .logo { display:flex; align-items:center; gap:10px; flex: 1 0 0; }
+        .logo-icon { width:40px; height:40px; background:linear-gradient(135deg,#F4C87A,#E8A44A); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:22px; }
         .logo-text { display:flex; flex-direction:column; }
-        .logo-name { font-size:15px; font-weight:700; line-height:1; }
-        .logo-tag { font-size:10px; color:var(--muted); line-height:1.3; }
-        .search-bar { flex:1; max-width:380px; position:relative; }
-        .search-bar input { width:100%; height:38px; background:#F0EDE8; border:1.5px solid transparent; border-radius:20px; padding:0 40px 0 16px; font-size:13.5px; color:var(--text1); outline:none; transition:var(--t); font-family:inherit; }
+        .logo-name { font-size:18px; font-weight:700; line-height:1.1; }
+        .logo-tag { font-size:11px; color:var(--muted); line-height:1.3; }
+        .search-bar { flex: 0 1 460px; margin: 0 20px; position:relative; }
+        .search-bar input { width:100%; height:42px; background:#F0EDE8; border:1.5px solid transparent; border-radius:22px; padding:0 44px 0 18px; font-size:14.5px; color:var(--text1); outline:none; transition:var(--t); font-family:inherit; }
         .search-bar input::placeholder { color:var(--muted); }
         .search-bar input:focus { background:var(--surface); border-color:var(--border); box-shadow:0 0 0 3px rgba(201, 169, 110, 0.15); }
-        .si { position:absolute; right:13px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none; }
-        .nav-actions { display:flex; align-items:center; gap:6px; margin-left:auto; }
+        .si { position:absolute; right:16px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none; }
+        .nav-actions { display:flex; align-items:center; gap:6px; flex: 1 0 0; justify-content: flex-end; }
         .ib { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--text2); transition:var(--t); }
         .ib:hover { background:var(--tag-bg); color:var(--text1); }
         .ib svg { width:20px; height:20px; }
@@ -161,7 +161,16 @@
         section:nth-child(4){animation-delay:0.26s}
 
         @media(max-width:1100px){ .tgrid{grid-template-columns:repeat(3,1fr)} .cgrid{grid-template-columns:repeat(4,1fr)} }
-        @media(max-width:768px){ .nb{padding:0 16px;gap:12px} .main{padding:20px 16px 60px} .tgrid{grid-template-columns:repeat(2,1fr);gap:10px} .cgrid{grid-template-columns:repeat(3,1fr)} .search-bar{max-width:220px} .logo-tag{display:none} }
+        @media(max-width:768px){ 
+            .nb{padding:0 16px;gap:12px} 
+            .main{padding:20px 16px 60px} 
+            .tgrid{grid-template-columns:repeat(2,1fr);gap:10px} 
+            .cgrid{grid-template-columns:repeat(3,1fr)} 
+            .logo{flex: initial;}
+            .search-bar{flex: 1; max-width:220px; margin: 0;} 
+            .nav-actions{flex: initial; margin-left: auto;}
+            .logo-tag{display:none} 
+        }
         @media(max-width:480px){ .tgrid{grid-template-columns:repeat(2,1fr);gap:8px} .cgrid{grid-template-columns:repeat(2,1fr)} }
     </style>
     @yield('styles')
@@ -182,5 +191,556 @@
     @include('frontend.layouts.footer')
 
     @yield('scripts')
+
+    <!-- AI Stylist Chatbot UI -->
+    <div id="bee-chatbot-trigger" aria-label="Mở Trợ lý thời trang AI" role="button" tabindex="0">
+        <span class="trigger-icon">🐝</span>
+        <span class="trigger-text">Stylist AI</span>
+    </div>
+
+    <div id="bee-chatbot-container">
+        <div class="chat-header">
+            <div class="header-info">
+                <div class="logo-circle">🐝</div>
+                <div class="header-text">
+                    <span class="header-name">Stylist AI</span>
+                    <span class="header-status"><span class="status-dot"></span>Đang trực tuyến</span>
+                </div>
+            </div>
+            <button class="chat-close" aria-label="Đóng Chatbox">
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        
+        <div id="bee-chatbot-messages">
+            <div class="msg-bubble bot">
+                <div class="msg-text">Chào bạn thân mến! 🐝 Mình là Trợ lý Stylist của BeeLink. Bạn cần mình tư vấn phối đồ hay tìm kiếm outfit cho dịp gì hôm nay thế? 💖</div>
+            </div>
+        </div>
+
+        <div class="chat-suggestions">
+            <button class="sug-pill" data-query="Tìm outfit đi biển">🌴 Đi biển</button>
+            <button class="sug-pill" data-query="Outfit phối với áo thun">👕 Áo thun</button>
+            <button class="sug-pill" data-query="Phối đồ đi chơi cafe">☕ Đi cafe</button>
+            <button class="sug-pill" data-query="Outfit Hàn Quốc">🎀 Style Hàn</button>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="bee-chatbot-input" placeholder="Hỏi stylist phối đồ, đi chơi..." autocomplete="off">
+            <button id="bee-chatbot-send" aria-label="Gửi tin nhắn">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <style>
+        /* Chatbot CSS styling */
+        #bee-chatbot-trigger {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            background: linear-gradient(135deg, #F4C87A, #E8A44A);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 20px rgba(232, 164, 74, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+        #bee-chatbot-trigger:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 6px 24px rgba(232, 164, 74, 0.55);
+        }
+        #bee-chatbot-trigger .trigger-icon {
+            font-size: 20px;
+            display: inline-block;
+            animation: hoverBee 3s ease-in-out infinite;
+        }
+        #bee-chatbot-container {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            width: 380px;
+            height: 550px;
+            z-index: 9999;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #bee-chatbot-container.open {
+            display: flex;
+            animation: slideInChat 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+        .chat-header {
+            background: linear-gradient(135deg, #F4C87A, #E8A44A);
+            color: white;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-circle {
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .header-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .header-name {
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .header-status {
+            font-size: 11px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+        .chat-close {
+            color: white;
+            opacity: 0.8;
+            transition: var(--t);
+            padding: 4px;
+            border-radius: 50%;
+        }
+        .chat-close:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        #bee-chatbot-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .msg-bubble {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 13.5px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+        .msg-bubble.user {
+            align-self: flex-end;
+            background: #E8A44A;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .msg-bubble.bot {
+            align-self: flex-start;
+            background: #F0EDE8;
+            color: var(--text1);
+            border-bottom-left-radius: 4px;
+        }
+        .chat-suggestions {
+            display: flex;
+            gap: 6px;
+            padding: 10px 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            background: rgba(250, 249, 247, 0.5);
+            border-top: 1px solid var(--border);
+        }
+        .chat-suggestions::-webkit-scrollbar {
+            display: none;
+        }
+        .sug-pill {
+            flex-shrink: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: var(--t);
+        }
+        .sug-pill:hover {
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            border-color: var(--tag-bg);
+        }
+        .chat-input-area {
+            padding: 12px 16px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #bee-chatbot-input {
+            flex: 1;
+            height: 38px;
+            border: 1.5px solid var(--border);
+            border-radius: 20px;
+            padding: 0 16px;
+            font-size: 13.5px;
+            outline: none;
+            transition: var(--t);
+            font-family: inherit;
+        }
+        #bee-chatbot-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.1);
+        }
+        #bee-chatbot-send {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #F4C87A, #E8A44A);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--t);
+            flex-shrink: 0;
+        }
+        #bee-chatbot-send:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(232, 164, 74, 0.3);
+        }
+
+        /* Carousel inside chat */
+        .chat-reels-carousel {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 4px 0 8px;
+            margin-top: 8px;
+            width: 100%;
+            scrollbar-width: thin;
+        }
+        .chat-reels-carousel::-webkit-scrollbar {
+            height: 4px;
+        }
+        .chat-reels-carousel::-webkit-scrollbar-thumb {
+            background: #D5CEC4;
+            border-radius: 4px;
+        }
+        .chat-card {
+            flex-shrink: 0;
+            width: 165px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            scroll-snap-align: start;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-card-img-wrap {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            background: #E8E0D4;
+        }
+        .chat-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .chat-card-info {
+            padding: 6px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+        .chat-card-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text1);
+            line-height: 1.3;
+            height: 2.6em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .chat-card-btn {
+            display: block;
+            text-align: center;
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            font-size: 10.5px;
+            font-weight: 600;
+            padding: 4px 0;
+            border-radius: 6px;
+            margin-top: auto;
+            transition: var(--t);
+        }
+        .chat-card-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 8px 12px;
+            align-self: flex-start;
+        }
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--muted);
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite both;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingBounce {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes slideInChat {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes hoverBee {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-3px) rotate(-5deg); }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 767px) {
+            #bee-chatbot-trigger {
+                bottom: 16px;
+                right: 16px;
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+            #bee-chatbot-container {
+                bottom: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                max-height: 100% !important;
+                border-radius: 0 !important;
+                border: none !important;
+                z-index: 100000;
+            }
+            .chat-header {
+                padding: 14px 16px;
+            }
+            #bee-chatbot-messages {
+                padding: 16px;
+            }
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            let chatHistory = [];
+            const $trigger = $('#bee-chatbot-trigger');
+            const $container = $('#bee-chatbot-container');
+            const $closeBtn = $('.chat-close');
+            const $messages = $('#bee-chatbot-messages');
+            const $input = $('#bee-chatbot-input');
+            const $sendBtn = $('#bee-chatbot-send');
+
+            // Toggle chat container
+            $trigger.on('click', function() {
+                $container.addClass('open');
+                $trigger.fadeOut(200);
+                $input.focus();
+                scrollChatToBottom();
+            });
+
+            $closeBtn.on('click', function(e) {
+                e.stopPropagation();
+                $container.removeClass('open');
+                $trigger.fadeIn(200);
+            });
+
+            // Handle suggestion pill clicks
+            $('.sug-pill').on('click', function() {
+                const query = $(this).data('query');
+                $input.val(query);
+                sendMessage();
+            });
+
+            // Send message on Enter or button click
+            $input.on('keypress', function(e) {
+                if (e.which === 13) {
+                    sendMessage();
+                }
+            });
+
+            $sendBtn.on('click', function() {
+                sendMessage();
+            });
+
+            function scrollChatToBottom() {
+                $messages.animate({ scrollTop: $messages[0].scrollHeight }, 300);
+            }
+
+            function sendMessage() {
+                const text = $input.val().trim();
+                if (!text) return;
+
+                // Render User bubble
+                $messages.append(`
+                    <div class="msg-bubble user">
+                        <div class="msg-text">${escapeHtml(text)}</div>
+                    </div>
+                `);
+                
+                $input.val('');
+                scrollChatToBottom();
+
+                // Append typing indicator
+                const $typingIndicator = $(`
+                    <div class="typing-indicator" id="bee-chatbot-typing">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                    </div>
+                `);
+                $messages.append($typingIndicator);
+                scrollChatToBottom();
+
+                // Call Chatbot API
+                $.ajax({
+                    url: '{{ route("chatbot.chat") }}',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    data: JSON.stringify({
+                        message: text,
+                        history: chatHistory
+                    }),
+                    success: function(response) {
+                        $('#bee-chatbot-typing').remove();
+                        
+                        if (response.success) {
+                            // Render bot response bubble
+                            $messages.append(`
+                                <div class="msg-bubble bot">
+                                    <div class="msg-text">${response.reply}</div>
+                                </div>
+                            `);
+
+                            // Append Recommended Outfits if available
+                            if (response.outfits && response.outfits.length > 0) {
+                                let cardsHtml = `<div class="chat-reels-carousel">`;
+                                response.outfits.forEach(outfit => {
+                                    let itemsHtml = '';
+                                    if (outfit.items && outfit.items.length > 0) {
+                                        itemsHtml = `<div class="chat-card-products" style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--border); display: flex; flex-direction: column; gap: 4px;">`;
+                                        outfit.items.slice(0, 2).forEach(item => {
+                                            itemsHtml += `
+                                                <div style="font-size: 10px; font-weight: 700; color: var(--text1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;" title="${item.name}">${escapeHtml(item.name)}</div>
+                                                <div style="display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 4px;">
+                                                    ${item.shopee_url ? `<a href="${item.shopee_url}" target="_blank" style="background:#FFF5F2; color:#EE4D2D; border: 1px solid rgba(238,77,45,0.15); font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-decoration:none; display:inline-flex; align-items:center; gap:2px; flex-grow: 1; justify-content: center;">🍊 Shopee ${item.shopee_price ? `<span style="font-size:8px; font-weight:600; opacity:0.85;">(${item.shopee_price})</span>` : ''}</a>` : ''}
+                                                    ${item.tiktok_url ? `<a href="${item.tiktok_url}" target="_blank" style="background:#F8F8F8; color:#010101; border: 1px solid rgba(0,0,0,0.08); font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-decoration:none; display:inline-flex; align-items:center; gap:2px; flex-grow: 1; justify-content: center;">🎬 TikTok ${item.tiktok_price ? `<span style="font-size:8px; font-weight:600; opacity:0.85;">(${item.tiktok_price})</span>` : ''}</a>` : ''}
+                                                </div>
+                                            `;
+                                        });
+                                        if (outfit.items.length > 2) {
+                                            itemsHtml += `<div style="font-size: 9.5px; color: var(--muted); text-align: center; font-weight: 500;">+ ${outfit.items.length - 2} món khác</div>`;
+                                        }
+                                        itemsHtml += `</div>`;
+                                    }
+
+                                    cardsHtml += `
+                                        <div class="chat-card">
+                                            <a href="${outfit.url}" class="chat-card-img-wrap">
+                                                <img src="${outfit.cover_image}" alt="${outfit.title}" class="chat-card-img">
+                                            </a>
+                                            <div class="chat-card-info">
+                                                <div class="chat-card-title">${escapeHtml(outfit.title)}</div>
+                                                ${itemsHtml}
+                                                <a href="${outfit.url}" class="chat-card-btn" style="margin-top: 8px;">Xem outfit</a>
+                                            </div>
+                                        </div>
+                                    `;
+                                });
+                                cardsHtml += `</div>`;
+                                $messages.append(cardsHtml);
+                            }
+
+                            scrollChatToBottom();
+
+                            // Maintain chat history (limit to last 10 messages for performance)
+                            chatHistory.push({ sender: 'user', text: text });
+                            chatHistory.push({ sender: 'bot', text: response.reply });
+                            if (chatHistory.length > 10) {
+                                chatHistory = chatHistory.slice(-10);
+                            }
+                        } else {
+                            renderErrorReply();
+                        }
+                    },
+                    error: function() {
+                        $('#bee-chatbot-typing').remove();
+                        renderErrorReply();
+                    }
+                });
+            }
+
+            function renderErrorReply() {
+                $messages.append(`
+                    <div class="msg-bubble bot">
+                        <div class="msg-text">Rất tiếc, đã xảy ra sự cố kết nối. Bạn thử lại nhé! 🥺</div>
+                    </div>
+                `);
+                scrollChatToBottom();
+            }
+
+            function escapeHtml(text) {
+                return text
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+        });
+    </script>
 </body>
 </html>

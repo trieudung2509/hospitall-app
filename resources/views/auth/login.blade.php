@@ -9,11 +9,23 @@
                 <div class="card text-left">
                     <div class="card-body">
                         <div class="mb-5 text-center">
-                            <img src="{{ uploaded_asset(get_setting('system_logo_black')) }}" class="mw-100 mb-4" height="40">
-                            <h1 class="h3 text-primary mb-0">{{ translate('Welcome to') }} {{ env('APP_NAME') }}</h1>
-                            <p>{{ translate('Login to your account.') }}</p>
+                            @if(get_setting('system_logo_black') != null)
+                                <img src="{{ uploaded_asset(get_setting('system_logo_black')) }}" class="mw-100 mb-4" height="40">
+                            @else
+                                <div class="d-flex align-items-center justify-content-center mb-4">
+                                    <div style="font-size: 36px; margin-right: 12px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.08));">🐝</div>
+                                    <div class="text-left" style="font-family: 'Lexend', sans-serif; text-align: left;">
+                                        <div style="font-size: 26px; font-weight: 800; color: #111; line-height: 1; letter-spacing: -0.5px;">BeeLink</div>
+                                        <div style="font-size: 10px; font-weight: 700; color: #C9A96E; letter-spacing: 0.8px; text-transform: uppercase; margin-top: 2px;">Khám phá phong cách</div>
+                                    </div>
+                                </div>
+                            @endif
+                            <h1 class="h3 text-primary mb-1" style="font-weight: 800; font-family: 'Lexend', sans-serif;">
+                                {{ isset($is_admin) && $is_admin ? translate('Admin Portal') : translate('Welcome to BeeLink') }}
+                            </h1>
+                            <p class="text-muted fs-13">{{ translate('Login to your account.') }}</p>
                         </div>
-                        <form class="pad-hor" method="POST" role="form" action="{{ route('login') }}">
+                        <form class="pad-hor" method="POST" role="form" action="{{ isset($is_admin) && $is_admin ? route('admin.login') : route('login') }}">
                             @csrf
                             <div class="form-group">
                                 <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus placeholder="{{ translate('Email') }}">

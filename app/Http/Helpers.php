@@ -25,7 +25,28 @@ if (!function_exists('areActiveRoutesHome')) {
 
 function timezones()
 {
-    return Timezones::timezonesToArray();
+    $timezones = timezone_identifiers_list();
+    $offsets = array();
+    $zones = array();
+
+    foreach ($timezones as $timezone) {
+        $tz = new DateTimeZone($timezone);
+        $offset = $tz->getOffset(new DateTime());
+        $offsets[$timezone] = $offset;
+    }
+
+    asort($offsets);
+
+    foreach ($offsets as $timezone => $offset) {
+        $hours = intval($offset / 3600);
+        $minutes = abs(intval($offset % 3600 / 60));
+        
+        $gmt_offset = 'GMT' . ($hours >= 0 ? '+' : '-') . sprintf('%02d:%02d', abs($hours), $minutes);
+        $display_name = '(' . $gmt_offset . ') ' . str_replace('_', ' ', $timezone);
+        $zones[$display_name] = $timezone;
+    }
+
+    return $zones;
 }
 
 if (!function_exists('formatBytes')) {
@@ -256,7 +277,30 @@ if (!function_exists('get_setting')) {
 
 function hex2rgba($color, $opacity = false)
 {
-    return Colorcodeconverter::convertHexToRgba($color, $opacity);
+    $default = 'rgb(0,0,0)';
+    if (empty($color)) {
+        return $default;
+    }
+    if ($color[0] == '#') {
+        $color = substr($color, 1);
+    }
+    if (strlen($color) == 6) {
+        $hex = array($color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5]);
+    } elseif (strlen($color) == 3) {
+        $hex = array($color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2]);
+    } else {
+        return $default;
+    }
+    $rgb = array_map('hexdec', $hex);
+    if ($opacity !== false) {
+        if (abs($opacity) > 1) {
+            $opacity = 1.0;
+        }
+        $output = 'rgba(' . implode(',', $rgb) . ',' . $opacity . ')';
+    } else {
+        $output = 'rgb(' . implode(',', $rgb) . ')';
+    }
+    return $output;
 }
 
 if (!function_exists('isAdmin')) {

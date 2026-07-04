@@ -10,7 +10,6 @@ use App\Customer;
 use App\Cart;
 use Session;
 use Illuminate\Http\Request;
-use CoreComponentRepository;
 use Illuminate\Support\Str;
 
 class LoginController extends Controller
@@ -153,6 +152,29 @@ class LoginController extends Controller
     }
 
     /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showLoginForm()
+    {
+        return view('auth.login', ['is_admin' => false]);
+    }
+
+    /**
+     * Show the admin login form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showAdminLoginForm()
+    {
+        if (auth()->check() && (auth()->user()->user_type == 'admin' || auth()->user()->user_type == 'staff')) {
+            return redirect()->route('admin.dashboard');
+        }
+        return view('auth.login', ['is_admin' => true]);
+    }
+
+    /**
      * Log the user out of the application.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -161,7 +183,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         if (auth()->user() != null && (auth()->user()->user_type == 'admin' || auth()->user()->user_type == 'staff')) {
-            $redirect_route = 'login';
+            $redirect_route = 'admin.login';
         } else {
             $redirect_route = 'home';
         }

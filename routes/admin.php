@@ -48,6 +48,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
         Route::get('/header', 'WebsiteController@header')->name('website.header');
         Route::get('/appearance', 'WebsiteController@appearance')->name('website.appearance');
         Route::get('/pages', 'WebsiteController@pages')->name('website.pages');
+        Route::get('/homepage', 'WebsiteController@homepage')->name('website.homepage');
+        Route::post('/homepage/update', 'WebsiteController@homepage_update')->name('website.homepage.update');
         Route::resource('custom-pages', 'PageController');
         Route::get('/custom-pages/edit/{id}', 'PageController@edit')->name('custom-pages.edit');
         Route::get('/custom-pages/destroy/{id}', 'PageController@destroy')->name('custom-pages.destroy');
@@ -84,6 +86,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     // Outfit CRUD
     Route::resource('outfits', 'OutfitController');
     Route::get('/outfits/destroy/{id}', 'OutfitController@destroy')->name('outfits.destroy');
+
+    // Reel CRUD
+    Route::resource('reels', 'ReelController');
+    Route::get('/reels/destroy/{id}', 'ReelController@destroy')->name('reels.destroy');
 
     Route::get('/all-notification', 'NotificationController@index')->name('admin.all-notification');
     Route::post('/save-post-image', 'AizUploadController@save_tinymce_image')->name('images.upload');

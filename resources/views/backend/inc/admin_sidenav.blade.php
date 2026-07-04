@@ -37,7 +37,7 @@
 
             <!-- Outfits & Collections -->
             <li class="aiz-side-nav-item">
-                <a href="#" class="aiz-side-nav-link {{ areActiveRoutes(['collections.index', 'collections.create', 'collections.edit', 'outfits.index', 'outfits.create', 'outfits.edit'])}}">
+                <a href="#" class="aiz-side-nav-link {{ areActiveRoutes(['collections.index', 'collections.create', 'collections.edit', 'outfits.index', 'outfits.create', 'outfits.edit', 'reels.index', 'reels.create', 'reels.edit'])}}">
                     <i class="las la-tshirt aiz-side-nav-icon"></i>
                     <span class="aiz-side-nav-text">{{ translate('Outfits & Collections') }}</span>
                     <span class="aiz-side-nav-arrow"></span>
@@ -51,6 +51,11 @@
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('outfits.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['outfits.index', 'outfits.create', 'outfits.edit'])}}">
                             <span class="aiz-side-nav-text">{{ translate('Outfits') }}</span>
+                        </a>
+                    </li>
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('reels.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['reels.index', 'reels.create', 'reels.edit'])}}">
+                            <span class="aiz-side-nav-text">{{ translate('Video Reels') }}</span>
                         </a>
                     </li>
                 </ul>
@@ -91,6 +96,11 @@
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('website.footer', ['lang'=>  App::getLocale()] ) }}" class="aiz-side-nav-link {{ areActiveRoutes(['website.footer'])}}">
                             <span class="aiz-side-nav-text">{{translate('Footer')}}</span>
+                        </a>
+                    </li>
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('website.homepage') }}" class="aiz-side-nav-link {{ areActiveRoutes(['website.homepage'])}}">
+                            <span class="aiz-side-nav-text">{{translate('Homepage Settings')}}</span>
                         </a>
                     </li>
                     <li class="aiz-side-nav-item">
